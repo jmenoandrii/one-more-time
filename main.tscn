@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://64v5n6kbdbjp"]
+
+[ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Player.gd" id="1_ig7tw"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0rpfx"]
+top_radius = 5.0
+bottom_radius = 5.0
+height = 0.25
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_0rpfx"]
+height = 0.25
+radius = 5.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
+
+[node name="Node3D" type="Node3D" unique_id=41126308]
+
+[node name="floor" type="StaticBody3D" parent="." unique_id=1127066966]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=670008891]
+mesh = SubResource("CylinderMesh_0rpfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor" unique_id=498062634]
+shape = SubResource("CylinderShape3D_0rpfx")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1147837040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0891898, 0)
+script = ExtResource("1_ig7tw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=808242478]
+mesh = SubResource("CapsuleMesh_0rpfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=996913945]
+shape = SubResource("CapsuleShape3D_g0qyx")
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1443790826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69765747, 0)
