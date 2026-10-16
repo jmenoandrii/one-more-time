@@ -2,28 +2,49 @@
 
 [ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Player.gd" id="1_ig7tw"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_0rpfx"]
-top_radius = 5.0
-bottom_radius = 5.0
-height = 0.25
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0rpfx"]
-height = 0.25
-radius = 5.0
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
+size = Vector3(20, 0.1, 20)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0rpfx"]
+size = Vector2(20, 20)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
 
+[sub_resource type="SphereMesh" id="SphereMesh_0rpfx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
+size = Vector3(0.6750488, 0.24731445, 0.5551758)
+
 [node name="Node3D" type="Node3D" unique_id=41126308]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1077777929]
+environment = SubResource("Environment_h2yge")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1496692533]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
 
 [node name="floor" type="StaticBody3D" parent="." unique_id=1127066966]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=670008891]
-mesh = SubResource("CylinderMesh_0rpfx")
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor" unique_id=498062634]
-shape = SubResource("CylinderShape3D_0rpfx")
+shape = SubResource("BoxShape3D_g0qyx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=1644211572]
+mesh = SubResource("PlaneMesh_0rpfx")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1147837040]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0891898, 0)
@@ -35,5 +56,15 @@ mesh = SubResource("CapsuleMesh_0rpfx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=996913945]
 shape = SubResource("CapsuleShape3D_g0qyx")
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=1443790826]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69765747, 0)
+[node name="Head" type="Node3D" parent="CharacterBody3D" unique_id=1770461712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1280966, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/Head" unique_id=1443790826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26701617)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Head" unique_id=1868013299]
+mesh = SubResource("SphereMesh_0rpfx")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Head" unique_id=796127435]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008911133, 0.10290527, -0.27993035)
+mesh = SubResource("BoxMesh_0rpfx")
