@@ -22,7 +22,7 @@ var head_world_position: Vector3
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
 @onready var aim_ray: RayCast3D = $Head/Camera3D/AimRay
-@onready var ammo_label: Label = $"../HUD/AmmoLabel"
+@onready var ammo_label: Label = $"../UI/HUD/AmmoLabel"
 @onready var weapons_manager: Node3D = $Head/Camera3D/Weapons
 var weapons: Array[Node] = []
 var current_weapon_index: int = -1

@@ -24,4 +24,4 @@ func play_footstep(position: Vector2):
 	var tile_data = []
 	for tilemap in tilemaps:
 		var tile_position = tilemap.local_to_map(position)
-		var data = tilemap.get_cell_tile_data()
+		var data = tilemap.get_cell_tile_data(position)
