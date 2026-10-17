@@ -29,10 +29,13 @@ window/stretch/aspect="expand"
 
 project/assembly_name="TestProject002"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/qodot/plugin.cfg")
+
 [global_group]
 
 dirt=""
-stone=""
 
 [input]
 
@@ -99,6 +102,7 @@ weapon_2={
 
 [layer_names]
 
+3d_render/layer_2="floor type detection"
 3d_physics/layer_2="floor type detection"
 
 [physics]
