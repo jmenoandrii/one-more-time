@@ -1,33 +1,51 @@
 extends CharacterBody3D
 
-const SPEED = 5.0
-const RUNNING_SPEED = 10.0
-const CROUCH_SPEED = 2.5
-const JUMP_VELOCITY = 5.5
-var mouse_sensitivity := 0.002
+# Movements
+const SPEED: float  = 5.0
+const RUNNING_SPEED: float = 10.0
+const CROUCH_SPEED: float = 2.5
+const JUMP_VELOCITY: float = 5.5
+var mouse_sensitivity: float = 0.002
 
-const CROUCH_PERSENT = 0.5
+const CROUCH_PERSENT: float = 0.5
 var normal_height: float
 var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 
+# Stamina
+const MAX_STAMINA: float = 100.0
+const STAMINA_DRAIN_RATE: float = 20.0 # per second
+const STAMINA_REGEN_RATE: float = 15.0 # per second
+var current_stamina: float = MAX_STAMINA
+
+@onready var stamina_label: Label = $"../UI/HUD/StaminaLabel"
+signal stamina_changed(current: float, maximum: float)
+
+# state params
 var is_crouching := false
 var is_player_dead := false
 var is_cursor_locked := true
 
-var head_world_position: Vector3
-
+# referens
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
+# shooting
 @onready var aim_ray: RayCast3D = $Head/Camera3D/AimRay
 @onready var ammo_label: Label = $"../UI/HUD/AmmoLabel"
 @onready var weapons_manager: Node3D = $Head/Camera3D/Weapons
 var weapons: Array[Node] = []
 var current_weapon_index: int = -1
 
+@onready var reserve_ammo_label: Label = $"../UI/HUD/reserveAmmo"
+var current_reserve_ammo: int = 18
 
+# health
+@onready var health_label: Label = $"../UI/HUD/HealthLabel"
+@onready var health_component: Node = $HealthComponent
+
+# audio
 @onready var dirt_step: AudioStreamPlayer3D = $Sounds/dirt
 @onready var stone_step: AudioStreamPlayer3D = $Sounds/stone
 @onready var headbob: AnimationPlayer = $Head/headbob
@@ -52,11 +70,19 @@ func _ready() -> void:
 	GameEvents.unpause_pressed.connect(_on_unpause_pressed)
 	GameEvents.sensitivity_changed.connect(_on_sensitivity_changed)
 	
+	health_component.died.connect(die)
+	health_component.health_changed.connect(_update_health_ui)
+	health_component.heal(0)	# to update health_ui
+	
+	stamina_changed.connect(_update_stamina_ui)
+	stamina_changed.emit(current_stamina, MAX_STAMINA)
+	
 func _unhandled_input(event: InputEvent) -> void:
+	if is_player_dead:
+		return
+		
 	# Mouse rotation
-	if is_player_dead or not is_cursor_locked:
-		pass
-	elif event is InputEventMouseMotion:
+	if is_cursor_locked and event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		head.rotate_x(-event.relative.y * mouse_sensitivity)
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-85.0), deg_to_rad(85.0))
@@ -75,7 +101,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		# Reload
 		if Input.is_action_just_pressed("reload"):
-			weapons[current_weapon_index].reload()
+			current_reserve_ammo = weapons[current_weapon_index].reload(current_reserve_ammo)
+			_update_reserve_ammo_ui(current_reserve_ammo)
 	
 	# Change weapon
 	if Input.is_action_just_pressed("weapon_1"):
@@ -132,8 +159,21 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0.0
 	
 	# moving
-	var current_speed := CROUCH_SPEED if is_crouching else (RUNNING_SPEED if Input.is_action_pressed("run") else SPEED)
+	var current_speed: float
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var is_running := Input.is_action_pressed("run") and is_on_floor() and not is_crouching
+	var is_moving := input_dir != Vector2.ZERO # Перевіряємо, чи гравець взагалі йде
+	
+	if is_running and is_moving and current_stamina > 0:
+		current_speed = RUNNING_SPEED
+		current_stamina -= STAMINA_DRAIN_RATE * delta
+		stamina_changed.emit(current_stamina, MAX_STAMINA)
+	else:
+		current_speed = CROUCH_SPEED if is_crouching else SPEED
+		# Відновлюємо стаміну, якщо не біжимо
+		if current_stamina < MAX_STAMINA:
+			current_stamina += STAMINA_REGEN_RATE * delta
+			stamina_changed.emit(current_stamina, MAX_STAMINA)
 	
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -156,10 +196,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func die() -> void:
+	print("! Player DIE !")
 	if is_player_dead: return
 	
 	is_player_dead = true
-	head_world_position = head.global_position
 
 func _process_death() -> void:
 	head.global_position = head.global_position.move_toward(global_position, 0.1)
@@ -184,6 +224,7 @@ func play_step_sounds():
 	else:
 		dirt_step.stop()
 		stone_step.stop()
+
 func equip_weapon(index: int) -> void:
 	if index < -1 or index >= weapons.size(): 
 		return
@@ -195,9 +236,20 @@ func equip_weapon(index: int) -> void:
 		
 	if current_weapon_index == -1:
 		ammo_label.text = ""
+		reserve_ammo_label.text = ""
 	else:
 		var current_w = weapons[current_weapon_index]
 		_update_ammo_ui(current_w.current_ammo, current_w.max_ammo)
+		_update_reserve_ammo_ui(current_reserve_ammo)
 
 func _update_ammo_ui(current: int, maximum: int) -> void:
 	ammo_label.text = str(current) + " / " + str(maximum)
+
+func _update_reserve_ammo_ui(ammo: int):
+	reserve_ammo_label.text = str(ammo)
+
+func _update_health_ui(current: int, maximum: int) -> void:
+	health_label.text = str(current) + " / " + str(maximum)
+
+func _update_stamina_ui(current: int, maximum: int) -> void:
+	stamina_label.text = str(current) + " / " + str(maximum)

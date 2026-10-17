@@ -2,6 +2,7 @@
 
 [ext_resource type="Material" uid="uid://lpn3hxmrfyuh" path="res://Materials/redbrick_psx.tres" id="1_fevyy"]
 [ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Scripts/Player/Player.gd" id="1_jkdf5"]
+[ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageCube.gd" id="1_k12tt"]
 [ext_resource type="Material" uid="uid://dh64pwyyql22f" path="res://Materials/graybrick_psx.tres" id="2_hibaj"]
 [ext_resource type="Script" uid="uid://c7f4265cs6mif" path="res://Scripts/Weapon/Weapon.gd" id="2_wsu2k"]
 [ext_resource type="PackedScene" uid="uid://2c2yvqfjbuaq" path="res://Prefabs/bullet.tscn" id="3_jkdf5"]
@@ -16,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="11_3pmx8"]
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="12_u50mg"]
 [ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://Scripts/UI/pause_menu.gd" id="13_cbgmd"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="13_wsu2k"]
 [ext_resource type="AudioStream" uid="uid://c17a8h5lxtf10" path="res://Sounds/Music/ribhavagrawal-core-punk-no-copyright-music-338077.mp3" id="13_wsu2k"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="14_1w6v2"]
 [ext_resource type="PackedScene" uid="uid://c4t0wwom1yen8" path="res://Materials/box.fbx" id="16_b3802"]
@@ -129,6 +131,14 @@ size = Vector3(2, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_osii8"]
 size = Vector3(2, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puclg"]
+albedo_color = Color(0.93070734, 0.24337113, 0.24450329, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_g0qyx"]
+material = SubResource("StandardMaterial3D_puclg")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qcgbb"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 
@@ -493,6 +503,20 @@ mesh = SubResource("BoxMesh_g0qyx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/block" unique_id=487611925]
 shape = SubResource("BoxShape3D_osii8")
 
+[node name="DamageCube" type="Area3D" parent="Level" unique_id=1275345585]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5744157, 0.47112024, -6.1172314)
+script = ExtResource("1_k12tt")
+damage_amount = 40.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/DamageCube" unique_id=90817947]
+mesh = SubResource("PrismMesh_g0qyx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/DamageCube" unique_id=135379482]
+shape = SubResource("BoxShape3D_qcgbb")
+
+[node name="Timer" type="Timer" parent="Level/DamageCube" unique_id=381521869]
+autostart = true
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
 script = ExtResource("1_jkdf5")
@@ -589,6 +613,8 @@ volume_db = -23.0
 [node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
 collision_mask = 2
 
+[node name="HealthComponent" type="Node" parent="Player" unique_id=1280028663]
+script = ExtResource("13_wsu2k")
 [node name="raycast" type="RayCast3D" parent="Player" unique_id=143733516]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
 target_position = Vector3(0, -2, 0)
@@ -636,6 +662,69 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "0 / 0"
 justification_flags = 131
+
+[node name="reserveAmmo" type="Label" parent="UI/HUD" unique_id=2032349978]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -103.96503
+offset_right = -12.0
+offset_bottom = -48.965027
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+justification_flags = 131
+
+[node name="HeartSymbol" type="Label" parent="UI/HUD" unique_id=1881795301]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -59.0
+offset_right = 61.0
+offset_bottom = -4.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "♥:"
+
+[node name="HealthLabel" type="Label" parent="UI/HUD" unique_id=202658451]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -58.0
+offset_right = 96.0
+offset_bottom = -3.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
+
+[node name="StaminaSymbol" type="Label" parent="UI/HUD" unique_id=893110678]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -107.0
+offset_right = 61.0
+offset_bottom = -52.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "🏃:"
+
+[node name="StaminaLabel" type="Label" parent="UI/HUD" unique_id=1094148920]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -106.0
+offset_right = 138.0
+offset_bottom = -51.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
 
 [node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
 process_mode = 3
