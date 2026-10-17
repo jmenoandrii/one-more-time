@@ -34,6 +34,7 @@ var current_weapon_index: int = -1
 @onready var jump_sound: AudioStreamPlayer3D = $Sounds/jump
 
 
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
@@ -139,7 +140,13 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * current_speed
 		velocity.z = direction.z * current_speed
-		headbob.play("new_animation")
+		if current_speed == RUNNING_SPEED:
+			headbob.speed_scale = 2
+		else:
+			headbob.speed_scale = 1
+			
+		if not headbob.is_playing():
+			headbob.play("new_animation")
 		
 	else:
 		headbob.stop()
