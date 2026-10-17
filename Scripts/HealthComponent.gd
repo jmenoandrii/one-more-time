@@ -1,0 +1,39 @@
+extends Node
+class_name HealthComponent
+
+signal health_changed(current: float, maximum: float)
+signal died()
+
+@export var max_health: float = 100.0
+var current_health: float
+
+
+func _ready() -> void:
+	_update_health(max_health)
+
+func take_damage(amount: float) -> void:
+	if current_health <= 0:
+		return
+		
+	_update_health(current_health - amount)
+	
+	if current_health <= 0:
+		died.emit()
+
+func heal(amount: float) -> void:
+	if current_health <= 0:
+		return
+		
+	_update_health(current_health + amount)
+
+func _update_health(health: float) -> void:
+	if health < 0: 
+		current_health = 0.0
+	elif health > max_health:
+		current_health = max_health
+	else:
+		current_health = health
+	health_changed.emit(current_health, max_health)
+	
+	#print("[Healt(", get_parent().name, ")]: health ", current_health, "/", max_health)
+	

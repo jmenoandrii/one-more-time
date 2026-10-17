@@ -27,6 +27,9 @@ var head_world_position: Vector3
 var weapons: Array[Node] = []
 var current_weapon_index: int = -1
 
+@onready var health_label: Label = $"../UI/HUD/HealthLabel"
+@onready var health_component = $HealthComponent
+
 
 @onready var dirt_step: AudioStreamPlayer3D = $Sounds/dirt
 @onready var stone_step: AudioStreamPlayer3D = $Sounds/stone
@@ -51,11 +54,16 @@ func _ready() -> void:
 	GameEvents.unpause_pressed.connect(_on_unpause_pressed)
 	GameEvents.sensitivity_changed.connect(_on_sensitivity_changed)
 	
+	health_component.died.connect(die)
+	health_component.health_changed.connect(_update_health_ui)
+	health_component.heal(0)	# to update health_ui
+	
 func _unhandled_input(event: InputEvent) -> void:
+	if is_player_dead:
+		return
+		
 	# Mouse rotation
-	if is_player_dead or not is_cursor_locked:
-		pass
-	elif event is InputEventMouseMotion:
+	if is_cursor_locked and event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
 		head.rotate_x(-event.relative.y * mouse_sensitivity)
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-85.0), deg_to_rad(85.0))
@@ -149,10 +157,11 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func die() -> void:
+	print("! Player DIE !")
 	if is_player_dead: return
 	
 	is_player_dead = true
-	head_world_position = head.global_position
+	#head_world_position = head.global_position
 
 func _process_death() -> void:
 	head.global_position = head.global_position.move_toward(global_position, 0.1)
@@ -177,6 +186,7 @@ func play_step_sounds():
 	else:
 		dirt_step.stop()
 		stone_step.stop()
+
 func equip_weapon(index: int) -> void:
 	if index < -1 or index >= weapons.size(): 
 		return
@@ -194,3 +204,6 @@ func equip_weapon(index: int) -> void:
 
 func _update_ammo_ui(current: int, maximum: int) -> void:
 	ammo_label.text = str(current) + " / " + str(maximum)
+
+func _update_health_ui(current: int, maximum: int) -> void:
+	health_label.text = str(current) + " / " + str(maximum)
