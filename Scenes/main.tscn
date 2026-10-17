@@ -341,6 +341,30 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "0 / 0"
 
+[node name="StaminaSymbol" type="Label" parent="UI/HUD" unique_id=893110678]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -107.0
+offset_right = 61.0
+offset_bottom = -52.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "🏃:"
+
+[node name="StaminaLabel" type="Label" parent="UI/HUD" unique_id=1094148920]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -106.0
+offset_right = 138.0
+offset_bottom = -51.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
+
 [node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
 process_mode = 3
 visible = false

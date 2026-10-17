@@ -10,6 +10,14 @@ const CROUCH_PERSENT = 0.5
 var normal_height: float
 var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 
+const MAX_STAMINA = 100.0
+const STAMINA_DRAIN_RATE = 20.0 # per second
+const STAMINA_REGEN_RATE = 15.0 # per second
+var current_stamina: float = MAX_STAMINA
+
+@onready var stamina_label: Label = $"../UI/HUD/StaminaLabel"
+signal stamina_changed(current: float, maximum: float)
+
 var is_crouching := false
 var is_player_dead := false
 var is_cursor_locked := true
@@ -57,6 +65,9 @@ func _ready() -> void:
 	health_component.died.connect(die)
 	health_component.health_changed.connect(_update_health_ui)
 	health_component.heal(0)	# to update health_ui
+	
+	stamina_changed.connect(_update_stamina_ui)
+	stamina_changed.emit(current_stamina, MAX_STAMINA)
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if is_player_dead:
@@ -139,8 +150,21 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0.0
 	
 	# moving
-	var current_speed := CROUCH_SPEED if is_crouching else (RUNNING_SPEED if Input.is_action_pressed("run") else SPEED)
+	var current_speed: float
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	var is_running := Input.is_action_pressed("run") and is_on_floor() and not is_crouching
+	var is_moving := input_dir != Vector2.ZERO # Перевіряємо, чи гравець взагалі йде
+	
+	if is_running and is_moving and current_stamina > 0:
+		current_speed = RUNNING_SPEED
+		current_stamina -= STAMINA_DRAIN_RATE * delta
+		stamina_changed.emit(current_stamina, MAX_STAMINA)
+	else:
+		current_speed = CROUCH_SPEED if is_crouching else SPEED
+		# Відновлюємо стаміну, якщо не біжимо
+		if current_stamina < MAX_STAMINA:
+			current_stamina += STAMINA_REGEN_RATE * delta
+			stamina_changed.emit(current_stamina, MAX_STAMINA)
 	
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
@@ -207,3 +231,6 @@ func _update_ammo_ui(current: int, maximum: int) -> void:
 
 func _update_health_ui(current: int, maximum: int) -> void:
 	health_label.text = str(current) + " / " + str(maximum)
+
+func _update_stamina_ui(current: int, maximum: int) -> void:
+	stamina_label.text = str(current) + " / " + str(maximum)
