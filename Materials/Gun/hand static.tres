@@ -1,0 +1,14 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://de23fnsubdyxf"]
+
+[ext_resource type="Texture2D" uid="uid://clw1ajsghmnps" path="res://Textures/Gun/polligon.png" id="1_3spsf"]
+[ext_resource type="Texture2D" uid="uid://v0ofyxhdao8n" path="res://Textures/Gun/hand_Metallic.jpg" id="2_ed5xk"]
+[ext_resource type="Texture2D" uid="uid://cgncdft2tj14o" path="res://Textures/Gun/hand_Normal.png" id="3_crx57"]
+
+[resource]
+albedo_texture = ExtResource("1_3spsf")
+metallic = 1.0
+metallic_texture = ExtResource("2_ed5xk")
+normal_enabled = true
+normal_texture = ExtResource("3_crx57")
+texture_filter = 0
+z_clip_scale = 0.2

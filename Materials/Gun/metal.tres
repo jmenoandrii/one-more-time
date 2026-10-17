@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dwdknur5io818"]
+
+[ext_resource type="Texture2D" uid="uid://dv4yykftqnec8" path="res://Textures/Gun/metal.png" id="1_utavy"]
+[ext_resource type="Texture2D" uid="uid://rycjpqdiws43" path="res://Textures/Gun/metal_METALNESS.jpg" id="2_enwms"]
+[ext_resource type="Texture2D" uid="uid://dfnlwuuqo5bg5" path="res://Textures/Gun/metal_NORMAL.jpg" id="3_w8kb0"]
+
+[resource]
+albedo_texture = ExtResource("1_utavy")
+metallic = 1.0
+metallic_texture = ExtResource("2_enwms")
+normal_enabled = true
+normal_texture = ExtResource("3_w8kb0")
+texture_filter = 0
+use_z_clip_scale = true
+z_clip_scale = 0.2

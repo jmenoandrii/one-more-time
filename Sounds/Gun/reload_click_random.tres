@@ -1,0 +1,9 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://d2qq6npmk0h3i"]
+
+[ext_resource type="AudioStream" uid="uid://sng62fs5oyrg" path="res://Sounds/Gun/WdplD63F.wav" id="1_click"]
+
+[resource]
+random_pitch = 1.1
+random_volume_offset_db = 0.6
+streams_count = 1
+stream_0/stream = ExtResource("1_click")

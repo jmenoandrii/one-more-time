@@ -122,6 +122,11 @@ func _on_sensitivity_changed(value: float) -> void:
 	mouse_sensitivity = value * 0.0005
 
 func _physics_process(delta: float) -> void:
+	# weapon inspect (polled every frame, so releasing the button during pause isn't missed)
+	if current_weapon_index != -1:
+		var wants_inspect := Input.is_action_pressed("inspect") and is_cursor_locked and not is_player_dead
+		weapons[current_weapon_index].set_inspecting(wants_inspect)
+
 	# gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -225,14 +230,30 @@ func play_step_sounds():
 		dirt_step.stop()
 		stone_step.stop()
 
+func pick_up_weapon(weapon_name: String) -> bool:
+	for i in weapons.size():
+		if weapons[i].weapon_name == weapon_name:
+			if weapons[i].is_owned:
+				return false        # уже є — пікап лишається на мапі
+			weapons[i].is_owned = true
+			equip_weapon(i)         # одразу в руки
+			weapons[i].play_equip()
+			return true
+	return false
+
 func equip_weapon(index: int) -> void:
-	if index < -1 or index >= weapons.size(): 
+	if index < -1 or index >= weapons.size():
 		return
-	
+		
+	if not weapons[index].is_owned:
+		return
+
 	current_weapon_index = index
 	
 	for i in range(weapons.size()):
 		weapons[i].visible = (i == current_weapon_index)
+		if i != current_weapon_index:
+			weapons[i].set_inspecting(false)
 		
 	if current_weapon_index == -1:
 		ammo_label.text = ""
