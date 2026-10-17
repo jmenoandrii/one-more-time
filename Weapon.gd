@@ -16,7 +16,7 @@ var can_shoot: bool = true
 func _ready() -> void:
 	current_ammo = max_ammo
 
-func shoot() -> void:
+func shoot(target_point: Vector3) -> void:
 	# shot accessibility check
 	if not can_shoot or current_ammo <= 0:
 		return
@@ -26,11 +26,11 @@ func shoot() -> void:
 	_update_ammo(current_ammo - 1)
 	
 	var instance = bullet_scene.instantiate()
-	
 	get_tree().root.add_child(instance)
 	
 	instance.global_position = bullet_pos.global_position
-	instance.global_transform.basis = bullet_pos.global_transform.basis
+	#instance.global_transform.basis = bullet_pos.global_transform.basis
+	instance.look_at(target_point, Vector3.UP)
 	
 	# timer
 	await get_tree().create_timer(fire_rate).timeout

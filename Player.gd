@@ -63,7 +63,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if current_weapon_index != -1:
 		# Shooting
 		if Input.is_action_just_pressed("click"):
-			weapons[current_weapon_index].shoot()
+			var target_point: Vector3
+			
+			if aim_ray.is_colliding():
+				target_point = aim_ray.get_collision_point()
+			else:
+				target_point = aim_ray.to_global(aim_ray.target_position)
+				
+			weapons[current_weapon_index].shoot(target_point)
 		
 		# Reload
 		if Input.is_action_just_pressed("reload"):
