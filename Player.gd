@@ -21,8 +21,11 @@ var head_world_position: Vector3
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
-var bullet := load("res://bullet.tscn")
-@onready var bullet_pos: Node3D = $Head/Camera3D/BulletPos
+@onready var aim_ray: RayCast3D = $Head/Camera3D/AimRay
+@onready var ammo_label: Label = $"../HUD/AmmoLabel"
+@onready var weapons_manager: Node3D = $Head/Camera3D/Weapons
+var weapons: Array[Node] = []
+var current_weapon_index: int = -1
 
 
 func _ready() -> void:
@@ -30,30 +33,47 @@ func _ready() -> void:
 	
 	normal_height = collision_shape.shape.height
 	crouch_height = normal_height - (normal_height * CROUCH_PERSENT)
+	
+	weapons = weapons_manager.get_children()
+	for w in weapons:
+		w.ammo_updated.connect(_update_ammo_ui)
+	equip_weapon(-1)
 
 func _unhandled_input(event: InputEvent) -> void:
+	# Mouse rotation
 	if is_player_dead or not is_cursor_locked:
 		pass
 	elif event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
 		head.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-85.0), deg_to_rad(85.0))
-
+	
+	# Pause
 	if Input.is_action_just_pressed("ui_cancel"):
 		is_cursor_locked = not is_cursor_locked
 		if is_cursor_locked:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			
+	
+	# Dying
 	if Input.is_action_just_pressed("dying"):
 		die()
 	
-	if Input.is_action_just_pressed("click"):
-		var instance = bullet.instantiate()
-		instance.position = bullet_pos.global_position
-		instance.transform.basis = bullet_pos.global_transform.basis
-		get_parent().add_child(instance)
+	if current_weapon_index != -1:
+		# Shooting
+		if Input.is_action_just_pressed("click"):
+			weapons[current_weapon_index].shoot()
+		
+		# Reload
+		if Input.is_action_just_pressed("reload"):
+			weapons[current_weapon_index].reload()
+	
+	# Change weapon
+	if Input.is_action_just_pressed("weapon_1"):
+		equip_weapon(0)
+	elif Input.is_action_just_pressed("weapon_2"):
+		equip_weapon(1)
 
 func _physics_process(delta: float) -> void:
 	# gravity
@@ -117,3 +137,21 @@ func _process_death() -> void:
 	
 	velocity.x = move_toward(velocity.x, 0, 0.5)
 	velocity.z = move_toward(velocity.z, 0, 0.5)
+
+func equip_weapon(index: int) -> void:
+	if index < -1 or index >= weapons.size(): 
+		return
+	
+	current_weapon_index = index
+	
+	for i in range(weapons.size()):
+		weapons[i].visible = (i == current_weapon_index)
+		
+	if current_weapon_index == -1:
+		ammo_label.text = ""
+	else:
+		var current_w = weapons[current_weapon_index]
+		_update_ammo_ui(current_w.current_ammo, current_w.max_ammo)
+
+func _update_ammo_ui(current: int, maximum: int) -> void:
+	ammo_label.text = str(current) + " / " + str(maximum)

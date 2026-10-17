@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://64v5n6kbdbjp"]
 
 [ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Player.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://c7f4265cs6mif" path="res://Weapon.gd" id="2_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://2c2yvqfjbuaq" path="res://bullet.tscn" id="3_h2yge"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -24,10 +26,24 @@ size = Vector2(20, 20)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_osii8"]
+albedo_color = Color(0.6572094, 0.58556813, 0, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_osii8"]
+material = SubResource("StandardMaterial3D_osii8")
 size = Vector3(0.2, 0.2, 0.6)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qcgbb"]
+size = Vector3(0.2, 0.2, 0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0qyx"]
+albedo_color = Color(0.21176471, 0.2901961, 0.09803922, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_0rpfx"]
+material = SubResource("StandardMaterial3D_g0qyx")
+size = Vector3(0.2, 0.2, 1.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ig7tw"]
 size = Vector3(0.2, 0.2, 0.1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_0rpfx"]
@@ -73,20 +89,48 @@ shape = SubResource("CapsuleShape3D_g0qyx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26701617)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2670164)
 
-[node name="Gun" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6500988, -0.21560359, -0.65908337)
+[node name="Weapons" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D/Gun" unique_id=2921678]
+[node name="Revolver" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1711010358]
+visible = false
+script = ExtResource("2_0xm2m")
+weapon_name = "revolver"
+bullet_scene = ExtResource("3_h2yge")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=2921678]
 mesh = SubResource("BoxMesh_osii8")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Head/Camera3D/Gun" unique_id=2103422841]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=2103422841]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16165364, 0.20896345)
 mesh = SubResource("BoxMesh_qcgbb")
 
-[node name="BulletPos" type="Node3D" parent="Player/Head/Camera3D" unique_id=1062474052]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6214429)
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1190349847]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.35285765)
+
+[node name="Rifle" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=714877951]
+visible = false
+script = ExtResource("2_0xm2m")
+weapon_name = "rifle"
+bullet_scene = ExtResource("3_h2yge")
+fire_rate = 0.2
+max_ammo = 12
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D/Weapons/Rifle" unique_id=1408188023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.25687975)
+mesh = SubResource("PrismMesh_0rpfx")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Head/Camera3D/Weapons/Rifle" unique_id=1878162131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16165364, 0.20896345)
+mesh = SubResource("BoxMesh_ig7tw")
+
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/Rifle" unique_id=1705507264]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.82067233)
+
+[node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
+target_position = Vector3(0, 0, -1000)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head" unique_id=1868013299]
 mesh = SubResource("SphereMesh_0rpfx")
@@ -96,10 +140,49 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008911133, 0.10290527, -0.2
 mesh = SubResource("BoxMesh_0rpfx")
 
 [node name="block" type="StaticBody3D" parent="." unique_id=2095413306]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -3.0418048)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -5.960575)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="block" unique_id=1447698918]
 mesh = SubResource("BoxMesh_g0qyx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="block" unique_id=487611925]
 shape = SubResource("BoxShape3D_osii8")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=239500367]
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD" unique_id=1974874258]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="HUD/CenterContainer" unique_id=2022210584]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.2784314, 0.79607844, 1)
+
+[node name="AmmoLabel" type="Label" parent="HUD" unique_id=885559988]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = -66.0
+offset_right = -12.0
+offset_bottom = -11.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
+justification_flags = 131
