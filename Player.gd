@@ -39,8 +39,6 @@ func _ready() -> void:
 		w.ammo_updated.connect(_update_ammo_ui)
 	equip_weapon(-1)
 
-	default_head_y = head.position.y
-	
 	mouse_sensitivity = Settings.mouse_sensitivity * 0.0005
 	
 	GameEvents.pause_pressed.connect(_on_pause_pressed)
