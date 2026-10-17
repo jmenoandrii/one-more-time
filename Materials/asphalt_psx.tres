@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cgk2osihrxrd4"]
+
+[ext_resource type="Texture2D" uid="uid://byew5hsmuslda" path="res://Materials/asphalt_psx.png" id="1_5xxqo"]
+
+[resource]
+albedo_texture = ExtResource("1_5xxqo")
+uv1_scale = Vector3(0.7, 0.7, 0.35)
+uv1_triplanar = true
+texture_filter = 0

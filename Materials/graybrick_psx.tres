@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dh64pwyyql22f"]
+
+[ext_resource type="Texture2D" uid="uid://oheky6e2s523" path="res://Materials/GrayBricks_psx.png" id="1_47l3w"]
+
+[resource]
+albedo_texture = ExtResource("1_47l3w")
+uv1_scale = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+texture_filter = 0

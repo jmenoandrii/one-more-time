@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://lpn3hxmrfyuh"]
+
+[ext_resource type="Texture2D" uid="uid://bp53uvvae48ve" path="res://Materials/RedBricks_01_height_psx.png" id="1_qi2yn"]
+
+[resource]
+albedo_texture = ExtResource("1_qi2yn")
+uv1_scale = Vector3(0.4, 0.4, 0.4)
+uv1_triplanar = true
+texture_filter = 0
