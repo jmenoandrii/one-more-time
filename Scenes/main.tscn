@@ -1,20 +1,19 @@
 [gd_scene format=3 uid="uid://64v5n6kbdbjp"]
 
-[ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Player.gd" id="1_ig7tw"]
-[ext_resource type="AudioStream" uid="uid://djk1r5l5yfyfb" path="res://Sounds/Music/darren_hirst-gamer-music-140-bpm-355954.mp3" id="3_h2yge"]
-[ext_resource type="AudioStream" uid="uid://df3n5foj0y7yw" path="res://Sounds/Foot/Stone/Footstep Stone 2.ogg" id="4_7mycd"]
-[ext_resource type="AudioStream" uid="uid://8pgui6xwt8xh" path="res://Sounds/Foot/Dirt/Footstep Dirt 2.ogg" id="4_272bh"]
-[ext_resource type="AudioStream" uid="uid://cqlpgfncx3oeu" path="res://Sounds/Foot/Dirt/Footstep Dirt 3.ogg" id="5_5vw27"]
-[ext_resource type="AudioStream" uid="uid://480u2annwkb" path="res://Sounds/Foot/Stone/Footstep Stone 3.ogg" id="5_272bh"]
-[ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="6_5vw27"]
-[ext_resource type="AudioStream" uid="uid://dtmqc2eisxsd1" path="res://Sounds/Foot/Dirt/Footstep Dirt 4.ogg" id="6_kek77"]
-[ext_resource type="AudioStream" uid="uid://ub6lo3eqpfjm" path="res://Sounds/Foot/Dirt/Footstep Dirt 5.ogg" id="7_4c57u"]
-[ext_resource type="AudioStream" uid="uid://cccngqlc6fb4c" path="res://Sounds/Foot/Stone/Footstep Stone 1.ogg" id="8_efxa6"]
-[ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="11_efxa6"]
-[ext_resource type="Script" uid="uid://c7f4265cs6mif" path="res://Weapon.gd" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://2c2yvqfjbuaq" path="res://bullet.tscn" id="3_h2yge"]
-[ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://pause_menu.gd" id="2_h2yge"]
-[ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://ui_controller.gd" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Scripts/Player/Player.gd" id="1_jkdf5"]
+[ext_resource type="Script" uid="uid://c7f4265cs6mif" path="res://Scripts/Weapon/Weapon.gd" id="2_wsu2k"]
+[ext_resource type="PackedScene" uid="uid://2c2yvqfjbuaq" path="res://Prefabs/bullet.tscn" id="3_jkdf5"]
+[ext_resource type="AudioStream" uid="uid://8pgui6xwt8xh" path="res://Sounds/Foot/Dirt/Footstep Dirt 2.ogg" id="4_h1bgf"]
+[ext_resource type="AudioStream" uid="uid://cqlpgfncx3oeu" path="res://Sounds/Foot/Dirt/Footstep Dirt 3.ogg" id="5_b3802"]
+[ext_resource type="AudioStream" uid="uid://dtmqc2eisxsd1" path="res://Sounds/Foot/Dirt/Footstep Dirt 4.ogg" id="6_fevyy"]
+[ext_resource type="AudioStream" uid="uid://ub6lo3eqpfjm" path="res://Sounds/Foot/Dirt/Footstep Dirt 5.ogg" id="7_hibaj"]
+[ext_resource type="AudioStream" uid="uid://cccngqlc6fb4c" path="res://Sounds/Foot/Stone/Footstep Stone 1.ogg" id="8_pdsj5"]
+[ext_resource type="AudioStream" uid="uid://df3n5foj0y7yw" path="res://Sounds/Foot/Stone/Footstep Stone 2.ogg" id="9_ee4r6"]
+[ext_resource type="AudioStream" uid="uid://480u2annwkb" path="res://Sounds/Foot/Stone/Footstep Stone 3.ogg" id="10_gt3je"]
+[ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="11_3pmx8"]
+[ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="12_u50mg"]
+[ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://Scripts/UI/pause_menu.gd" id="13_cbgmd"]
+[ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="14_1w6v2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -35,6 +34,12 @@ size = Vector3(20, 0.1, 20)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0rpfx"]
 size = Vector2(20, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g0qyx"]
+size = Vector3(2, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_osii8"]
+size = Vector3(2, 1, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 
@@ -92,56 +97,62 @@ _data = {
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_upu61"]
 streams_count = 4
-stream_0/stream = ExtResource("4_272bh")
-stream_1/stream = ExtResource("5_5vw27")
-stream_2/stream = ExtResource("6_kek77")
-stream_3/stream = ExtResource("7_4c57u")
+stream_0/stream = ExtResource("4_h1bgf")
+stream_1/stream = ExtResource("5_b3802")
+stream_2/stream = ExtResource("6_fevyy")
+stream_3/stream = ExtResource("7_hibaj")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5vw27"]
 streams_count = 4
-stream_0/stream = ExtResource("8_efxa6")
-stream_1/stream = ExtResource("4_7mycd")
-stream_2/stream = ExtResource("5_272bh")
-stream_3/stream = ExtResource("6_5vw27")
-[sub_resource type="BoxMesh" id="BoxMesh_g0qyx"]
-size = Vector3(2, 1, 1)
+stream_0/stream = ExtResource("8_pdsj5")
+stream_1/stream = ExtResource("9_ee4r6")
+stream_2/stream = ExtResource("10_gt3je")
+stream_3/stream = ExtResource("11_3pmx8")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_osii8"]
-size = Vector3(2, 1, 1)
+[node name="World" type="Node3D" unique_id=41126308]
 
-[node name="Node3D" type="Node3D" unique_id=41126308]
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1077777929]
+[node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1077777929]
 environment = SubResource("Environment_h2yge")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1496692533]
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1496692533]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="floor2" type="StaticBody3D" parent="." unique_id=297188938 groups=["stone"]]
+[node name="Level" type="Node3D" parent="." unique_id=1214059075]
+
+[node name="floor2" type="StaticBody3D" parent="Level" unique_id=297188938 groups=["stone"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.663494, 0, 0)
 collision_layer = 3
 collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_7mycd")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="floor2" unique_id=1925676311 groups=["dirt"]]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/floor2" unique_id=1925676311 groups=["dirt"]]
 shape = SubResource("BoxShape3D_g0qyx")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor2" unique_id=198707873]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/floor2" unique_id=198707873]
 mesh = SubResource("PlaneMesh_0rpfx")
 
-[node name="floor" type="StaticBody3D" parent="." unique_id=1127066966 groups=["dirt"]]
+[node name="floor" type="StaticBody3D" parent="Level" unique_id=1127066966 groups=["dirt"]]
 collision_layer = 3
 collision_mask = 3
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="floor" unique_id=498062634 groups=["dirt"]]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/floor" unique_id=498062634 groups=["dirt"]]
 shape = SubResource("BoxShape3D_g0qyx")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=1644211572]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/floor" unique_id=1644211572]
 mesh = SubResource("PlaneMesh_0rpfx")
 
+[node name="block" type="StaticBody3D" parent="Level" unique_id=2095413306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -5.960575)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/block" unique_id=1447698918]
+mesh = SubResource("BoxMesh_g0qyx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/block" unique_id=487611925]
+shape = SubResource("BoxShape3D_osii8")
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040]
-script = ExtResource("1_ig7tw")
+script = ExtResource("1_jkdf5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=808242478]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -162,9 +173,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)
 
 [node name="Revolver" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1711010358]
 visible = false
-script = ExtResource("2_0xm2m")
+script = ExtResource("2_wsu2k")
 weapon_name = "revolver"
-bullet_scene = ExtResource("3_h2yge")
+bullet_scene = ExtResource("3_jkdf5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=2921678]
 mesh = SubResource("BoxMesh_osii8")
@@ -178,9 +189,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.35285765)
 
 [node name="Rifle" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=714877951]
 visible = false
-script = ExtResource("2_0xm2m")
+script = ExtResource("2_wsu2k")
 weapon_name = "rifle"
-bullet_scene = ExtResource("3_h2yge")
+bullet_scene = ExtResource("3_jkdf5")
 fire_rate = 0.2
 max_ammo = 12
 
@@ -209,18 +220,87 @@ mesh = SubResource("BoxMesh_0rpfx")
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_5vw27")
 
-[node name="block" type="StaticBody3D" parent="." unique_id=2095413306]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -5.960575)
+[node name="CeilingCheck" type="RayCast3D" parent="Player/Head" unique_id=1221683613]
+target_position = Vector3(0, 0.5, 0)
+collision_mask = 3
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="block" unique_id=1447698918]
-mesh = SubResource("BoxMesh_g0qyx")
+[node name="Music" type="AudioStreamPlayer3D" parent="Player/Head" unique_id=1264888633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023120165, 0)
+volume_db = -45.0
+max_db = -3.0
+autoplay = true
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="block" unique_id=487611925]
-shape = SubResource("BoxShape3D_osii8")
+[node name="Sounds" type="Node3D" parent="Player" unique_id=135702811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
 
-[node name="HUD" type="CanvasLayer" parent="." unique_id=239500367]
+[node name="dirt" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1168338759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21978569, 0)
+stream = SubResource("AudioStreamRandomizer_upu61")
 
-[node name="CenterContainer" type="CenterContainer" parent="HUD" unique_id=1974874258]
+[node name="stone" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=43388868]
+stream = SubResource("AudioStreamRandomizer_5vw27")
+
+[node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
+stream = ExtResource("12_u50mg")
+volume_db = -23.0
+
+[node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
+collision_mask = 2
+
+[node name="UI" type="Node" parent="." unique_id=1119755475]
+process_mode = 3
+script = ExtResource("14_1w6v2")
+
+[node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
+process_mode = 3
+visible = false
+script = ExtResource("13_cbgmd")
+
+[node name="ColorRect" type="ColorRect" parent="UI/PauseMenu" unique_id=1873464838]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.28485027, 0.28485027, 0.28485027, 1)
+
+[node name="ResumeButton" type="Button" parent="UI/PauseMenu" unique_id=1769114960]
+offset_left = 518.0
+offset_top = 274.0
+offset_right = 651.0
+offset_bottom = 321.0
+text = "Resume"
+
+[node name="ExitButton" type="Button" parent="UI/PauseMenu" unique_id=535452121]
+offset_left = 518.0
+offset_top = 424.0
+offset_right = 651.0
+offset_bottom = 471.0
+text = "Exit"
+
+[node name="SensitivitySlider" type="HSlider" parent="UI/PauseMenu" unique_id=2041809233]
+offset_left = 424.0
+offset_top = 359.0
+offset_right = 743.0
+offset_bottom = 415.0
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 4.0
+
+[node name="Label" type="Label" parent="UI/PauseMenu/SensitivitySlider" unique_id=933893457]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.43
+offset_top = -4.0
+offset_right = 37.572998
+offset_bottom = -5.08
+text = "Sensitivity"
+
+[node name="HUD" type="CanvasLayer" parent="UI" unique_id=239500367]
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/HUD" unique_id=1974874258]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -235,13 +315,13 @@ grow_vertical = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="ColorRect" type="ColorRect" parent="HUD/CenterContainer" unique_id=2022210584]
+[node name="ColorRect" type="ColorRect" parent="UI/HUD/CenterContainer" unique_id=2022210584]
 custom_minimum_size = Vector2(4, 4)
 layout_mode = 2
 mouse_filter = 2
 color = Color(1, 0.2784314, 0.79607844, 1)
 
-[node name="AmmoLabel" type="Label" parent="HUD" unique_id=885559988]
+[node name="AmmoLabel" type="Label" parent="UI/HUD" unique_id=885559988]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -256,86 +336,7 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "0 / 0"
 justification_flags = 131
-[node name="CeilingCheck" type="RayCast3D" parent="Player/Head" unique_id=1221683613]
-target_position = Vector3(0, 0.5, 0)
-collision_mask = 3
 
-[node name="Music" type="AudioStreamPlayer3D" parent="Player/Head" unique_id=1264888633]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023120165, 0)
-stream = ExtResource("3_h2yge")
-volume_db = -45.0
-max_db = -3.0
-autoplay = true
-parameters/looping = true
-
-[node name="Sounds" type="Node3D" parent="Player" unique_id=135702811]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
-
-[node name="dirt" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1168338759]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21978569, 0)
-stream = SubResource("AudioStreamRandomizer_upu61")
-
-[node name="stone" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=43388868]
-stream = SubResource("AudioStreamRandomizer_5vw27")
-
-[node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
-stream = ExtResource("11_efxa6")
-volume_db = -23.0
-
-[node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
-collision_mask = 2
-
-[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=194481686]
-process_mode = 3
-visible = false
-script = ExtResource("2_h2yge")
-
-[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=1873464838]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.28485027, 0.28485027, 0.28485027, 1)
-
-[node name="ResumeButton" type="Button" parent="PauseMenu" unique_id=1769114960]
-offset_left = 518.0
-offset_top = 274.0
-offset_right = 651.0
-offset_bottom = 321.0
-text = "Resume"
-
-[node name="ExitButton" type="Button" parent="PauseMenu" unique_id=535452121]
-offset_left = 518.0
-offset_top = 424.0
-offset_right = 651.0
-offset_bottom = 471.0
-text = "Exit"
-
-[node name="SensitivitySlider" type="HSlider" parent="PauseMenu" unique_id=2041809233]
-offset_left = 424.0
-offset_top = 359.0
-offset_right = 743.0
-offset_bottom = 415.0
-min_value = 1.0
-max_value = 10.0
-step = 0.1
-value = 4.0
-
-[node name="Label" type="Label" parent="PauseMenu/SensitivitySlider" unique_id=933893457]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.133
-anchor_bottom = 0.43
-offset_top = -4.0
-offset_right = 37.572998
-offset_bottom = -5.08
-text = "Sensitivity"
-
-[node name="UIController" type="Node" parent="." unique_id=1119755475]
-process_mode = 3
-script = ExtResource("4_1bvp3")
-
-[connection signal="pressed" from="PauseMenu/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
-[connection signal="pressed" from="PauseMenu/ExitButton" to="PauseMenu" method="_on_exit_button_pressed"]
-[connection signal="value_changed" from="PauseMenu/SensitivitySlider" to="PauseMenu" method="_on_sensitivity_slider_value_changed"]
+[connection signal="pressed" from="UI/PauseMenu/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="UI/PauseMenu/ExitButton" to="UI/PauseMenu" method="_on_exit_button_pressed"]
+[connection signal="value_changed" from="UI/PauseMenu/SensitivitySlider" to="UI/PauseMenu" method="_on_sensitivity_slider_value_changed"]
