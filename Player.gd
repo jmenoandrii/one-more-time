@@ -4,7 +4,7 @@ const SPEED = 5.0
 const RUNNING_SPEED = 10.0
 const CROUCH_SPEED = 2.5
 const JUMP_VELOCITY = 5.5
-const MOUSE_SENSITIVITY = 0.002
+var mouse_sensitivity := 0.002
 
 const CROUCH_PERSENT = 0.5
 var normal_height: float
@@ -39,26 +39,22 @@ func _ready() -> void:
 		w.ammo_updated.connect(_update_ammo_ui)
 	equip_weapon(-1)
 
+	default_head_y = head.position.y
+	
+	mouse_sensitivity = Settings.mouse_sensitivity * 0.0005
+	
+	GameEvents.pause_pressed.connect(_on_pause_pressed)
+	GameEvents.unpause_pressed.connect(_on_unpause_pressed)
+	GameEvents.sensitivity_changed.connect(_on_sensitivity_changed)
+	
 func _unhandled_input(event: InputEvent) -> void:
 	# Mouse rotation
 	if is_player_dead or not is_cursor_locked:
 		pass
 	elif event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * MOUSE_SENSITIVITY)
-		head.rotate_x(-event.relative.y * MOUSE_SENSITIVITY)
+		rotate_y(-event.relative.x * mouse_sensitivity)
+		head.rotate_x(-event.relative.y * mouse_sensitivity)
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-85.0), deg_to_rad(85.0))
-	
-	# Pause
-	if Input.is_action_just_pressed("ui_cancel"):
-		is_cursor_locked = not is_cursor_locked
-		if is_cursor_locked:
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-		else:
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	
-	# Dying
-	if Input.is_action_just_pressed("dying"):
-		die()
 	
 	if current_weapon_index != -1:
 		# Shooting
@@ -81,6 +77,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		equip_weapon(0)
 	elif Input.is_action_just_pressed("weapon_2"):
 		equip_weapon(1)
+		
+func _on_pause_pressed() -> void:
+	is_cursor_locked = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _on_unpause_pressed() -> void:
+	is_cursor_locked = true
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _on_sensitivity_changed(value: float) -> void:
+	mouse_sensitivity = value * 0.0005
 
 func _physics_process(delta: float) -> void:
 	# gravity
@@ -131,7 +138,6 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 
 	move_and_slide()
-
 
 func die() -> void:
 	if is_player_dead: return
