@@ -36,8 +36,20 @@ func shoot(target_point: Vector3) -> void:
 	await get_tree().create_timer(fire_rate).timeout
 	can_shoot = true
 
-func reload() -> void:
-	_update_ammo(max_ammo)
+func reload(reserve_ammo: int) -> int:
+	if current_ammo == max_ammo or reserve_ammo <= 0:
+		return reserve_ammo
+	
+	var needed_ammo = max_ammo - current_ammo
+	
+	if reserve_ammo >= needed_ammo:
+		_update_ammo(current_ammo + needed_ammo)
+		reserve_ammo -= needed_ammo
+	else:
+		_update_ammo(current_ammo + reserve_ammo)
+		reserve_ammo = 0
+		
+	return reserve_ammo
 
 func _update_ammo(ammo: int) -> void:
 	current_ammo = ammo

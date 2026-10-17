@@ -317,6 +317,21 @@ theme_override_font_sizes/font_size = 40
 text = "0 / 0"
 justification_flags = 131
 
+[node name="reserveAmmo" type="Label" parent="UI/HUD" unique_id=2032349978]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -103.96503
+offset_right = -12.0
+offset_bottom = -48.965027
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+justification_flags = 131
+
 [node name="HeartSymbol" type="Label" parent="UI/HUD" unique_id=1881795301]
 anchors_preset = 2
 anchor_top = 1.0
