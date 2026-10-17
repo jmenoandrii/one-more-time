@@ -5,11 +5,14 @@ const SPEED: float  = 5.0
 const RUNNING_SPEED: float = 10.0
 const CROUCH_SPEED: float = 2.5
 const JUMP_VELOCITY: float = 5.5
+const SENSITIVITY_SCALE := 0.0005
 var mouse_sensitivity: float = 0.002
 
 const CROUCH_PERSENT: float = 0.5
 var normal_height: float
 var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
+
+@onready var floortype_ray: RayCast3D = $floortype_ray
 
 # Stamina
 const MAX_STAMINA: float = 100.0
@@ -33,7 +36,7 @@ var is_cursor_locked := true
 # shooting
 @onready var aim_ray: RayCast3D = $Head/Camera3D/AimRay
 @onready var weapons_manager: Node3D = $Head/Camera3D/Weapons
-var weapons: Array[Node] = []
+var weapons: Array[Weapon] = []
 var current_weapon_index: int = -1
 
 var current_reserve_ammo: int = 18
@@ -47,7 +50,13 @@ var current_reserve_ammo: int = 18
 @onready var headbob: AnimationPlayer = $Head/headbob
 @onready var jump_sound: AudioStreamPlayer3D = $Sounds/jump
 
+#interact
+@onready var interact_ray: RayCast3D = $Head/Camera3D/InteractRay
+const INTERACT_SEARCH_DEPTH := 3
+var _interact_target: Node = null
 
+# keys
+var keys: Dictionary = {}
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -55,12 +64,13 @@ func _ready() -> void:
 	normal_height = collision_shape.shape.height
 	crouch_height = normal_height - (normal_height * CROUCH_PERSENT)
 	
-	weapons = weapons_manager.get_children()
+	weapons.assign(weapons_manager.get_children())
 	for w in weapons:
 		w.ammo_updated.connect(_on_weapon_ammo_updated.bind(w))
+		w.reserve_ammo_changed.connect(_on_weapon_reserve_ammo_changed)
 	equip_weapon(-1)
 
-	mouse_sensitivity = Settings.mouse_sensitivity * 0.0005
+	mouse_sensitivity = Settings.mouse_sensitivity * SENSITIVITY_SCALE
 	
 	GameEvents.pause_pressed.connect(_on_pause_pressed)
 	GameEvents.unpause_pressed.connect(_on_unpause_pressed)
@@ -77,6 +87,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_player_dead:
 		return
 		
+	if event.is_action_pressed("interact"):
+		_try_interact()
+		
 	# Mouse rotation
 	if is_cursor_locked and event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * mouse_sensitivity)
@@ -85,7 +98,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if current_weapon_index != -1:
 		# Shooting
-		if Input.is_action_just_pressed("click"):
+		if Input.is_action_pressed("click"):
 			var target_point: Vector3
 			
 			if aim_ray.is_colliding():
@@ -96,13 +109,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			weapons[current_weapon_index].shoot(target_point)
 		
 		# Reload
-		if Input.is_action_just_pressed("reload"):
+		if Input.is_action_pressed("reload"):
 			_reload_current_weapon()
 	
 	# Change weapon
-	if Input.is_action_just_pressed("weapon_1"):
+	if Input.is_action_pressed("weapon_1"):
 		equip_weapon(0)
-	elif Input.is_action_just_pressed("weapon_2"):
+	elif Input.is_action_pressed("weapon_2"):
 		equip_weapon(1)
 		
 func _on_pause_pressed() -> void:
@@ -114,10 +127,56 @@ func _on_unpause_pressed() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_sensitivity_changed(value: float) -> void:
-	mouse_sensitivity = value * 0.0005
+	mouse_sensitivity = value * SENSITIVITY_SCALE
 
+# interactables implement interact(interactor) and optionally get_interact_text(interactor) -> String
+func _try_interact() -> void:
+	if is_instance_valid(_interact_target):
+		_interact_target.interact(self)
+		_update_interact_prompt() # the target's state changed (e.g. open -> closed)
+		
+func _update_interact_target() -> void:
+	var target: Node = null if is_player_dead else _get_interactable()
+	if target != _interact_target:
+		_interact_target = target
+		_update_interact_prompt()
+
+func _update_interact_prompt() -> void:
+	var text := ""
+	if is_instance_valid(_interact_target):
+		text = "[E] Interact"
+		if _interact_target.has_method("get_interact_text"):
+			text = _interact_target.get_interact_text(self)
+	GameEvents.interact_prompt_changed.emit(text)
+
+func add_key(key_id: String, key_color: Color) -> void:
+	if key_id not in keys:
+		keys[key_id] = key_color
+	GameEvents.keys_changed.emit(keys)
+	_update_interact_prompt() # picked up right in front of its door -> "Locked" becomes "Unlock"
+
+func has_key(key_id: String) -> bool:
+	return keys.has(key_id)
+
+func remove_key(key_id: String) -> void:
+	keys.erase(key_id)
+	GameEvents.keys_changed.emit(keys)
+		
+func _get_interactable() -> Node:
+	if not interact_ray.is_colliding():
+		return null
+	var node: Node = interact_ray.get_collider()
+	for i in INTERACT_SEARCH_DEPTH:
+		if node == null:
+			return null
+		if node.is_in_group("interactable") and node.has_method("interact"):
+			return node
+		node = node.get_parent()
+	return null
+	
 func _physics_process(delta: float) -> void:
-	# weapon inspect (polled every frame, so releasing the button during pause isn't missed)
+	_update_interact_target()
+	
 	if current_weapon_index != -1:
 		var wants_inspect := Input.is_action_pressed("inspect") and is_cursor_locked and not is_player_dead
 		weapons[current_weapon_index].set_inspecting(wants_inspect)
@@ -151,7 +210,7 @@ func _physics_process(delta: float) -> void:
 	head.position.y = collision_shape.shape.height - 0.5
 	
 	# jumping
-	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_crouching:
+	if Input.is_action_pressed("jump") and is_on_floor() and not is_crouching:
 		velocity.y = JUMP_VELOCITY
 		jump_sound.play()
 	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
@@ -208,11 +267,11 @@ func _process_death() -> void:
 	velocity.z = move_toward(velocity.z, 0, 0.5)
 
 func play_step_sounds():
-	if $floortype_ray.is_colliding():
-		var collider = $floortype_ray.get_collider()
+	if floortype_ray.is_colliding():
+		var collider = floortype_ray.get_collider()
 		if collider.is_in_group("dirt"):
 			stone_step.stop()
-			if not stone_step.playing:
+			if not dirt_step.playing:
 				dirt_step.play()
 		elif collider.is_in_group("stone"):
 			dirt_step.stop()
@@ -225,18 +284,20 @@ func play_step_sounds():
 		dirt_step.stop()
 		stone_step.stop()
 
-func pick_up_weapon(weapon_name: String) -> bool:
+# gives the first not yet owned weapon this pickup belongs to:
+# the 1st revolver pickup -> Revolver, the 2nd -> DualRevolvers (its pickup_name is "revolver")
+func pick_up_weapon(pickup: String) -> bool:
 	for i in weapons.size():
-		if weapons[i].weapon_name == weapon_name:
-			if weapons[i].is_owned:
-				return false        # уже є — пікап лишається на мапі
-			weapons[i].is_owned = true
-			equip_weapon(i)         # одразу в руки
-			weapons[i].play_equip()
+		var weapon := weapons[i]
+		var weapon_pickup: String = weapon.pickup_name if weapon.pickup_name != "" else weapon.weapon_name
+		if weapon_pickup == pickup and not weapon.is_owned:
+			weapon.is_owned = true
+			equip_weapon(i, false)  # the pickup has its own equip animation
+			weapon.play_equip()
 			return true
-	return false
+	return false     # everything from this pickup is already owned — it stays on the map
 
-func equip_weapon(index: int) -> void:
+func equip_weapon(index: int, draw: bool = true) -> void:
 	if index < -1 or index >= weapons.size():
 		return
 		
@@ -244,6 +305,7 @@ func equip_weapon(index: int) -> void:
 	if index != -1 and not weapons[index].is_owned:
 		return
 
+	var switched := index != current_weapon_index
 	current_weapon_index = index
 	
 	for i in range(weapons.size()):
@@ -255,16 +317,23 @@ func equip_weapon(index: int) -> void:
 		GameEvents.weapon_unequipped.emit()
 	else:
 		var current_w = weapons[current_weapon_index]
+		if switched and draw:
+			current_w.play_draw()
 		GameEvents.ammo_changed.emit(current_w.current_ammo, current_w.max_ammo)
 		GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
 
 func _reload_current_weapon() -> void:
 	# Weapon.reload() waits for the reload animation, so it has to be awaited
-	var weapon = weapons[current_weapon_index]
+	var weapon := weapons[current_weapon_index]
 	current_reserve_ammo = await weapon.reload(current_reserve_ammo)
 	GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
 
-func _on_weapon_ammo_updated(current: int, maximum: int, weapon: Node) -> void:
+func _on_weapon_reserve_ammo_changed(amount: int) -> void:
+	# the reserve is shared, so it's updated even if the reloading weapon was put away
+	current_reserve_ammo = amount
+	GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
+
+func _on_weapon_ammo_updated(current: int, maximum: int, weapon: Weapon) -> void:
 	# a hidden weapon may still finish its reload — only the weapon in hands goes to the HUD
 	if current_weapon_index != -1 and weapons[current_weapon_index] == weapon:
 		GameEvents.ammo_changed.emit(current, maximum)

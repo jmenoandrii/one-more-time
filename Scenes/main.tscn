@@ -25,6 +25,9 @@
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="17_health"]
 [ext_resource type="ArrayMesh" uid="uid://4wa5f3eilap4" path="res://Materials/box.obj" id="18_hibaj"]
 [ext_resource type="PackedScene" uid="uid://dl3aifvilv1jx" path="res://Prefabs/weapon_pickup.tscn" id="21_3pmx8"]
+[ext_resource type="Script" uid="uid://esp0o4jvam1s" path="res://Scripts/Weapon/DualWeapon.gd" id="30_dual"]
+[ext_resource type="PackedScene" path="res://Prefabs/door.tscn" id="31_door"]
+[ext_resource type="PackedScene" path="res://Prefabs/key_pickup.tscn" id="32_key"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -37,70 +40,6 @@ sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 background_mode = 2
 sky = SubResource("Sky_0xm2m")
 glow_enabled = true
-
-[sub_resource type="Animation" id="Animation_pdsj5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 1.5707964, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(12.874932, 1.2644043, -0.80224556)]
-}
-
-[sub_resource type="Animation" id="Animation_gt3je"]
-resource_name = "door_close"
-
-[sub_resource type="Animation" id="Animation_ee4r6"]
-resource_name = "door_open"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0, 1.5707964, 0), Vector3(0, 3.1415927, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(12.874932, 1.2644043, -0.80224556), Vector3(13.319907, 1.2644043, -0.18044025)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_gt3je"]
-_data = {
-&"RESET": SubResource("Animation_pdsj5"),
-&"door_close": SubResource("Animation_gt3je"),
-&"door_open": SubResource("Animation_ee4r6")
-}
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jkdf5"]
 size = Vector2(20, 20)
@@ -226,23 +165,22 @@ environment = SubResource("Environment_h2yge")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Door" type="CSGBox3D" parent="." unique_id=878368549]
-transform = Transform3D(-4.371138e-08, 0, 0.9999998, 0, 1, 0, -0.9999998, 0, -4.371138e-08, 12.874932, 1.2644043, -0.80224556)
-visible = false
-use_collision = true
-size = Vector3(1, 2.4711914, 0.21583202)
+[node name="Door" parent="." unique_id=878368549 instance=ExtResource("31_door")]
+transform = Transform3D(-4.371138e-08, 0, 0.9999998, 0, 1, 0, -0.9999998, 0, -4.371138e-08, 12.874932, 1.2644043, -0.10489303)
+required_key = "red"
+locked_text = "Locked: find the red key"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Door" unique_id=1190117754]
-libraries/ = SubResource("AnimationLibrary_gt3je")
-
-[node name="door_area" type="Area3D" parent="Door" unique_id=1408511721]
-visible = false
+[node name="RedKey" parent="." unique_id=1730452211 instance=ExtResource("32_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0.6, 0.6)
 
 [node name="Level 1" type="CSGCombiner3D" parent="." unique_id=401087400]
 use_collision = true
 
 [node name="weapon_pickup" parent="Level 1" unique_id=2110892615 instance=ExtResource("21_3pmx8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5659447, 0.30338427, 0.6131034)
+
+[node name="weapon_pickup2" parent="Level 1" unique_id=1630511879 instance=ExtResource("21_3pmx8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.392235, 0.30338487, -2.7254505)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Level 1" unique_id=1121604689]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.069019, 3, -9.504108)
@@ -541,9 +479,46 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 [node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1875669028]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0064813793, 0.12732923, 0.52824354)
 
+[node name="DualRevolvers" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1630511874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345, 0.09287548, -0.084962666)
+visible = false
+script = ExtResource("30_dual")
+weapon_name = "dual_revolvers"
+pickup_name = "revolver"
+bullet_scene = ExtResource("3_jkdf5")
+fire_rate = 0.08
+max_ammo = 12
+shoot_speed_min = 1.1
+shoot_speed_max = 1.3
+recoil_pitch = Vector2(0.3, 0.55)
+recoil_kick = Vector2(0.1, 0.25)
+can_inspect = false
+
+[node name="Right" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511880]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.364, 0, 0)
+
+[node name="RightModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Right" unique_id=1630511875 instance=ExtResource("11_u50mg")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="Left" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, -0.364, 0, 0)
+
+[node name="LeftModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Left" unique_id=1630511876 instance=ExtResource("11_u50mg")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3575, 0.12732923, -0.52824354)
+
+[node name="BulletPosLeft" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824354)
+
 [node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
 target_position = Vector3(0, 0, -1000)
 collide_with_areas = true
+
+[node name="InteractRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=143733516]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+target_position = Vector3(0, -2, 0)
 
 [node name="headbob" type="AnimationPlayer" parent="Player/Head" unique_id=279278114]
 root_node = NodePath("../..")
@@ -552,6 +527,7 @@ libraries/ = SubResource("AnimationLibrary_5vw27")
 [node name="Music" type="AudioStreamPlayer3D" parent="Player/Head" unique_id=1264888633]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023120165, 0)
 stream = ExtResource("13_wsu2k")
+attenuation_model = 3
 volume_db = -25.0
 max_db = -3.0
 autoplay = true
@@ -575,11 +551,6 @@ collision_mask = 2
 
 [node name="HealthComponent" type="Node" parent="Player" unique_id=1280028663]
 script = ExtResource("17_health")
-
-[node name="raycast" type="RayCast3D" parent="Player" unique_id=143733516]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
-target_position = Vector3(0, -2, 0)
-collide_with_areas = true
 
 [node name="UI" type="Node" parent="." unique_id=1119755475]
 process_mode = 3
@@ -687,6 +658,20 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "0 / 0"
 
+[node name="InteractLabel" type="Label" parent="UI/HUD" unique_id=893624820]
+visible = false
+offset_left = 536.0
+offset_top = 602.0
+offset_right = 620.0
+offset_bottom = 625.0
+horizontal_alignment = 1
+
+[node name="KeysContainer" type="HBoxContainer" parent="UI/HUD" unique_id=730203913]
+offset_left = 2.0
+offset_top = 485.0
+offset_right = 156.0
+offset_bottom = 541.0
+
 [node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
 process_mode = 3
 visible = false
@@ -736,27 +721,6 @@ text = "Sensitivity"
 
 [node name="box" parent="." unique_id=1500888263 instance=ExtResource("16_b3802")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2495863, 5951.554, 1.2017674)
-
-[node name="Control" type="Control" parent="." unique_id=1086586694]
-visible = false
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Control" unique_id=893624820]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Open"
 
 [connection signal="pressed" from="UI/PauseMenu/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/ExitButton" to="UI/PauseMenu" method="_on_exit_button_pressed"]
