@@ -133,11 +133,14 @@ func _add_recoil() -> void:
 
 	var kick := randf_range(recoil_kick.x, recoil_kick.y)
 	_recoil_target_pos += Vector3(0, kick * 0.3, kick)
-
-func reload() -> void:
-	if is_reloading or is_equipping or current_ammo == max_ammo:
-		return
 	
+	_update_ammo(max_ammo)
+func reload(reserve_ammo: int) -> int:
+	if current_ammo == max_ammo or reserve_ammo <= 0:
+		return reserve_ammo
+	
+	var needed_ammo = max_ammo - current_ammo
+  
 	if animation_player and animation_player.has_animation(reload_animation):
 		is_reloading = true
 		is_inspecting = false
@@ -146,7 +149,14 @@ func reload() -> void:
 		await animation_player.animation_finished
 		is_reloading = false
 	
-	_update_ammo(max_ammo)
+	if reserve_ammo >= needed_ammo:
+		_update_ammo(current_ammo + needed_ammo)
+		reserve_ammo -= needed_ammo
+	else:
+		_update_ammo(current_ammo + reserve_ammo)
+		reserve_ammo = 0
+		
+	return reserve_ammo
 
 func play_equip() -> void:
 	if animation_player == null or not animation_player.has_animation(equip_animation):
