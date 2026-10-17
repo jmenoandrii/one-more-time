@@ -5,7 +5,7 @@ const CROUCH_SPEED = 2.5
 const JUMP_VELOCITY = 5.5
 const MOUSE_SENSITIVITY = 0.002
 
-const CROUCH_PERSENT = 0.3
+const CROUCH_PERSENT = 0.5
 var normal_height: float
 var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 var default_head_y: float
@@ -20,7 +20,6 @@ var head_world_position: Vector3
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
-@onready var ceiling_check: RayCast3D = $Head/CeilingCheck
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -48,18 +47,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		die()
 
 func _physics_process(delta: float) -> void:
+	# gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
+	
+	# dead
 	if is_player_dead:
 		_process_death()
 		move_and_slide()
 		return
 	
-	if Input.is_key_pressed(KEY_SHIFT):
+	# crouching
+	if Input.is_action_pressed("crouch"):
 		is_crouching = true
 	else:
-		if not ceiling_check.is_colliding():
+		if not is_on_ceiling():
 			is_crouching = false
 	
 	var target_height := crouch_height if is_crouching else normal_height
@@ -72,12 +74,14 @@ func _physics_process(delta: float) -> void:
 	mesh_instance.position.y = collision_shape.shape.height / 2.0
 	
 	head.position.y = collision_shape.shape.height - 0.5
-
+	
+	# jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_crouching:
 		velocity.y = JUMP_VELOCITY
 	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
 		velocity.y = 0.0
 	
+	# moving
 	var current_speed := CROUCH_SPEED if is_crouching else SPEED
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	

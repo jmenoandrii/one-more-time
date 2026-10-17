@@ -29,6 +29,10 @@ size = Vector2(20, 20)
 [sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
 size = Vector3(0.6750488, 0.24731445, 0.5551758)
 
+[sub_resource type="BoxMesh" id="BoxMesh_g0qyx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_osii8"]
+
 [node name="Node3D" type="Node3D" unique_id=41126308]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1077777929]
@@ -70,5 +74,11 @@ mesh = SubResource("SphereMesh_0rpfx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008911133, 0.10290527, -0.27993035)
 mesh = SubResource("BoxMesh_0rpfx")
 
-[node name="CeilingCheck" type="RayCast3D" parent="Player/Head" unique_id=1221683613]
-target_position = Vector3(0, 0.5, 0)
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2095413306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -1.4252304)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1447698918]
+mesh = SubResource("BoxMesh_g0qyx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=487611925]
+shape = SubResource("BoxShape3D_osii8")
