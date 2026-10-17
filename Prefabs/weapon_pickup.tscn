@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dl3aifvilv1jx"]
+
+[ext_resource type="Script" uid="uid://dsu0ju3ib8nic" path="res://Scripts/Weapon/weapon_pickup.gd" id="1_6k6ii"]
+[ext_resource type="PackedScene" uid="uid://d2fs145c4sdk1" path="res://Prefabs/revolver_static.tscn" id="1_o1isp"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_crvnb"]
+
+[node name="weapon_pickup" type="Area3D" unique_id=2110892615]
+script = ExtResource("1_6k6ii")
+spin_speed = 1.2
+
+[node name="Revolver" parent="." unique_id=1433082735 instance=ExtResource("1_o1isp")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1599385552]
+shape = SubResource("SphereShape3D_crvnb")
