@@ -46,25 +46,29 @@ shape = SubResource("BoxShape3D_g0qyx")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="floor" unique_id=1644211572]
 mesh = SubResource("PlaneMesh_0rpfx")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1147837040]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0891898, 0)
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040]
 script = ExtResource("1_ig7tw")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=808242478]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=808242478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_0rpfx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=996913945]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=996913945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_g0qyx")
 
-[node name="Head" type="Node3D" parent="CharacterBody3D" unique_id=1770461712]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1280966, 0)
+[node name="Head" type="Node3D" parent="Player" unique_id=1770461712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/Head" unique_id=1443790826]
+[node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26701617)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Head" unique_id=1868013299]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head" unique_id=1868013299]
 mesh = SubResource("SphereMesh_0rpfx")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Head" unique_id=796127435]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Head" unique_id=796127435]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008911133, 0.10290527, -0.27993035)
 mesh = SubResource("BoxMesh_0rpfx")
+
+[node name="CeilingCheck" type="RayCast3D" parent="Player/Head" unique_id=1221683613]
+target_position = Vector3(0, 0.5, 0)

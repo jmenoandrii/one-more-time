@@ -6,8 +6,9 @@ const JUMP_VELOCITY = 5.5
 const MOUSE_SENSITIVITY = 0.002
 
 const CROUCH_PERSENT = 0.3
-var normal_height := 0
-var crouch_height := 0	# = normal_height - normal_height * CROUCH_PERSENT
+var normal_height: float
+var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
+var default_head_y: float
 
 var is_crouching := false
 var is_player_dead := false
@@ -19,11 +20,14 @@ var head_world_position: Vector3
 @onready var camera: Camera3D = $Head/Camera3D
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
+@onready var ceiling_check: RayCast3D = $Head/CeilingCheck
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	normal_height = collision_shape.shape.heightcamera
-	crouch_height = normal_height - normal_height * CROUCH_PERSENT
+	
+	normal_height = collision_shape.shape.height
+	crouch_height = normal_height - (normal_height * CROUCH_PERSENT)
+	default_head_y = head.position.y
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_player_dead or not is_cursor_locked:
@@ -51,21 +55,29 @@ func _physics_process(delta: float) -> void:
 		_process_death()
 		move_and_slide()
 		return
+	
+	if Input.is_key_pressed(KEY_SHIFT):
+		is_crouching = true
+	else:
+		if not ceiling_check.is_colliding():
+			is_crouching = false
+	
+	var target_height := crouch_height if is_crouching else normal_height
+	
+	collision_shape.shape.height = lerp(collision_shape.shape.height, target_height, 10.0 * delta)
+	if mesh_instance.mesh is CapsuleMesh:
+		mesh_instance.mesh.height = lerp(mesh_instance.mesh.height, target_height, 10.0 * delta)
+	
+	collision_shape.position.y = collision_shape.shape.height / 2.0
+	mesh_instance.position.y = collision_shape.shape.height / 2.0
+	
+	head.position.y = collision_shape.shape.height - 0.5
 
 	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_crouching:
 		velocity.y = JUMP_VELOCITY
 	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
 		velocity.y = 0.0
-
-	if Input.is_key_pressed(KEY_SHIFT):
-		if not is_crouching:
-			is_crouching = true
-			_update_height(crouch_height)
-	else:
-		if is_crouching:
-			is_crouching = false
-			_update_height(normal_height)
-
+	
 	var current_speed := CROUCH_SPEED if is_crouching else SPEED
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	
@@ -92,15 +104,3 @@ func _process_death() -> void:
 	
 	velocity.x = move_toward(velocity.x, 0, 0.5)
 	velocity.z = move_toward(velocity.z, 0, 0.5)
-
-func _update_height(target_height: float) -> void:
-	collision_shape.shape.height = target_height
-	if mesh_instance and mesh_instance.mesh is CapsuleMesh:
-		mesh_instance.mesh.height = target_height
-	
-	var y_offset := (normal_height - target_height) / 2.0
-	collision_shape.position.y = normal_height / 2.0 - y_offset
-	if mesh_instance:
-		mesh_instance.position.y = normal_height / 2.0 - y_offset
-	
-	head.position.y = (normal_height / 2.0 - y_offset) + 0.5
