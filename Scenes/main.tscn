@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="11_3pmx8"]
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="12_u50mg"]
 [ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://Scripts/UI/pause_menu.gd" id="13_cbgmd"]
+[ext_resource type="AudioStream" uid="uid://c17a8h5lxtf10" path="res://Sounds/Music/ribhavagrawal-core-punk-no-copyright-music-338077.mp3" id="13_wsu2k"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="14_1w6v2"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
@@ -26,6 +27,12 @@ sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 background_mode = 2
 sky = SubResource("Sky_0xm2m")
 glow_enabled = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jkdf5"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wsu2k"]
+size = Vector3(27, 1, 17)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_7mycd"]
 
@@ -118,7 +125,103 @@ environment = SubResource("Environment_h2yge")
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
 shadow_enabled = true
 
+[node name="Level 1" type="CSGCombiner3D" parent="." unique_id=401087400]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level 1" unique_id=1121604689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.063099, 2.7660027, -9.4964905)
+size = Vector3(54, 5.517334, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level 1" unique_id=1390928476]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.064697, 2.7621412, 9.503925)
+size = Vector3(54, 5.517334, 1)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Level 1" unique_id=945164252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.064697, 2.7621412, -24.496075)
+size = Vector3(54, 5.517334, 1)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Level 1" unique_id=943236454]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 13.303528, 2.7621412, -7.8131247)
+size = Vector3(34, 5.517334, 1)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Level 1" unique_id=672115471]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.110718, 3.0034742, -7.3206596)
+size = Vector3(36, 6, 1)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Level 1" unique_id=82474699]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 43.889282, 3.0034742, -7.320662)
+size = Vector3(36, 6, 1)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Level 1" unique_id=1969949761]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 29.889282, 2.8442945, -7.512434)
+size = Vector3(34.986084, 5.6816406, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Level 1" unique_id=2138713178]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.064697, 5.181492, -7.4960747)
+size = Vector3(54, 1, 35)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level 1" unique_id=495029207]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 4.316411, 2.0656686, -9.409776)
+operation = 2
+radius = 2.0
+height = 3.7617188
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Level 1" unique_id=48045049]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.509368, 1.2498329, -0.5)
+operation = 2
+size = Vector3(3.4712524, 2.5151062, 2)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Level 1" unique_id=139913681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.509369, 1.2588813, -0.5)
+operation = 2
+size = Vector3(3.4712524, 2.4970093, 2)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Level 1" unique_id=963720790]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.451256, 1.2588813, -9.570639)
+operation = 2
+size = Vector3(3.4712524, 2.4970093, 2)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Level 1" unique_id=1024326713]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 22.451256, 1.2588813, -9.57064)
+operation = 2
+size = Vector3(3.4712524, 2.4970093, 2)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Level 1" unique_id=1831282686]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 29.451256, 1.2588813, -16.57064)
+operation = 2
+size = Vector3(3.4712524, 2.4970093, 2)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Level 1" unique_id=125509497]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.105012, 0)
+light_specular = 16.0
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="Level 1" unique_id=2057702708]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 20.000727, 4.105012, 0)
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="Level 1" unique_id=1381688526]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 20.000727, 4.105011, -17)
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="Level 1" unique_id=2051749203]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 36.000725, 4.105011, -17)
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="Level 1" unique_id=1013613211]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 36.000725, 4.105012, 1)
+
+[node name="floor" type="StaticBody3D" parent="Level 1" unique_id=802787639 groups=["dirt"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1920929e-07, 0)
+collision_layer = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level 1/floor" unique_id=1569860190]
+transform = Transform3D(4.5972967, 0, 0, 0, 0.99929696, 0, 0, 0, 4.0627403, 0, 0, 0)
+layers = 3
+mesh = SubResource("PlaneMesh_jkdf5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level 1/floor" unique_id=1898802772 groups=["dirt"]]
+transform = Transform3D(3.3817892, 0, 0, 0, 1, 0, 0, 0, 4.726726, 0.11314392, -0.20703125, 0.1031189)
+shape = SubResource("BoxShape3D_wsu2k")
+
 [node name="Level" type="Node3D" parent="." unique_id=1214059075]
+visible = false
 
 [node name="floor2" type="StaticBody3D" parent="Level" unique_id=297188938 groups=["stone"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.663494, 0, 0)
@@ -220,16 +323,6 @@ mesh = SubResource("BoxMesh_0rpfx")
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_5vw27")
 
-[node name="CeilingCheck" type="RayCast3D" parent="Player/Head" unique_id=1221683613]
-target_position = Vector3(0, 0.5, 0)
-collision_mask = 3
-
-[node name="Music" type="AudioStreamPlayer3D" parent="Player/Head" unique_id=1264888633]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023120165, 0)
-volume_db = -45.0
-max_db = -3.0
-autoplay = true
-
 [node name="Sounds" type="Node3D" parent="Player" unique_id=135702811]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
 
@@ -243,6 +336,13 @@ stream = SubResource("AudioStreamRandomizer_5vw27")
 [node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
 stream = ExtResource("12_u50mg")
 volume_db = -23.0
+
+[node name="Music" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1264888633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8033345, 0)
+stream = ExtResource("13_wsu2k")
+volume_db = -45.0
+max_db = -3.0
+autoplay = true
 
 [node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
 collision_mask = 2
