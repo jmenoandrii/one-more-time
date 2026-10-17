@@ -17,7 +17,6 @@
 [ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="11_3pmx8"]
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="12_u50mg"]
 [ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://Scripts/UI/pause_menu.gd" id="13_cbgmd"]
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="13_wsu2k"]
 [ext_resource type="AudioStream" uid="uid://c17a8h5lxtf10" path="res://Sounds/Music/ribhavagrawal-core-punk-no-copyright-music-338077.mp3" id="13_wsu2k"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="14_1w6v2"]
 [ext_resource type="PackedScene" uid="uid://c4t0wwom1yen8" path="res://Materials/box.fbx" id="16_b3802"]
@@ -263,23 +262,23 @@ libraries/ = SubResource("AnimationLibrary_gt3je")
 use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Level 1" unique_id=1121604689]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.069019, 2.7758918, -9.504108)
-size = Vector3(40, 5.517334, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.069019, 3, -9.504108)
+size = Vector3(40, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Level 1" unique_id=301770816]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.06902, 2.7758918, -9.504108)
-size = Vector3(14, 5.517334, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.06902, 3, -9.504108)
+size = Vector3(14, 7, 1)
 material = ExtResource("2_hibaj")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Level 1" unique_id=1390928476]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.064697, 2.7621412, 9.503925)
-size = Vector3(54, 5.517334, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.065, 3, 9.504)
+size = Vector3(54, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="Level 1" unique_id=945164252]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.064697, 2.7621412, -24.496075)
-size = Vector3(40, 5.517334, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.064697, 3, -24.496075)
+size = Vector3(40, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D20" type="CSGBox3D" parent="Level 1" unique_id=1167251494]
@@ -303,56 +302,58 @@ size = Vector3(20, 9, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="Level 1" unique_id=1644840580]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.064697, 2.7621412, -18.496075)
-size = Vector3(14, 5.517334, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.064697, 3, -18.496075)
+size = Vector3(14, 7, 1)
 material = ExtResource("2_hibaj")
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Level 1" unique_id=943236454]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 13.303528, 2.7621412, -7.8131247)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 13.303528, 3, -7.8131247)
 material_override = ExtResource("1_fevyy")
-size = Vector3(34, 5.517334, 1)
+size = Vector3(34, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="Level 1" unique_id=672115471]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.110718, 3.0034742, -7.3206596)
-size = Vector3(36, 6, 1)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -10.110718, 3, -7.6544)
+size = Vector3(35.33252, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="Level 1" unique_id=82474699]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 43.889282, 3.0034742, -17.320662)
-size = Vector3(16, 6, 1)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 43.889282, 3, -17.320662)
+size = Vector3(16, 7, 1)
 material = ExtResource("2_hibaj")
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="Level 1" unique_id=1379698229]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 43.889282, 3.0034742, 0.17933846)
-size = Vector3(19, 6, 1)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 43.889282, 3, 0.17933846)
+size = Vector3(19, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D7" type="CSGBox3D" parent="Level 1" unique_id=1969949761]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 29.889282, 2.8442945, 0.480608)
-size = Vector3(19, 5.6816406, 1)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 29.889282, 3, 0.480608)
+size = Vector3(19, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="Level 1" unique_id=973316273]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 29.889282, 2.8442945, -18.519392)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 29.889282, 3, -18.519392)
 material_override = ExtResource("2_hibaj")
-size = Vector3(19, 5.6816406, 1)
+size = Vector3(19, 7, 1)
 material = ExtResource("2_hibaj")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="Level 1" unique_id=2039703084]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 28.889282, 2.8442945, -18.519392)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 28.889282, 3, -18.519392)
 material_override = ExtResource("2_hibaj")
-size = Vector3(19, 5.6816406, 1)
+size = Vector3(19, 7, 1)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Level 1" unique_id=2138713178]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.064697, 5.181492, -7.4960747)
-size = Vector3(54, 1, 35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.064697, 7.117279, -7.4960747)
+material_override = ExtResource("3_pdsj5")
+size = Vector3(56, 1, 35)
+material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="Level 1" unique_id=276302905]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.55603, -0.63721323, -14.004848)
 size = Vector3(15, 1.3505859, 10)
-material = ExtResource("2_hibaj")
+material = ExtResource("3_pdsj5")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level 1" unique_id=495029207]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 4.316411, 2.0656686, -9.409776)
@@ -366,7 +367,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.31641, -1.7779393, -14.036
 operation = 2
 radius = 3.9873047
 height = 4.519043
-material = ExtResource("2_hibaj")
+material = ExtResource("3_pdsj5")
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Level 1" unique_id=48045049]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.511556, 1.2546277, -0.7858695)
@@ -381,9 +382,9 @@ size = Vector3(3.4712524, 2.504364, 2)
 material = ExtResource("2_hibaj")
 
 [node name="CSGBox3D11" type="CSGBox3D" parent="Level 1" unique_id=963720790]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.451256, 1.2588813, -9.570639)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 35.451256, 1.4033973, -9.570639)
 operation = 2
-size = Vector3(3.4712524, 2.4970093, 2)
+size = Vector3(3.4712524, 2.2079773, 2)
 material = ExtResource("2_hibaj")
 
 [node name="CSGBox3D12" type="CSGBox3D" parent="Level 1" unique_id=1024326713]
@@ -433,6 +434,7 @@ mesh = SubResource("PlaneMesh_jkdf5")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Level 1/floor" unique_id=264133809]
 transform = Transform3D(2.843934, 0, 0, 0, 0.99929696, 0, 0, 0, 1.0238105, 0, 0, -20.47621)
 layers = 3
+material_override = ExtResource("3_pdsj5")
 mesh = SubResource("PlaneMesh_jkdf5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level 1/floor" unique_id=1898802772 groups=["dirt"]]
@@ -614,7 +616,7 @@ volume_db = -23.0
 collision_mask = 2
 
 [node name="HealthComponent" type="Node" parent="Player" unique_id=1280028663]
-script = ExtResource("13_wsu2k")
+
 [node name="raycast" type="RayCast3D" parent="Player" unique_id=143733516]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 1.5, 0)
 target_position = Vector3(0, -2, 0)
