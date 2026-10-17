@@ -28,6 +28,12 @@ var weapons: Array[Node] = []
 var current_weapon_index: int = -1
 
 
+@onready var dirt_step: AudioStreamPlayer3D = $Sounds/dirt
+@onready var stone_step: AudioStreamPlayer3D = $Sounds/stone
+@onready var headbob: AnimationPlayer = $Head/headbob
+@onready var jump_sound: AudioStreamPlayer3D = $Sounds/jump
+
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
@@ -119,7 +125,9 @@ func _physics_process(delta: float) -> void:
 	# jumping
 	if Input.is_action_just_pressed("jump") and is_on_floor() and not is_crouching:
 		velocity.y = JUMP_VELOCITY
+		jump_sound.play()
 	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
+		
 		velocity.y = 0.0
 	
 	# moving
@@ -131,7 +139,10 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x = direction.x * current_speed
 		velocity.z = direction.z * current_speed
+		headbob.play("new_animation")
+		
 	else:
+		headbob.stop()
 		velocity.x = move_toward(velocity.x, 0, current_speed)
 		velocity.z = move_toward(velocity.z, 0, current_speed)
 
@@ -149,6 +160,23 @@ func _process_death() -> void:
 	velocity.x = move_toward(velocity.x, 0, 0.5)
 	velocity.z = move_toward(velocity.z, 0, 0.5)
 
+func play_step_sounds():
+	if $floortype_ray.is_colliding():
+		var collider = $floortype_ray.get_collider()
+		if collider.is_in_group("dirt"):
+			stone_step.stop()
+			if not stone_step.playing:
+				dirt_step.play()
+		elif collider.is_in_group("stone"):
+			dirt_step.stop()
+			if not stone_step.playing:
+				stone_step.play()
+		else:
+			dirt_step.stop()
+			stone_step.stop()
+	else:
+		dirt_step.stop()
+		stone_step.stop()
 func equip_weapon(index: int) -> void:
 	if index < -1 or index >= weapons.size(): 
 		return
