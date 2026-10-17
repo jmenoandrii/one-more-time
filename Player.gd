@@ -9,7 +9,6 @@ const MOUSE_SENSITIVITY = 0.002
 const CROUCH_PERSENT = 0.5
 var normal_height: float
 var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
-var default_head_y: float
 
 var is_crouching := false
 var is_player_dead := false
@@ -22,12 +21,15 @@ var head_world_position: Vector3
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
+var bullet := load("res://bullet.tscn")
+@onready var bullet_pos: Node3D = $Head/Camera3D/BulletPos
+
+
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 	normal_height = collision_shape.shape.height
 	crouch_height = normal_height - (normal_height * CROUCH_PERSENT)
-	default_head_y = head.position.y
 
 func _unhandled_input(event: InputEvent) -> void:
 	if is_player_dead or not is_cursor_locked:
@@ -46,6 +48,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 	if Input.is_action_just_pressed("dying"):
 		die()
+	
+	if Input.is_action_just_pressed("click"):
+		var instance = bullet.instantiate()
+		instance.position = bullet_pos.global_position
+		instance.transform.basis = bullet_pos.global_transform.basis
+		get_parent().add_child(instance)
 
 func _physics_process(delta: float) -> void:
 	# gravity

@@ -24,14 +24,22 @@ size = Vector2(20, 20)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_osii8"]
+size = Vector3(0.2, 0.2, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qcgbb"]
+size = Vector3(0.2, 0.2, 0.1)
+
 [sub_resource type="SphereMesh" id="SphereMesh_0rpfx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
 size = Vector3(0.6750488, 0.24731445, 0.5551758)
 
 [sub_resource type="BoxMesh" id="BoxMesh_g0qyx"]
+size = Vector3(2, 1, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_osii8"]
+size = Vector3(2, 1, 1)
 
 [node name="Node3D" type="Node3D" unique_id=41126308]
 
@@ -67,6 +75,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 [node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.26701617)
 
+[node name="Gun" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6500988, -0.21560359, -0.65908337)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D/Gun" unique_id=2921678]
+mesh = SubResource("BoxMesh_osii8")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Head/Camera3D/Gun" unique_id=2103422841]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.16165364, 0.20896345)
+mesh = SubResource("BoxMesh_qcgbb")
+
+[node name="BulletPos" type="Node3D" parent="Player/Head/Camera3D" unique_id=1062474052]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.6214429)
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head" unique_id=1868013299]
 mesh = SubResource("SphereMesh_0rpfx")
 
@@ -74,11 +95,11 @@ mesh = SubResource("SphereMesh_0rpfx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.008911133, 0.10290527, -0.27993035)
 mesh = SubResource("BoxMesh_0rpfx")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2095413306]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -1.4252304)
+[node name="block" type="StaticBody3D" parent="." unique_id=2095413306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8508482, -3.0418048)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1447698918]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="block" unique_id=1447698918]
 mesh = SubResource("BoxMesh_g0qyx")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=487611925]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="block" unique_id=487611925]
 shape = SubResource("BoxShape3D_osii8")
