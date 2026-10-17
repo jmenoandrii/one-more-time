@@ -17,7 +17,6 @@ const STAMINA_DRAIN_RATE: float = 20.0 # per second
 const STAMINA_REGEN_RATE: float = 15.0 # per second
 var current_stamina: float = MAX_STAMINA
 
-@onready var stamina_label: Label = $"../UI/HUD/StaminaLabel"
 signal stamina_changed(current: float, maximum: float)
 
 # state params
@@ -33,16 +32,13 @@ var is_cursor_locked := true
 
 # shooting
 @onready var aim_ray: RayCast3D = $Head/Camera3D/AimRay
-@onready var ammo_label: Label = $"../UI/HUD/AmmoLabel"
 @onready var weapons_manager: Node3D = $Head/Camera3D/Weapons
 var weapons: Array[Node] = []
 var current_weapon_index: int = -1
 
-@onready var reserve_ammo_label: Label = $"../UI/HUD/reserveAmmo"
 var current_reserve_ammo: int = 18
 
 # health
-@onready var health_label: Label = $"../UI/HUD/HealthLabel"
 @onready var health_component: Node = $HealthComponent
 
 # audio
@@ -61,7 +57,7 @@ func _ready() -> void:
 	
 	weapons = weapons_manager.get_children()
 	for w in weapons:
-		w.ammo_updated.connect(_update_ammo_ui)
+		w.ammo_updated.connect(_on_weapon_ammo_updated.bind(w))
 	equip_weapon(-1)
 
 	mouse_sensitivity = Settings.mouse_sensitivity * 0.0005
@@ -71,10 +67,10 @@ func _ready() -> void:
 	GameEvents.sensitivity_changed.connect(_on_sensitivity_changed)
 	
 	health_component.died.connect(die)
-	health_component.health_changed.connect(_update_health_ui)
+	health_component.health_changed.connect(GameEvents.health_changed.emit)
 	health_component.heal(0)	# to update health_ui
 	
-	stamina_changed.connect(_update_stamina_ui)
+	stamina_changed.connect(GameEvents.stamina_changed.emit)
 	stamina_changed.emit(current_stamina, MAX_STAMINA)
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -101,8 +97,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		# Reload
 		if Input.is_action_just_pressed("reload"):
-			current_reserve_ammo = weapons[current_weapon_index].reload(current_reserve_ammo)
-			_update_reserve_ammo_ui(current_reserve_ammo)
+			_reload_current_weapon()
 	
 	# Change weapon
 	if Input.is_action_just_pressed("weapon_1"):
@@ -245,7 +240,8 @@ func equip_weapon(index: int) -> void:
 	if index < -1 or index >= weapons.size():
 		return
 		
-	if not weapons[index].is_owned:
+	# index -1 means "no weapon"; weapons[-1] would be the last weapon
+	if index != -1 and not weapons[index].is_owned:
 		return
 
 	current_weapon_index = index
@@ -256,21 +252,19 @@ func equip_weapon(index: int) -> void:
 			weapons[i].set_inspecting(false)
 		
 	if current_weapon_index == -1:
-		ammo_label.text = ""
-		reserve_ammo_label.text = ""
+		GameEvents.weapon_unequipped.emit()
 	else:
 		var current_w = weapons[current_weapon_index]
-		_update_ammo_ui(current_w.current_ammo, current_w.max_ammo)
-		_update_reserve_ammo_ui(current_reserve_ammo)
+		GameEvents.ammo_changed.emit(current_w.current_ammo, current_w.max_ammo)
+		GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
 
-func _update_ammo_ui(current: int, maximum: int) -> void:
-	ammo_label.text = str(current) + " / " + str(maximum)
+func _reload_current_weapon() -> void:
+	# Weapon.reload() waits for the reload animation, so it has to be awaited
+	var weapon = weapons[current_weapon_index]
+	current_reserve_ammo = await weapon.reload(current_reserve_ammo)
+	GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
 
-func _update_reserve_ammo_ui(ammo: int):
-	reserve_ammo_label.text = str(ammo)
-
-func _update_health_ui(current: int, maximum: int) -> void:
-	health_label.text = str(current) + " / " + str(maximum)
-
-func _update_stamina_ui(current: int, maximum: int) -> void:
-	stamina_label.text = str(current) + " / " + str(maximum)
+func _on_weapon_ammo_updated(current: int, maximum: int, weapon: Node) -> void:
+	# a hidden weapon may still finish its reload — only the weapon in hands goes to the HUD
+	if current_weapon_index != -1 and weapons[current_weapon_index] == weapon:
+		GameEvents.ammo_changed.emit(current, maximum)

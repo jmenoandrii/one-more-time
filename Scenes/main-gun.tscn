@@ -157,10 +157,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2670164)
 
 [node name="Weapons" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)
+visible = false
 
 [node name="Revolver" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1711010358]
 transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.019011676, 0.09287548, -0.084962666)
-visible = false
 script = ExtResource("2_o4eph")
 weapon_name = "revolver"
 bullet_scene = ExtResource("3_x8xug")

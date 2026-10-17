@@ -133,10 +133,9 @@ func _add_recoil() -> void:
 
 	var kick := randf_range(recoil_kick.x, recoil_kick.y)
 	_recoil_target_pos += Vector3(0, kick * 0.3, kick)
-	
-	_update_ammo(max_ammo)
+
 func reload(reserve_ammo: int) -> int:
-	if current_ammo == max_ammo or reserve_ammo <= 0:
+	if is_reloading or is_equipping or current_ammo == max_ammo or reserve_ammo <= 0:
 		return reserve_ammo
 	
 	var needed_ammo = max_ammo - current_ammo
