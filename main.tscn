@@ -11,6 +11,8 @@
 [ext_resource type="AudioStream" uid="uid://ub6lo3eqpfjm" path="res://Sounds/Foot/Dirt/Footstep Dirt 5.ogg" id="7_4c57u"]
 [ext_resource type="AudioStream" uid="uid://cccngqlc6fb4c" path="res://Sounds/Foot/Stone/Footstep Stone 1.ogg" id="8_efxa6"]
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="11_efxa6"]
+[ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://pause_menu.gd" id="2_h2yge"]
+[ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://ui_controller.gd" id="4_1bvp3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -167,3 +169,58 @@ volume_db = -23.0
 
 [node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
 collision_mask = 2
+
+[node name="PauseMenu" type="CanvasLayer" parent="." unique_id=194481686]
+process_mode = 3
+visible = false
+script = ExtResource("2_h2yge")
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu" unique_id=1873464838]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.28485027, 0.28485027, 0.28485027, 1)
+
+[node name="ResumeButton" type="Button" parent="PauseMenu" unique_id=1769114960]
+offset_left = 518.0
+offset_top = 274.0
+offset_right = 651.0
+offset_bottom = 321.0
+text = "Resume"
+
+[node name="ExitButton" type="Button" parent="PauseMenu" unique_id=535452121]
+offset_left = 518.0
+offset_top = 424.0
+offset_right = 651.0
+offset_bottom = 471.0
+text = "Exit"
+
+[node name="SensitivitySlider" type="HSlider" parent="PauseMenu" unique_id=2041809233]
+offset_left = 424.0
+offset_top = 359.0
+offset_right = 743.0
+offset_bottom = 415.0
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 4.0
+
+[node name="Label" type="Label" parent="PauseMenu/SensitivitySlider" unique_id=933893457]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.43
+offset_top = -4.0
+offset_right = 37.572998
+offset_bottom = -5.08
+text = "Sensitivity"
+
+[node name="UIController" type="Node" parent="." unique_id=1119755475]
+process_mode = 3
+script = ExtResource("4_1bvp3")
+
+[connection signal="pressed" from="PauseMenu/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseMenu/ExitButton" to="PauseMenu" method="_on_exit_button_pressed"]
+[connection signal="value_changed" from="PauseMenu/SensitivitySlider" to="PauseMenu" method="_on_sensitivity_slider_value_changed"]
