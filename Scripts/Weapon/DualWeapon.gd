@@ -44,6 +44,7 @@ func _ready() -> void:
 
 	super()
 	_connect_model(left_animation_player)
+	gun_fire_rate /= RunState.get_stat("fire_rate", 1.0)
 	
 	_pivots = [right_model, left_model]
 	_pivot_rest = [right_model.transform, left_model.transform]

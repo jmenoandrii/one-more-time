@@ -7,6 +7,8 @@ const HEALTH_LABEL := "HUD/HealthLabel"
 const STAMINA_LABEL := "HUD/StaminaLabel"
 const INTERACT_LABEL := "HUD/InteractLabel"
 const KEYS_BOX := "HUD/KeysContainer"
+const LOOP_LABEL := "HUD/LoopLabel"
+const DEATH_LABEL := "HUD/DeathLabel"
 const KEY_ICON := preload("res://UI/Key_white.png")
 
 func _enter_tree() -> void:
@@ -18,6 +20,10 @@ func _enter_tree() -> void:
 	GameEvents.stamina_changed.connect(_on_stamina_changed)
 	GameEvents.interact_prompt_changed.connect(_on_interact_prompt_changed)
 	GameEvents.keys_changed.connect(_on_keys_changed)
+	GameEvents.player_died.connect(_on_player_died)
+
+func _ready() -> void:
+	_set_text(LOOP_LABEL, "LOOP %d" % (RunState.loop + 1))
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and not event.is_echo():
@@ -42,6 +48,11 @@ func _on_health_changed(current: float, maximum: float) -> void:
 
 func _on_stamina_changed(current: float, maximum: float) -> void:
 	_set_text(STAMINA_LABEL, "%d / %d" % [current, maximum])
+
+func _on_player_died() -> void:
+	var label := get_node_or_null(DEATH_LABEL) as Label
+	if label:
+		label.visible = true
 
 func _set_text(path: String, text: String) -> void:
 	var label := get_node_or_null(path) as Label

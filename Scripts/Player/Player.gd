@@ -1,12 +1,28 @@
 extends CharacterBody3D
 
-# Movements
+# Movements (the consts are the base values, the vars are with the run's upgrades)
 const SPEED: float  = 5.0
 const RUNNING_SPEED: float = 10.0
 const CROUCH_SPEED: float = 2.5
-const JUMP_VELOCITY: float = 5.5
+var speed: float
+var running_speed: float
+var crouch_speed: float
 const SENSITIVITY_SCALE := 0.0005
 var mouse_sensitivity: float = 0.002
+
+#jumping
+const GROUND_ACCEL := 60.0
+const GROUND_DECEL := 50.0
+const AIR_ACCEL := 15.0
+const FALL_GRAVITY_MULT := 1.8
+const JUMP_CUT := 0.5
+const COYOTE_TIME := 0.1
+const JUMP_BUFFER := 0.1
+const JUMP_VELOCITY: float = 5.5
+var jump_velocity: float
+var _air_speed := 0.0 # horizontal speed kept from the takeoff
+var _coyote := 0.0
+var _jump_buffer := 0.0
 
 const CROUCH_PERSENT: float = 0.5
 var normal_height: float
@@ -18,7 +34,10 @@ var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 const MAX_STAMINA: float = 100.0
 const STAMINA_DRAIN_RATE: float = 20.0 # per second
 const STAMINA_REGEN_RATE: float = 15.0 # per second
-var current_stamina: float = MAX_STAMINA
+var max_stamina: float
+var stamina_drain_rate: float
+var stamina_regen_rate: float
+var current_stamina: float
 
 signal stamina_changed(current: float, maximum: float)
 
@@ -39,7 +58,8 @@ var is_cursor_locked := true
 var weapons: Array[Weapon] = []
 var current_weapon_index: int = -1
 
-var current_reserve_ammo: int = 18
+const RESERVE_AMMO: int = 18
+var current_reserve_ammo: int
 
 # health
 @onready var health_component: Node = $HealthComponent
@@ -60,7 +80,8 @@ var keys: Dictionary = {}
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
+	_apply_upgrades()
+
 	normal_height = collision_shape.shape.height
 	crouch_height = normal_height - (normal_height * CROUCH_PERSENT)
 	
@@ -78,11 +99,25 @@ func _ready() -> void:
 	
 	health_component.died.connect(die)
 	health_component.health_changed.connect(GameEvents.health_changed.emit)
-	health_component.heal(0)	# to update health_ui
-	
+	health_component.set_max_health(RunState.get_stat("max_health", health_component.max_health))
+
 	stamina_changed.connect(GameEvents.stamina_changed.emit)
-	stamina_changed.emit(current_stamina, MAX_STAMINA)
-	
+	stamina_changed.emit(current_stamina, max_stamina)
+
+func _apply_upgrades() -> void:
+	var move_mult := RunState.get_stat("move_speed", 1.0)
+	speed = SPEED * move_mult
+	running_speed = RUNNING_SPEED * move_mult
+	crouch_speed = CROUCH_SPEED * move_mult
+	jump_velocity = RunState.get_stat("jump", JUMP_VELOCITY)
+
+	max_stamina = RunState.get_stat("max_stamina", MAX_STAMINA)
+	stamina_drain_rate = RunState.get_stat("stamina_drain", STAMINA_DRAIN_RATE)
+	stamina_regen_rate = RunState.get_stat("stamina_regen", STAMINA_REGEN_RATE)
+	current_stamina = max_stamina
+
+	current_reserve_ammo = int(RunState.get_stat("reserve_ammo", RESERVE_AMMO))
+
 func _unhandled_input(event: InputEvent) -> void:
 	if is_player_dead:
 		return
@@ -183,7 +218,8 @@ func _physics_process(delta: float) -> void:
 
 	# gravity
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		var mult := FALL_GRAVITY_MULT if velocity.y < 0.0 else 1.0
+		velocity += get_gravity() * mult * delta
 	
 	# dead
 	if is_player_dead:
@@ -210,55 +246,61 @@ func _physics_process(delta: float) -> void:
 	head.position.y = collision_shape.shape.height - 0.5
 	
 	# jumping
-	if Input.is_action_pressed("jump") and is_on_floor() and not is_crouching:
-		velocity.y = JUMP_VELOCITY
+	_coyote = COYOTE_TIME if is_on_floor() else _coyote - delta
+	_jump_buffer = JUMP_BUFFER if Input.is_action_just_pressed("jump") else _jump_buffer - delta
+
+	if _jump_buffer > 0.0 and _coyote > 0.0 and not is_crouching:
+		velocity.y = jump_velocity
+		_jump_buffer = 0.0
+		_coyote = 0.0
+		_air_speed = maxf(Vector2(velocity.x, velocity.z).length(), speed)
 		jump_sound.play()
 	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
-		
-		velocity.y = 0.0
+		velocity.y *= JUMP_CUT
 	
 	# moving
+	var on_floor := is_on_floor()
 	var current_speed: float
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var is_running := Input.is_action_pressed("run") and is_on_floor() and not is_crouching
 	var is_moving := input_dir != Vector2.ZERO # Перевіряємо, чи гравець взагалі йде
-	
-	if is_running and is_moving and current_stamina > 0:
-		current_speed = RUNNING_SPEED
-		current_stamina -= STAMINA_DRAIN_RATE * delta
-		stamina_changed.emit(current_stamina, MAX_STAMINA)
+	var is_running := Input.is_action_pressed("run") and is_on_floor() and not is_crouching and is_moving and current_stamina > 0
+
+	if not on_floor:
+		current_speed = _air_speed # keep the takeoff speed
+	elif is_running:
+		current_speed = running_speed
 	else:
-		current_speed = CROUCH_SPEED if is_crouching else SPEED
-		# Відновлюємо стаміну, якщо не біжимо
-		if current_stamina < MAX_STAMINA:
-			current_stamina += STAMINA_REGEN_RATE * delta
-			stamina_changed.emit(current_stamina, MAX_STAMINA)
+		current_speed = crouch_speed if is_crouching else speed
+
+	if is_running:
+		current_stamina -= stamina_drain_rate * delta
+		stamina_changed.emit(current_stamina, max_stamina)
+	elif current_stamina < max_stamina:
+		current_stamina = min(current_stamina + stamina_regen_rate * delta, max_stamina)
+		stamina_changed.emit(current_stamina, max_stamina)
 	
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	
-	if direction:
-		velocity.x = direction.x * current_speed
-		velocity.z = direction.z * current_speed
-		if current_speed == RUNNING_SPEED:
-			headbob.speed_scale = 2
-		else:
-			headbob.speed_scale = 1
-			
-		if not headbob.is_playing():
-			headbob.play("new_animation")
-		
+	var target := direction * current_speed
+	var accel := (GROUND_ACCEL if direction else GROUND_DECEL) if on_floor else AIR_ACCEL
+	var horizontal := Vector2(velocity.x, velocity.z).move_toward(Vector2(target.x, target.z), accel * delta)
+	velocity.x = horizontal.x
+	velocity.z = horizontal.y
+
+	if direction and on_floor:
+		headbob.speed_scale = 2 if is_running else 1
+	if not headbob.is_playing():
+		headbob.play("new_animation")
 	else:
 		headbob.stop()
-		velocity.x = move_toward(velocity.x, 0, current_speed)
-		velocity.z = move_toward(velocity.z, 0, current_speed)
 
 	move_and_slide()
 
 func die() -> void:
 	print("! Player DIE !")
 	if is_player_dead: return
-	
+
 	is_player_dead = true
+	GameEvents.player_died.emit()
 
 func _process_death() -> void:
 	head.global_position = head.global_position.move_toward(global_position, 0.1)
