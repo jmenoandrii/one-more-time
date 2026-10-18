@@ -33,10 +33,12 @@ var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 # Stamina
 const MAX_STAMINA: float = 100.0
 const STAMINA_DRAIN_RATE: float = 20.0 # per second
-const STAMINA_REGEN_RATE: float = 15.0 # per second
+const STAMINA_REGEN_RATE: float = 10.0 # per second
+const STAMINA_JUMP_RATE: float = 10.0
 var max_stamina: float
 var stamina_drain_rate: float
 var stamina_regen_rate: float
+var stamina_jump_rate: float
 var current_stamina: float
 
 signal stamina_changed(current: float, maximum: float)
@@ -114,6 +116,7 @@ func _apply_upgrades() -> void:
 	max_stamina = RunState.get_stat("max_stamina", MAX_STAMINA)
 	stamina_drain_rate = RunState.get_stat("stamina_drain", STAMINA_DRAIN_RATE)
 	stamina_regen_rate = RunState.get_stat("stamina_regen", STAMINA_REGEN_RATE)
+	stamina_jump_rate = RunState.get_stat("stamina_jump", STAMINA_JUMP_RATE)
 	current_stamina = max_stamina
 
 	current_reserve_ammo = int(RunState.get_stat("reserve_ammo", RESERVE_AMMO))
@@ -245,19 +248,6 @@ func _physics_process(delta: float) -> void:
 	
 	head.position.y = collision_shape.shape.height - 0.5
 	
-	# jumping
-	_coyote = COYOTE_TIME if is_on_floor() else _coyote - delta
-	_jump_buffer = JUMP_BUFFER if Input.is_action_just_pressed("jump") else _jump_buffer - delta
-
-	if _jump_buffer > 0.0 and _coyote > 0.0 and not is_crouching:
-		velocity.y = jump_velocity
-		_jump_buffer = 0.0
-		_coyote = 0.0
-		_air_speed = maxf(Vector2(velocity.x, velocity.z).length(), speed)
-		jump_sound.play()
-	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
-		velocity.y *= JUMP_CUT
-	
 	# moving
 	var on_floor := is_on_floor()
 	var current_speed: float
@@ -278,6 +268,21 @@ func _physics_process(delta: float) -> void:
 	elif current_stamina < max_stamina:
 		current_stamina = min(current_stamina + stamina_regen_rate * delta, max_stamina)
 		stamina_changed.emit(current_stamina, max_stamina)
+	
+	# jumping
+	_coyote = COYOTE_TIME if is_on_floor() else _coyote - delta
+	_jump_buffer = JUMP_BUFFER if Input.is_action_just_pressed("jump") else _jump_buffer - delta
+
+	if _jump_buffer > 0.0 and _coyote > 0.0 and not is_crouching and current_stamina >= stamina_jump_rate:
+		velocity.y = jump_velocity
+		_jump_buffer = 0.0
+		_coyote = 0.0
+		_air_speed = maxf(Vector2(velocity.x, velocity.z).length(), speed)
+		current_stamina = maxf(current_stamina - stamina_jump_rate, 0.0)
+		stamina_changed.emit(current_stamina, max_stamina)
+		jump_sound.play()
+	elif Input.is_action_just_released("jump") and velocity.y > 0.0:
+		velocity.y *= JUMP_CUT
 	
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	var target := direction * current_speed
@@ -362,6 +367,7 @@ func equip_weapon(index: int, draw: bool = true) -> void:
 		if switched and draw:
 			current_w.play_draw()
 		GameEvents.ammo_changed.emit(current_w.current_ammo, current_w.max_ammo)
+		GameEvents.cylinders_changed.emit(current_w.get_cylinder_rounds(), false)
 		GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
 
 func _reload_current_weapon() -> void:
@@ -379,3 +385,4 @@ func _on_weapon_ammo_updated(current: int, maximum: int, weapon: Weapon) -> void
 	# a hidden weapon may still finish its reload — only the weapon in hands goes to the HUD
 	if current_weapon_index != -1 and weapons[current_weapon_index] == weapon:
 		GameEvents.ammo_changed.emit(current, maximum)
+		GameEvents.cylinders_changed.emit(weapon.get_cylinder_rounds(), true)

@@ -1,0 +1,284 @@
+[gd_scene format=3 uid="uid://wgqrgp0k6858"]
+
+[ext_resource type="Script" uid="uid://dwafjxxg0uqky" path="res://Scripts/UI/hud.gd" id="1_hud"]
+[ext_resource type="Theme" path="res://UI/HUD/hud_theme.tres" id="2_theme"]
+[ext_resource type="Texture2D" uid="uid://bf0d0btmos3yv" path="res://UI/HUD/crosshair_2.png" id="4_36s6t"]
+[ext_resource type="Texture2D" uid="uid://bad53i05x7wte" path="res://UI/HUD/heart.png" id="4_heart"]
+[ext_resource type="Texture2D" uid="uid://cl02obso7qjh6" path="res://UI/HUD/stamina.png" id="5_stamina"]
+[ext_resource type="Texture2D" uid="uid://hofrwmu8y8wk" path="res://UI/HUD/bar_frame.png" id="6_frame"]
+[ext_resource type="Texture2D" uid="uid://yga7ldyfyvqa" path="res://UI/HUD/bar_fill.png" id="7_fill"]
+[ext_resource type="Texture2D" uid="uid://b75irnk5sjrpk" path="res://UI/HUD/bullet.png" id="8_bullet"]
+[ext_resource type="Script" uid="uid://dx0wyen6abk7v" path="res://Scripts/UI/revolver_cylinders_hud.gd" id="9_cylinders"]
+[ext_resource type="Script" uid="uid://b136wflqkfccb" path="res://Scripts/UI/revolver_cylinder_hud.gd" id="10_cylinder"]
+[ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="11_root"]
+[ext_resource type="Texture2D" uid="uid://dadwx7d2bmdx1" path="res://UI/Revolver/cylinder_0.png" id="cyl0"]
+[ext_resource type="Texture2D" uid="uid://dc5rrornq6swx" path="res://UI/Revolver/cylinder_1.png" id="cyl1"]
+[ext_resource type="Texture2D" uid="uid://cm8s3a8j3joy" path="res://UI/Revolver/cylinder_2.png" id="cyl2"]
+[ext_resource type="Texture2D" uid="uid://b16hgk7v16n25" path="res://UI/Revolver/cylinder_3.png" id="cyl3"]
+[ext_resource type="Texture2D" uid="uid://c0xpg863s5553" path="res://UI/Revolver/cylinder_4.png" id="cyl4"]
+[ext_resource type="Texture2D" uid="uid://ba2jf65t6brbh" path="res://UI/Revolver/cylinder_5.png" id="cyl5"]
+[ext_resource type="Texture2D" uid="uid://c48ig5o6ak8yj" path="res://UI/Revolver/cylinder_6.png" id="cyl6"]
+
+[node name="HUD" type="CanvasLayer" unique_id=800763505]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="." unique_id=1126840045]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("2_theme")
+script = ExtResource("11_root")
+
+[node name="Crosshair" type="TextureRect" parent="Root" unique_id=1935978891]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1.0
+offset_top = -1.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_36s6t")
+
+[node name="InteractLabel" type="Label" parent="Root" unique_id=1483955999]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 8.0
+offset_right = 100.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "[E] Interact"
+horizontal_alignment = 1
+
+[node name="DeathLabel" type="Label" parent="Root" unique_id=821062855]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -20.0
+offset_right = 120.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 18
+text = "YOU DIED
+the run is lost"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Vitals" type="Control" parent="Root" unique_id=1208347620]
+anchors_preset = 0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = -39.0
+offset_right = 106.0
+offset_bottom = -6.0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="KeysContainer" type="HBoxContainer" parent="Root/Vitals" unique_id=2055201501]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 5.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="StaminaRow" type="Control" parent="Root/Vitals" unique_id=274686481]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_top = 11.0
+offset_right = 100.0
+offset_bottom = 20.0
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="Root/Vitals/StaminaRow" unique_id=1032592438]
+layout_mode = 0
+mouse_filter = 2
+texture = ExtResource("5_stamina")
+
+[node name="StaminaBar" type="NinePatchRect" parent="Root/Vitals/StaminaRow" unique_id=82468209]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 1.0
+offset_right = 59.0
+offset_bottom = 9.0
+texture = ExtResource("6_frame")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="StaminaFill" type="TextureProgressBar" parent="Root/Vitals/StaminaRow/StaminaBar" unique_id=9575561]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+step = 0.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("7_fill")
+tint_progress = Color(0.43, 0.86, 0.35, 1)
+
+[node name="HealthRow" type="Control" parent="Root/Vitals" unique_id=1476453615]
+anchors_preset = 0
+offset_top = 23.0
+offset_right = 100.0
+offset_bottom = 34.0
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="Root/Vitals/HealthRow" unique_id=1802724448]
+layout_mode = 0
+offset_top = 1.0
+mouse_filter = 2
+texture = ExtResource("4_heart")
+
+[node name="HealthBar" type="NinePatchRect" parent="Root/Vitals/HealthRow" unique_id=1270383387]
+layout_mode = 0
+offset_left = 11.0
+offset_right = 75.0
+offset_bottom = 11.0
+texture = ExtResource("6_frame")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="HealthTrail" type="TextureProgressBar" parent="Root/Vitals/HealthRow/HealthBar" unique_id=1672919521]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+step = 0.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("7_fill")
+tint_progress = Color(1, 0.95, 0.85, 1)
+
+[node name="HealthFill" type="TextureProgressBar" parent="Root/Vitals/HealthRow/HealthBar" unique_id=1408008222]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+step = 0.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("7_fill")
+tint_progress = Color(0.86, 0.16, 0.16, 1)
+
+[node name="HealthLabel" type="Label" parent="Root/Vitals/HealthRow" unique_id=1342480494]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 78.0
+offset_top = 1.0
+offset_right = 100.0
+offset_bottom = 10.0
+text = "100"
+
+[node name="Weapon" type="Control" parent="Root" unique_id=532012845]
+anchors_preset = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -48.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+
+[node name="Reserve" type="HBoxContainer" parent="Root/Weapon" unique_id=561997006]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 9.0
+mouse_filter = 2
+theme_override_constants/separation = 2
+alignment = 2
+
+[node name="BulletIcon" type="TextureRect" parent="Root/Weapon/Reserve" unique_id=2049801416]
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_bullet")
+stretch_mode = 3
+
+[node name="ReserveLabel" type="Label" parent="Root/Weapon/Reserve" unique_id=1299649772]
+unique_name_in_owner = true
+layout_mode = 2
+text = "x18"
+
+[node name="RevolverCylinders" type="Control" parent="Root/Weapon" unique_id=1531595587]
+visible = false
+anchors_preset = 0
+offset_top = 10.0
+offset_right = 66.0
+offset_bottom = 42.0
+mouse_filter = 2
+script = ExtResource("9_cylinders")
+
+[node name="Right" type="TextureRect" parent="Root/Weapon/RevolverCylinders" unique_id=252688286]
+layout_mode = 0
+offset_left = 34.0
+offset_right = 66.0
+offset_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource("cyl6")
+script = ExtResource("10_cylinder")
+textures = Array[Texture2D]([ExtResource("cyl0"), ExtResource("cyl1"), ExtResource("cyl2"), ExtResource("cyl3"), ExtResource("cyl4"), ExtResource("cyl5"), ExtResource("cyl6")])
+
+[node name="Left" type="TextureRect" parent="Root/Weapon/RevolverCylinders" unique_id=1569541408]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+mouse_filter = 2
+texture = ExtResource("cyl6")
+script = ExtResource("10_cylinder")
+textures = Array[Texture2D]([ExtResource("cyl0"), ExtResource("cyl1"), ExtResource("cyl2"), ExtResource("cyl3"), ExtResource("cyl4"), ExtResource("cyl5"), ExtResource("cyl6")])

@@ -118,6 +118,14 @@ func _anim_set_speed_scale(value: float) -> void:
 	if left_animation_player:
 		left_animation_player.speed_scale = value
 
+# [right, left]: the revolver that fires next holds the odd round
+func get_cylinder_rounds() -> Array[int]:
+	var next := ceili(current_ammo / 2.0)
+	var other := current_ammo - next
+	if _next_is_left:
+		return [other, next]
+	return [next, other]
+
 func _find_in(root: Node, type: String) -> Node:
 	var found := root.find_children("*", type, true, false)
 	return found[0] if not found.is_empty() else null

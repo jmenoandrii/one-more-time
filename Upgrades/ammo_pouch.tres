@@ -1,11 +1,10 @@
-[gd_resource type="Resource" script_class="UpgradeData" format=3]
+[gd_resource type="Resource" script_class="UpgradeData" format=3 uid="uid://55c8f1fwi3yr"]
 
-[ext_resource type="Script" path="res://Scripts/Upgrades/upgrade_data.gd" id="1_upgrade"]
+[ext_resource type="Script" uid="uid://b4a66nlidm253" path="res://Scripts/Upgrades/upgrade_data.gd" id="1_upgrade"]
 
 [resource]
 script = ExtResource("1_upgrade")
 title = "Ammo Pouch"
-description = "+12 reserve ammo at start"
+description = "+4 reserve ammo at start"
 stat = "reserve_ammo"
-flat = 12.0
-max_stacks = 5
+flat = 4.0
