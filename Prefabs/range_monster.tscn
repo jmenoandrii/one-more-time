@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://bq3kyfmculrt4"]
+
+[ext_resource type="Script" uid="uid://7inavb4ei1go" path="res://Scripts/RangeMonster.gd" id="1_6gfko"]
+[ext_resource type="PackedScene" uid="uid://drch2nvlo2ejw" path="res://Prefabs/stone.tscn" id="2_6gfko"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="3_0i20u"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0qyx"]
+albedo_color = Color(0.7484852, 0.51997524, 0.82215095, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
+material = SubResource("StandardMaterial3D_g0qyx")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_g0qyx"]
+height = 4.0
+radius = 11.0
+
+[node name="RangeMonster" type="CharacterBody3D" unique_id=465993397]
+script = ExtResource("1_6gfko")
+stone_scene = ExtResource("2_6gfko")
+speed = 6.0
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1487584224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.2851087)
+mesh = SubResource("BoxMesh_0rpfx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1973579366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_0rpfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1383093541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_g0qyx")
+
+[node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea" unique_id=775731315]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_g0qyx")
+debug_color = Color(0.854591, 0.3189757, 0.4864596, 0.41960785)
+
+[node name="SightRay" type="RayCast3D" parent="." unique_id=1480761780]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="ThrowPos" type="Marker3D" parent="." unique_id=1927377996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51829076, 1.5, -0.5692475)
+
+[node name="HealthComponent" type="Node" parent="." unique_id=606694687]
+script = ExtResource("3_0i20u")

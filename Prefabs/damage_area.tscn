@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://d0hxf1d4blh3l"]
+
+[ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageArea.gd" id="1_d4gmu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0rpfx"]
+resource_local_to_scene = true
+
+[node name="DamageArea" type="Area3D" unique_id=1014670161]
+script = ExtResource("1_d4gmu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1928030323]
+shape = SubResource("BoxShape3D_0rpfx")
+debug_color = Color(0.92121243, 0.4528358, 0.57769644, 0.41960785)
+
+[node name="Timer" type="Timer" parent="." unique_id=997989465]
+autostart = true

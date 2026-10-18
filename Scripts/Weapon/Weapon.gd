@@ -9,7 +9,7 @@ signal reserve_ammo_changed(amount: int) # reserve left, sent on every round loa
 @export var bullet_scene: PackedScene
 @export var fire_rate: float = 0.5 # in sec
 @export var max_ammo: int = 6
-@export var damage: float = 25.0 # per bullet
+@export var damage: float = 20.0
 @export var animation_player: AnimationPlayer
 @export var shoot_animation: StringName = &"fire"
 @export var reload_animation: StringName = &"reload"
@@ -159,6 +159,9 @@ func _fire(target_point: Vector3) -> void:
 
 func _spawn_bullet(muzzle: Node3D, target_point: Vector3) -> void:
 	var instance: PhysicsBody3D = bullet_scene.instantiate()
+	
+	if "damage" in instance:
+		instance.damage = damage
 	
 	# place the bullet before adding it to the tree,
 	# otherwise it appears at (0, 0, 0) for a moment — inside the player

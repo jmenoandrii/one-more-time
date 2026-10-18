@@ -1,6 +1,9 @@
 extends Node
 
-# Pause on Esc. The HUD itself lives in hud.tscn (hud.gd).
+func _enter_tree() -> void:
+	GameEvents.time_changed.connect(_on_timer_changed)
+  
+const TIMER_LABEL := "HUD/TimerLabel"
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and not event.is_echo():
@@ -9,3 +12,10 @@ func _input(event: InputEvent) -> void:
 			GameEvents.unpause_pressed.emit()
 		else:
 			GameEvents.pause_pressed.emit()
+      
+      
+func _on_timer_changed(time_left: float) -> void:
+	var minutes := int(time_left) / 60
+	var seconds := int(time_left) % 60
+	
+	_set_text(TIMER_LABEL, "%02d:%02d" % [minutes, seconds])
