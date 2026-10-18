@@ -35,6 +35,8 @@ var interact_label: Label
 var keys_box: HBoxContainer
 var death_label: Label
 var timer_label: Label
+var xp_label: Label
+var xp_income_label: Label
 
 var _trail_tween: Tween
 var _stamina_tween: Tween
@@ -52,6 +54,9 @@ func _enter_tree() -> void:
 	keys_box = %KeysContainer
 	death_label = %DeathLabel
 	timer_label = %TimerLabel
+	xp_label = %ExLabel
+	xp_income_label = %ExIncomeLabel
+	xp_income_label.text = ""
 
 	GameEvents.health_changed.connect(_on_health_changed)
 	GameEvents.stamina_changed.connect(_on_stamina_changed)
@@ -62,6 +67,7 @@ func _enter_tree() -> void:
 	GameEvents.keys_changed.connect(_on_keys_changed)
 	GameEvents.player_died.connect(_on_player_died)
 	GameEvents.time_changed.connect(_on_time_changed)
+	GameEvents.xp_changed.connect(_on_xp_changed)
 
 func _on_health_changed(current: float, maximum: float) -> void:
 	health_fill.max_value = maximum
@@ -129,3 +135,24 @@ func _on_time_changed(time_left: float) -> void:
 	var seconds := ceili(time_left) # 0:00 only when the time is really up
 	timer_label.text = "%02d:%02d" % [seconds / 60, seconds % 60]
 	timer_label.modulate = timer_warning_color if time_left <= timer_warning_time else Color.WHITE
+
+func _on_xp_changed(current: int, delta: int):
+	xp_label.text = "XP %d" % current
+	
+	if delta > 0:
+		xp_income_label.text = "+%d" % delta
+		xp_income_label.modulate.a = 1.0
+		
+		var tween = get_tree().create_tween()
+		
+		tween.tween_interval(0.5)
+		tween.tween_property(xp_income_label, "modulate:a", 0.0, 0.3)
+		
+	elif delta < 0:
+		xp_income_label.text = "%d" % delta
+		xp_income_label.modulate.a = 1.0
+		xp_income_label.modulate = Color.RED
+		
+		var tween = get_tree().create_tween()
+		tween.tween_interval(0.5)
+		tween.tween_property(xp_income_label, "modulate:a", 0.0, 0.3)

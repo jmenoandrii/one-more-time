@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://wgqrgp0k6858"]
 
 [ext_resource type="Script" uid="uid://dwafjxxg0uqky" path="res://Scripts/UI/hud.gd" id="1_hud"]
-[ext_resource type="Theme" path="res://UI/HUD/hud_theme.tres" id="2_theme"]
+[ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="2_theme"]
 [ext_resource type="Texture2D" uid="uid://bf0d0btmos3yv" path="res://UI/HUD/crosshair_2.png" id="4_36s6t"]
 [ext_resource type="Texture2D" uid="uid://bad53i05x7wte" path="res://UI/HUD/heart.png" id="4_heart"]
 [ext_resource type="Texture2D" uid="uid://cl02obso7qjh6" path="res://UI/HUD/stamina.png" id="5_stamina"]
@@ -83,9 +83,9 @@ the run is lost"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TimerLabel" type="Label" parent="Root"]
+[node name="TimerLabel" type="Label" parent="Root" unique_id=1883068576]
 unique_name_in_owner = true
-anchors_preset = 5
+layout_mode = 0
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -40.0
@@ -95,6 +95,36 @@ offset_bottom = 24.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 18
 text = "00:00"
+horizontal_alignment = 1
+
+[node name="ExLabel" type="Label" parent="Root" unique_id=558820301]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 28.0
+offset_right = 45.0
+offset_bottom = 46.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 18
+text = "XP 0"
+horizontal_alignment = 1
+
+[node name="ExIncomeLabel" type="Label" parent="Root" unique_id=251562851]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.0
+offset_top = 49.0
+offset_right = 45.0
+offset_bottom = 67.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 18
+text = "+0"
 horizontal_alignment = 1
 
 [node name="Vitals" type="Control" parent="Root" unique_id=1208347620]
