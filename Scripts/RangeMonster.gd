@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @export var stone_scene: PackedScene
 @export var stone_damage: float = 15.0
+@export var melee_damage: float = 10.0
 @export var windup_time: float = 0.5 # cooldown befor throw
 @export var cooldown_time: float = 1.5 # cooldown after throw
 @export var stop_distance: float = 12.0
@@ -14,10 +15,34 @@ var aggro_time_left: float = 0.0
 @onready var sight_ray: RayCast3D = $SightRay
 @onready var throw_pos: Marker3D = $ThrowPos
 @onready var health_component: Node = $HealthComponent
+@onready var damage_area: Node = $DamageArea
 
 var player: Node3D = null
 var can_see_player := false
 var is_throwing := false # Block movement and throwing when animation paly
+
+@export_group("Randomization")
+
+@export_subgroup("Scale")
+@export var min_height_offset: float = 0.1
+@export var max_offset: float = 0.1
+
+@export_subgroup("Speed")
+@export var min_speed_offset: float = 1.5
+@export var max_speed_offset: float = 0.5
+
+@export_subgroup("Damage")
+@export var min_melee_damage_offset: float = 2.0
+@export var max_melee_damage_offset: float = 2.0
+@export var min_range_damage_offset: float = 2.0
+@export var max_range_damage_offset: float = 2.0
+
+@export_subgroup("Cooldown timer")
+@export var min_windup_offset: float = 0.1
+@export var max_windup_offset: float = 0.2
+@export var min_cooldown_offset: float = 0.3
+@export var max_cooldown_offset: float = 0.2
+
 
 func _ready() -> void:
 	sight_ray.add_exception(self)
@@ -25,6 +50,21 @@ func _ready() -> void:
 	detection_area.body_exited.connect(_on_body_exited)
 	health_component.died.connect(die)
 	health_component.damage_caused.connect(_on_damage_caused)
+	
+	# Randomization
+	speed += randf_range(-min_speed_offset, max_speed_offset)
+	
+	var random_scale = 1.0 + randf_range(-min_height_offset, max_offset)
+	scale = Vector3(random_scale, random_scale, random_scale)
+	
+	stone_damage += randf_range(-min_range_damage_offset, max_range_damage_offset)
+	
+	melee_damage += randf_range(-min_melee_damage_offset, max_melee_damage_offset)
+	if has_node("DamageArea") and "damage_amount" in damage_area:
+		damage_area.damage_amount = melee_damage
+		
+	windup_time = max(0.01, windup_time + randf_range(-min_windup_offset, max_windup_offset))
+	cooldown_time = max(0.01, cooldown_time + randf_range(-min_cooldown_offset, max_cooldown_offset))
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player":
