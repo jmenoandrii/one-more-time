@@ -3,6 +3,7 @@ extends CharacterBody3D
 
 const SPEED := 50.0
 var lifetime := 2.0
+var damage := 25.0 # set by the weapon that fired it
 
 
 func _ready() -> void:
@@ -17,7 +18,7 @@ func _process(delta: float) -> void:
 		print("[BULLET]: hit '", hit_object.name, "'!")
 		
 		if hit_object.has_method("take_damage"):
-			hit_object.take_damage(25)
+			hit_object.take_damage(damage)
 			
 		queue_free()
 	
