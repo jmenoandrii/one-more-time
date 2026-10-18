@@ -5,7 +5,8 @@ class_name CombatMessages
 # kill streaks (counted by World) are announced with their bonus ("DOUBLE KILL +5").
 #
 # Children (edit them in the scene): CritLabel — the look of one crit popup (hidden template,
-# duplicated for every crit, so several can be on screen); StreakLabel — the multi-kill announcement.
+# duplicated for every crit, so several can be on screen); StreakLabel — the multi-kill announcement;
+# StreakSound — plays the announcer line (its pitch_scale / volume are set there).
 
 @export_group("Crit")
 @export var crit_text: String = "CRIT! %d" # %d = the damage
@@ -15,13 +16,16 @@ class_name CombatMessages
 
 @export_group("Kill Streak")
 # for 2, 3, 4... kills in a row; the last one repeats for longer streaks
-@export var streak_names: PackedStringArray = ["DOUBLE KILL", "TRIPLE KILL", "QUAD KILL", "PENTA KILL", "RAMPAGE"]
+@export var streak_names: PackedStringArray = ["DOUBLE KILL", "TRIPLE KILL", "UNSTOPPABLE", "DOMINATING", "RAMPAGE"]
+# announcer lines, in the same order as streak_names
+@export var streak_sounds: Array[AudioStream] = []
 @export var bonus_text: String = " +%d" # added after the name when the streak gives points
 @export var streak_hold: float = 1.2 # on screen before fading, s
 @export var streak_fade: float = 0.4
 
 @onready var _crit_template: Label = $CritLabel
 @onready var _streak_label: Label = $StreakLabel
+@onready var _streak_sound: AudioStreamPlayer = $StreakSound
 
 var _streak_tween: Tween
 
@@ -52,7 +56,11 @@ func _on_enemy_hit(damage: float, is_crit: bool, _killed: bool) -> void:
 func _on_kill_streak(kills: int, bonus: int) -> void:
 	if streak_names.is_empty():
 		return
-	_streak_label.text = streak_names[mini(kills - 2, streak_names.size() - 1)]
+	var index := mini(kills - 2, streak_names.size() - 1)
+	_streak_label.text = streak_names[index]
+	if index < streak_sounds.size() and streak_sounds[index]:
+		_streak_sound.stream = streak_sounds[index]
+		_streak_sound.play()
 	if bonus > 0:
 		_streak_label.text += bonus_text % bonus
 	_streak_label.visible = true

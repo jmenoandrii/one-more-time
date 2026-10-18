@@ -12,9 +12,14 @@
 [ext_resource type="Script" uid="uid://b136wflqkfccb" path="res://Scripts/UI/revolver_cylinder_hud.gd" id="10_cylinder"]
 [ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="11_root"]
 [ext_resource type="Script" uid="uid://d3pyg3ltacrj1" path="res://Scripts/UI/clock_hud.gd" id="12_clock"]
-[ext_resource type="Script" path="res://Scripts/UI/combat_messages.gd" id="15_combat"]
 [ext_resource type="Texture2D" uid="uid://dwan6xfoxquaj" path="res://UI/HUD/clock.png" id="13_clock_tex"]
 [ext_resource type="Shader" uid="uid://dbk1i6om4k2j7" path="res://Shaders/clock_hud.gdshader" id="14_clock_shader"]
+[ext_resource type="Script" uid="uid://cotkl7do1eiua" path="res://Scripts/UI/combat_messages.gd" id="15_combat"]
+[ext_resource type="AudioStream" uid="uid://br33irad6j3r6" path="res://Sounds/Kombo/03. Double Kill.wav" id="16_double"]
+[ext_resource type="AudioStream" uid="uid://c7dq3qjfcw6r8" path="res://Sounds/Kombo/04. Triple Kill.wav" id="17_triple"]
+[ext_resource type="AudioStream" uid="uid://ba327r73emopp" path="res://Sounds/Kombo/06. Unstoppable.wav" id="18_unstoppable"]
+[ext_resource type="AudioStream" uid="uid://cppgqri4g53ap" path="res://Sounds/Kombo/05. Dominating.wav" id="19_dominating"]
+[ext_resource type="AudioStream" uid="uid://w6udb3hicrfd" path="res://Sounds/Kombo/02. Rampage.wav" id="20_rampage"]
 [ext_resource type="Texture2D" uid="uid://dadwx7d2bmdx1" path="res://UI/Revolver/cylinder_0.png" id="cyl0"]
 [ext_resource type="Texture2D" uid="uid://dc5rrornq6swx" path="res://UI/Revolver/cylinder_1.png" id="cyl1"]
 [ext_resource type="Texture2D" uid="uid://cm8s3a8j3joy" path="res://UI/Revolver/cylinder_2.png" id="cyl2"]
@@ -105,6 +110,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("15_combat")
+streak_sounds = Array[AudioStream]([ExtResource("16_double"), ExtResource("17_triple"), ExtResource("18_unstoppable"), ExtResource("19_dominating"), ExtResource("20_rampage")])
 
 [node name="CritLabel" type="Label" parent="Root/CombatMessages" unique_id=1938475620]
 layout_mode = 1
@@ -117,6 +123,8 @@ offset_left = 8.0
 offset_top = -18.0
 offset_right = 88.0
 offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.45, 0.1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
@@ -124,7 +132,7 @@ text = "CRIT! 40"
 
 [node name="StreakLabel" type="Label" parent="Root/CombatMessages" unique_id=1203857461]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.28
 anchor_right = 0.5
@@ -141,6 +149,10 @@ theme_override_font_sizes/font_size = 12
 text = "DOUBLE KILL"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="StreakSound" type="AudioStreamPlayer" parent="Root/CombatMessages" unique_id=1840273615]
+volume_db = 5.0
+pitch_scale = 0.76
 
 [node name="Clock" type="Control" parent="Root" unique_id=1883068576]
 anchors_preset = 0

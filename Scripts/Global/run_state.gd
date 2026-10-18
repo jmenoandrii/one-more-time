@@ -15,9 +15,13 @@ var pool: Array[UpgradeData] = []
 var _by_id: Dictionary = {} # upgrade id -> UpgradeData
 var xp: int = 0
 
-func _ready() -> void:
+func _enter_tree() -> void:
+	# loaded here, not in _ready: on the game's start the whole tree gets _enter_tree before
+	# any _ready, and the level's nodes (the HUD) already read the run in their _enter_tree
 	_load_pool()
 	load_run()
+
+func _ready() -> void:
 	GameEvents.player_died.connect(_on_player_died)
 
 func _load_pool() -> void:
@@ -124,4 +128,6 @@ func add_xp(amount: int) -> void:
 	if amount <= 0:
 		return
 	xp += amount
+	# not saved here: the save holds the points from the loop's start, like the loop itself,
+	# so quitting mid-level and replaying the loop can't farm points
 	GameEvents.xp_changed.emit(xp, amount)
