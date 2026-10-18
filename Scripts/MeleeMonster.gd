@@ -5,6 +5,9 @@ extends CharacterBody3D
 @onready var health_component: Node = $HealthComponent
 @onready var damage_area: Node = $DamageArea
 @onready var animator: EnemyAnimator = get_node_or_null("EnemyAnimator")
+@onready var goblin_sound: AudioStreamPlayer3D = $GoblinSound
+@onready var goblin_attack: AudioStreamPlayer3D = $GoblinAttack
+@onready var goblin_ambient: AudioStreamPlayer3D = $GoblinAmbient
 
 var player: Node3D = null
 var is_chasing := false
@@ -69,6 +72,7 @@ func _ready() -> void:
 		damage_area.monitoring = false
 	
 	xp_reward += randi_range(-min_xp_reward_offset, max_xp_reward_offset)
+	goblin_ambient.play()
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player": 
@@ -144,6 +148,7 @@ func _uses_attack_animations() -> bool:
 	return animator != null and animator.can_attack()
 
 func _in_attack_range(range_m: float) -> bool:
+	
 	if player == null:
 		return false
 	var offset := player.global_position - global_position
@@ -162,6 +167,7 @@ func _start_attack() -> void:
 	_attack_time = 0.0
 	_attack_hit_done = false
 	_attack_length = animator.play_random_attack()
+	goblin_attack.play()
 
 func _update_attack(delta: float) -> void:
 	_attack_cooldown_left = maxf(_attack_cooldown_left - delta, 0.0)
@@ -199,4 +205,5 @@ func _on_damage_caused(amount: float) -> void:
 func die():
 	RunState.add_xp(xp_reward)
 	GameEvents.enemy_killed.emit()
+	goblin_sound.play()
 	queue_free()

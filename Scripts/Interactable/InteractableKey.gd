@@ -22,4 +22,5 @@ func _pick_up(body: Node3D) -> bool:
 	if not body.has_method("add_key"):
 		return false
 	body.add_key(key_id, key_color)
+	GameEvents.key_picked.emit()
 	return true

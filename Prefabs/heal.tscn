@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://daj8pqg65x8wb"]
 
 [ext_resource type="Script" uid="uid://efjo7buunmx7" path="res://Scripts/Interactable/heal.gd" id="1_te0o0"]
+[ext_resource type="PackedScene" uid="uid://8jrtsapjgnly" path="res://Models/MedKit/medkit.glb" id="2_ql0xx"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umxg5"]
 albedo_color = Color(1, 0.23529412, 0, 1)
@@ -16,7 +17,11 @@ script = ExtResource("1_te0o0")
 [node name="Model" type="Node3D" parent="." unique_id=1876761171]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Model" unique_id=1315453903]
+visible = false
 mesh = SubResource("BoxMesh_776o0")
+
+[node name="medkit" parent="Model" unique_id=441066685 instance=ExtResource("2_ql0xx")]
+transform = Transform3D(0.13, 0, 0, 0, 0.13, 0, 0, 0, 0.13, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1822341169]
 shape = SubResource("SphereShape3D_key")

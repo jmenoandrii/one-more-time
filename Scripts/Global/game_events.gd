@@ -31,3 +31,7 @@ signal boss_defeated
 
 #Sound
 signal stamina_bar_picked
+signal ammo_picked
+signal heal_picked
+signal gun_picked
+signal key_picked

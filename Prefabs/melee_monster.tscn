@@ -13,12 +13,15 @@
 [ext_resource type="Script" uid="uid://23fc5agtycyr" path="res://Scripts/RandomMaterial.gd" id="12_rmat"]
 [ext_resource type="Material" uid="uid://i8ajubhtmkna" path="res://Materials/Enemy/goblin_blue.tres" id="13_blue"]
 [ext_resource type="Material" uid="uid://5qhjxkftdmno" path="res://Materials/Enemy/goblin_gray.tres" id="14_gray"]
+[ext_resource type="AudioStream" uid="uid://dgijtla2bcbpq" path="res://Sounds/Goblin/magiaz-angry_ogre-407702(1).mp3" id="15_30l5r"]
 [ext_resource type="Material" uid="uid://6ihl2r7j2oot" path="res://Materials/Enemy/goblin_green.tres" id="15_green"]
+[ext_resource type="AudioStream" uid="uid://dsr7iiqpg7rwx" path="res://Sounds/Goblin/freesound_community-goblin-death-6729.mp3" id="15_wl1na"]
+[ext_resource type="AudioStream" uid="uid://burnf0ta3proc" path="res://Sounds/Goblin/daviddumaisaudio-small-monster-attack-195712.mp3" id="16_30l5r"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_3o70k"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_30l5r"]
 resource_local_to_scene = true
 size = Vector3(1.1, 2.1, 1.1)
 
@@ -45,7 +48,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_obj_name = "Player"
 
 [node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
-shape = SubResource("BoxShape3D_3o70k")
+shape = SubResource("BoxShape3D_30l5r")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
@@ -71,5 +74,23 @@ attacks = Array[AnimationLibrary]([ExtResource("8_atk1"), ExtResource("9_atk2"),
 script = ExtResource("12_rmat")
 target = NodePath("../goblin_body")
 materials = Array[Material]([ExtResource("13_blue"), ExtResource("14_gray"), ExtResource("15_green")])
+
+[node name="GoblinSound" type="AudioStreamPlayer3D" parent="." unique_id=1809310560]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7008753, 0)
+stream = ExtResource("15_wl1na")
+
+[node name="GoblinAttack" type="AudioStreamPlayer3D" parent="." unique_id=674806004]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70673656, 0)
+stream = ExtResource("16_30l5r")
+bus = &"Enemy"
+
+[node name="GoblinAmbient" type="AudioStreamPlayer3D" parent="." unique_id=52662718]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.41347313, 0)
+stream = ExtResource("15_30l5r")
+volume_db = -15.0
+autoplay = true
+max_distance = 50.0
+bus = &"Enemy"
+parameters/looping = true
 
 [editable path="DamageArea"]

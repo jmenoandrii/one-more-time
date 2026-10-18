@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://iyxujgcsks8j"]
 
 [ext_resource type="Script" uid="uid://cmq47mxry6e2v" path="res://Scripts/Interactable/stamina_bar.gd" id="1_0nr8h"]
+[ext_resource type="PackedScene" uid="uid://bel4d6xodkvl4" path="res://Models/Stamina Bar/bar.glb" id="2_e17ij"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umxg5"]
 albedo_color = Color(1.4439226e-07, 0.39434618, 0.27394053, 1)
@@ -9,15 +10,19 @@ albedo_color = Color(1.4439226e-07, 0.39434618, 0.27394053, 1)
 material = SubResource("StandardMaterial3D_umxg5")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_key"]
+radius = 0.64904195
 
-[node name="stamina_bar" type="Area3D" unique_id=723814774 node_paths=PackedStringArray("model")]
+[node name="stamina_bar" type="Area3D" unique_id=723814774]
 script = ExtResource("1_0nr8h")
-model = NodePath("Model")
 
 [node name="Model" type="Node3D" parent="." unique_id=1876761171]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Model" unique_id=1315453903]
+visible = false
 mesh = SubResource("BoxMesh_776o0")
+
+[node name="bar" parent="Model" unique_id=1507142334 instance=ExtResource("2_e17ij")]
+transform = Transform3D(0.13, 0, 0, 0, 0.13, 0, 0, 0, 0.13, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1822341169]
 shape = SubResource("SphereShape3D_key")
