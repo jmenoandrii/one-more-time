@@ -30,7 +30,7 @@ func _init() -> void:
 	_fill.visible = false
 
 	# deferred: the draw mode is updated after these signals
-	for s in [&"mouse_entered", &"mouse_exited", &"button_down", &"button_up"]:
+	for s in [&"mouse_entered", &"mouse_exited", &"button_down", &"button_up", &"focus_entered", &"focus_exited"]:
 		connect(s, func() -> void: _update_fill.call_deferred())
 
 func _ready() -> void:
@@ -57,12 +57,17 @@ func _make_patch(texture: Texture2D, margin_x: int, margin_y: int, inset: int) -
 
 func _update_fill() -> void:
 	match get_draw_mode():
-		DRAW_HOVER:
-			_fill.visible = true
-			_fill.modulate = hover_color
 		DRAW_PRESSED, DRAW_HOVER_PRESSED:
 			_fill.visible = true
 			_fill.modulate = pressed_color
+		DRAW_HOVER:
+			_fill.visible = true
+			_fill.modulate = hover_color
 		_:
-			_fill.visible = false
+			if has_focus():
+				_fill.visible = true
+				_fill.modulate = hover_color
+			else:
+				_fill.visible = false
+				
 	_frame.modulate = Color(1, 1, 1, 0.5) if disabled else Color.WHITE

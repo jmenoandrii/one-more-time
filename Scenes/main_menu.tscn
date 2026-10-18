@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://cnreglutbwuws"]
+
+[ext_resource type="Script" uid="uid://eqnhvdfq2eai" path="res://Scripts/UI/MainMenu.gd" id="1_1ehe0"]
+[ext_resource type="Texture2D" uid="uid://oheky6e2s523" path="res://Materials/GrayBricks_psx.png" id="1_28flt"]
+[ext_resource type="Script" uid="uid://cg8ci0q8eo2i6" path="res://Scripts/UI/pixel_button.gd" id="3_ce3w2"]
+[ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="3_opfnp"]
+[ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="4_cp0ys"]
+
+[sub_resource type="Gradient" id="Gradient_n45e2"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_g0qyx"]
+gradient = SubResource("Gradient_n45e2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0rpfx"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(10, 100, 1)
+gravity = Vector3(0, -20, 0)
+color_ramp = SubResource("GradientTexture1D_g0qyx")
+
+[node name="MainMenu" type="Control" unique_id=1325345040]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_opfnp")
+script = ExtResource("1_1ehe0")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1378684818]
+modulate = Color(0.6052743, 0.6052743, 0.6052743, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_28flt")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=982457012]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_position = Vector2(100, 0)
+script = ExtResource("4_cp0ys")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1545271846]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1499745119]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "PLAY"
+flat = true
+script = ExtResource("3_ce3w2")
+
+[node name="CreditsButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2113195214]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "CREDITS"
+flat = true
+script = ExtResource("3_ce3w2")
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1386605917]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "QUIT"
+flat = true
+script = ExtResource("3_ce3w2")
+
+[node name="CursorLabel" type="Label" parent="." unique_id=1773620991]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 30
+text = ">"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1571397207]
+amount = 35
+lifetime = 4.0
+process_material = SubResource("ParticleProcessMaterial_0rpfx")
