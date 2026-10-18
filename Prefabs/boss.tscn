@@ -1,0 +1,54 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Boss.gd" id="1_boss"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="2_health"]
+[ext_resource type="PackedScene" uid="uid://dntbbuwti0cwi" path="res://Models/enemies/goblin-main.fbx" id="3_model"]
+[ext_resource type="Script" uid="uid://b720xr8x6ilsf" path="res://Scripts/EnemyAnimator.gd" id="4_anim"]
+[ext_resource type="AnimationLibrary" uid="uid://e27pt2lr1cad" path="res://Models/enemies/Idle.fbx" id="5_idle"]
+[ext_resource type="AnimationLibrary" uid="uid://dbj041xoisjem" path="res://Models/enemies/Standing Walk Forward.fbx" id="6_walk"]
+[ext_resource type="AnimationLibrary" uid="uid://dpixciagdur3b" path="res://Models/enemies/Mutant Punch.fbx" id="7_atk1"]
+[ext_resource type="AnimationLibrary" uid="uid://bl0w12tmegfwq" path="res://Models/enemies/Punching.fbx" id="8_atk2"]
+[ext_resource type="AnimationLibrary" uid="uid://cev7doycxc31t" path="res://Models/enemies/Right Hook.fbx" id="9_atk3"]
+[ext_resource type="AnimationLibrary" uid="uid://c8jj5hxypx1ds" path="res://Models/enemies/Throw Object.fbx" id="10_throw"]
+[ext_resource type="PackedScene" uid="uid://drch2nvlo2ejw" path="res://Prefabs/stone.tscn" id="11_stone"]
+[ext_resource type="Script" uid="uid://23fc5agtycyr" path="res://Scripts/RandomMaterial.gd" id="12_rmat"]
+[ext_resource type="Material" uid="uid://5qhjxkftdmno" path="res://Materials/Enemy/goblin_gray.tres" id="13_gray"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_boss"]
+size = Vector3(2.2, 4.4, 2.2)
+
+[node name="Boss" type="CharacterBody3D"]
+script = ExtResource("1_boss")
+stone_scene = ExtResource("11_stone")
+
+[node name="goblin_body" type="Node3D" parent="."]
+transform = Transform3D(-0.42, 0, -3.67e-08, 0, 0.42, 0, 3.67e-08, 0, -0.42, 0, 0, 0)
+
+[node name="goblin-main" parent="goblin_body" instance=ExtResource("3_model")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+shape = SubResource("BoxShape3D_boss")
+
+[node name="ThrowPos" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 3.2, -1.3)
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_health")
+max_health = 800.0
+
+[node name="EnemyAnimator" type="Node" parent="." node_paths=PackedStringArray("model")]
+script = ExtResource("4_anim")
+model = NodePath("../goblin_body/goblin-main")
+idle = ExtResource("5_idle")
+walk = ExtResource("6_walk")
+attacks = Array[AnimationLibrary]([ExtResource("7_atk1"), ExtResource("8_atk2"), ExtResource("9_atk3")])
+specials = Dictionary[StringName, AnimationLibrary]({
+&"throw": ExtResource("10_throw")
+})
+walk_anim_speed = 4.0
+
+[node name="RandomMaterial" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("12_rmat")
+target = NodePath("../goblin_body")
+materials = Array[Material]([ExtResource("13_gray")])

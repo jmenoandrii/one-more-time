@@ -1,0 +1,417 @@
+[gd_scene format=3 uid="uid://c5upifeofvpkr"]
+
+[ext_resource type="Material" uid="uid://cgk2osihrxrd4" path="res://Materials/asphalt_psx.tres" id="6_op1ue"]
+[ext_resource type="Material" uid="uid://lpn3hxmrfyuh" path="res://Materials/redbrick_psx.tres" id="7_58kwt"]
+[ext_resource type="Material" uid="uid://dh64pwyyql22f" path="res://Materials/graybrick_psx.tres" id="8_giwal"]
+[ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Scripts/Player/Player.gd" id="11_qvmo7"]
+[ext_resource type="Script" uid="uid://c7f4265cs6mif" path="res://Scripts/Weapon/Weapon.gd" id="12_phcd1"]
+[ext_resource type="PackedScene" uid="uid://2c2yvqfjbuaq" path="res://Prefabs/bullet.tscn" id="13_wxjmk"]
+[ext_resource type="PackedScene" uid="uid://d2w5ng8ncsmap" path="res://Prefabs/revolver.tscn" id="14_nsljs"]
+[ext_resource type="Script" uid="uid://esp0o4jvam1s" path="res://Scripts/Weapon/DualWeapon.gd" id="15_atct6"]
+[ext_resource type="AudioStream" uid="uid://8pgui6xwt8xh" path="res://Sounds/Foot/Dirt/Footstep Dirt 2.ogg" id="17_u7cma"]
+[ext_resource type="AudioStream" uid="uid://cqlpgfncx3oeu" path="res://Sounds/Foot/Dirt/Footstep Dirt 3.ogg" id="18_sc4bj"]
+[ext_resource type="AudioStream" uid="uid://dtmqc2eisxsd1" path="res://Sounds/Foot/Dirt/Footstep Dirt 4.ogg" id="19_sv7gd"]
+[ext_resource type="AudioStream" uid="uid://ub6lo3eqpfjm" path="res://Sounds/Foot/Dirt/Footstep Dirt 5.ogg" id="20_kawx8"]
+[ext_resource type="AudioStream" uid="uid://cccngqlc6fb4c" path="res://Sounds/Foot/Stone/Footstep Stone 1.ogg" id="21_ss8j2"]
+[ext_resource type="AudioStream" uid="uid://df3n5foj0y7yw" path="res://Sounds/Foot/Stone/Footstep Stone 2.ogg" id="22_uckbs"]
+[ext_resource type="AudioStream" uid="uid://480u2annwkb" path="res://Sounds/Foot/Stone/Footstep Stone 3.ogg" id="23_1mwjt"]
+[ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="24_cha1d"]
+[ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="25_buhou"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="26_eo6wu"]
+[ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="27_86guf"]
+[ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="28_o03i4"]
+[ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="29_wqm6a"]
+[ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="30_0k3nh"]
+[ext_resource type="Shader" uid="uid://chytyk5wdcrm5" path="res://Shaders/main.gdshader" id="31_6lm2i"]
+[ext_resource type="Script" uid="uid://bv0x0hyoi2dhu" path="res://Scripts/final_battle.gd" id="90_final"]
+[ext_resource type="PackedScene" path="res://Prefabs/boss.tscn" id="91_boss"]
+[ext_resource type="Script" uid="uid://bk7l63oatljib" path="res://Scripts/UI/boss_bar.gd" id="92_bossbar"]
+[ext_resource type="Script" uid="uid://dpncg1n0bi7js" path="res://Scripts/UI/victory_screen.gd" id="93_victory"]
+[ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="94_root"]
+[ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="95_theme"]
+[ext_resource type="Texture2D" uid="uid://hofrwmu8y8wk" path="res://UI/HUD/bar_frame.png" id="96_frame"]
+[ext_resource type="Texture2D" uid="uid://yga7ldyfyvqa" path="res://UI/HUD/bar_fill.png" id="97_fill"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+glow_enabled = true
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
+
+[sub_resource type="Animation" id="Animation_b3802"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_272bh"]
+resource_name = "new_animation"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play_step_sounds"
+}, {
+"args": [],
+"method": &"play_step_sounds"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Camera3D:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.2670164), Vector3(0.05, 0.15, -0.267), Vector3(0.1, 0, -0.267), Vector3(-0.05, 0.15, -0.267), Vector3(0, 0, -0.2670164)]
+}
+
+[sub_resource type="Animation" id="Animation_fevyy"]
+resource_name = "run"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Camera3D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, -0.2670164), Vector3(0.05, 0.15, -0.267), Vector3(0.1, 0, -0.267), Vector3(-0.05, 0.15, -0.267), Vector3(0, 0, -0.2670164)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5vw27"]
+_data = {
+&"RESET": SubResource("Animation_b3802"),
+&"new_animation": SubResource("Animation_272bh"),
+&"run": SubResource("Animation_fevyy")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_upu61"]
+streams_count = 4
+stream_0/stream = ExtResource("17_u7cma")
+stream_1/stream = ExtResource("18_sc4bj")
+stream_2/stream = ExtResource("19_sv7gd")
+stream_3/stream = ExtResource("20_kawx8")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5vw27"]
+streams_count = 4
+stream_0/stream = ExtResource("21_ss8j2")
+stream_1/stream = ExtResource("22_uckbs")
+stream_2/stream = ExtResource("23_1mwjt")
+stream_3/stream = ExtResource("24_cha1d")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_e08e2"]
+shader = ExtResource("31_6lm2i")
+shader_parameter/enabled = true
+shader_parameter/dithering = true
+shader_parameter/colors = 12
+shader_parameter/dither_size = 1
+
+[node name="FinalBattle" type="Node3D" unique_id=1836928698]
+script = ExtResource("90_final")
+
+[node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1077777929]
+environment = SubResource("Environment_h2yge")
+
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1496692533]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 14)
+script = ExtResource("11_qvmo7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=808242478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_0rpfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=996913945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_g0qyx")
+
+[node name="Head" type="Node3D" parent="Player" unique_id=1770461712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2670164)
+
+[node name="Weapons" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)
+
+[node name="Revolver" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=870522707]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.019011676, 0.09287548, -0.084962666)
+visible = false
+script = ExtResource("12_phcd1")
+weapon_name = "revolver"
+bullet_scene = ExtResource("13_wxjmk")
+shoot_speed_min = 1.1
+shoot_speed_max = 1.3
+recoil_pitch = Vector2(0.3, 0.55)
+recoil_kick = Vector2(0.1, 0.25)
+
+[node name="Revolver" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1433082735 instance=ExtResource("14_nsljs")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1875669028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0064813793, 0.12732923, 0.52824354)
+
+[node name="DualRevolvers" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1630511874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345, 0.09287548, -0.084962666)
+visible = false
+script = ExtResource("15_atct6")
+weapon_name = "dual_revolvers"
+pickup_name = "revolver"
+bullet_scene = ExtResource("13_wxjmk")
+fire_rate = 0.08
+max_ammo = 12
+shoot_speed_min = 1.1
+shoot_speed_max = 1.3
+recoil_pitch = Vector2(0.3, 0.55)
+recoil_kick = Vector2(0.1, 0.25)
+can_inspect = false
+
+[node name="Right" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511880]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.364, 0, 0)
+
+[node name="RightModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Right" unique_id=1630511875 instance=ExtResource("14_nsljs")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="Left" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, -0.364, 0, 0)
+
+[node name="LeftModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Left" unique_id=1630511876 instance=ExtResource("14_nsljs")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3575, 0.12732923, -0.52824354)
+
+[node name="BulletPosLeft" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824354)
+
+[node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
+target_position = Vector3(0, 0, -1000)
+
+[node name="InteractRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=143733516]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+target_position = Vector3(0, -2, 0)
+
+[node name="headbob" type="AnimationPlayer" parent="Player/Head" unique_id=279278114]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_5vw27")
+
+[node name="Sounds" type="Node3D" parent="Player" unique_id=135702811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
+
+[node name="dirt" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1168338759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21978569, 0)
+stream = SubResource("AudioStreamRandomizer_upu61")
+volume_db = -35.0
+
+[node name="stone" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=43388868]
+stream = SubResource("AudioStreamRandomizer_5vw27")
+volume_db = -50.0
+
+[node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
+stream = ExtResource("25_buhou")
+volume_db = -25.0
+
+[node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
+collision_mask = 2
+
+[node name="HealthComponent" type="Node" parent="Player" unique_id=1280028663]
+script = ExtResource("26_eo6wu")
+
+[node name="UI" type="Node" parent="." unique_id=1119755475]
+process_mode = 3
+script = ExtResource("27_86guf")
+
+[node name="HUD" parent="UI" unique_id=1677919738 instance=ExtResource("28_o03i4")]
+
+[node name="PauseMenu" parent="UI" unique_id=2016965836 instance=ExtResource("29_wqm6a")]
+visible = false
+
+[node name="UpgradeScreen" type="CanvasLayer" parent="UI" unique_id=755991532]
+process_mode = 3
+layer = 2
+visible = false
+script = ExtResource("30_0k3nh")
+
+[node name="Shaders" type="CanvasLayer" parent="UI" unique_id=1183673316]
+physics_interpolation_mode = 2
+auto_translate_mode = 2
+layer = 2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="UI/Shaders" unique_id=1208324704]
+material = SubResource("ShaderMaterial_e08e2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BossBar" type="CanvasLayer" parent="UI" unique_id=1081974223]
+script = ExtResource("92_bossbar")
+
+[node name="Root" type="Control" parent="UI/BossBar" unique_id=41354560]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("95_theme")
+script = ExtResource("94_root")
+
+[node name="BossName" type="Label" parent="UI/BossBar/Root" unique_id=408923588]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 6.0
+offset_right = 100.0
+offset_bottom = 15.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.055, 1)
+text = "GOBLIN KING"
+horizontal_alignment = 1
+
+[node name="BossHealthBar" type="NinePatchRect" parent="UI/BossBar/Root" unique_id=1758803423]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 17.0
+offset_right = 80.0
+offset_bottom = 26.0
+grow_horizontal = 2
+texture = ExtResource("96_frame")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="BossTrail" type="TextureProgressBar" parent="UI/BossBar/Root/BossHealthBar" unique_id=1492622191]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+mouse_filter = 2
+step = 0.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("97_fill")
+tint_progress = Color(1, 0.95, 0.85, 1)
+
+[node name="BossFill" type="TextureProgressBar" parent="UI/BossBar/Root/BossHealthBar" unique_id=1497494892]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+mouse_filter = 2
+step = 0.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("97_fill")
+tint_progress = Color(0.62, 0.2, 0.75, 1)
+
+[node name="VictoryScreen" type="CanvasLayer" parent="UI" unique_id=284208745]
+layer = 10
+script = ExtResource("93_victory")
+
+[node name="Arena" type="CSGCombiner3D" parent="." unique_id=1219905452 groups=["stone"]]
+use_collision = true
+collision_layer = 3
+
+[node name="Floor" type="CSGBox3D" parent="Arena" unique_id=707702110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(40, 1, 40)
+material = ExtResource("6_op1ue")
+
+[node name="WallNorth" type="CSGBox3D" parent="Arena" unique_id=1322657274]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -20.5)
+size = Vector3(42, 9, 1)
+material = ExtResource("8_giwal")
+
+[node name="WallSouth" type="CSGBox3D" parent="Arena" unique_id=1727327945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 20.5)
+material_override = ExtResource("7_58kwt")
+size = Vector3(42, 9, 1)
+material = ExtResource("8_giwal")
+
+[node name="WallWest" type="CSGBox3D" parent="Arena" unique_id=2068587389]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 4, 0)
+size = Vector3(1, 9, 42)
+material = ExtResource("8_giwal")
+
+[node name="WallEast" type="CSGBox3D" parent="Arena" unique_id=2058316114]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 4, 0)
+size = Vector3(1, 9, 42)
+material = ExtResource("8_giwal")
+
+[node name="Pillar1" type="CSGBox3D" parent="Arena" unique_id=604507601]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, -8)
+size = Vector3(2, 8, 2)
+material = ExtResource("7_58kwt")
+
+[node name="Pillar2" type="CSGBox3D" parent="Arena" unique_id=1971006163]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, -8)
+size = Vector3(2, 8, 2)
+material = ExtResource("7_58kwt")
+
+[node name="Pillar3" type="CSGBox3D" parent="Arena" unique_id=2040258027]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, 8)
+size = Vector3(2, 8, 2)
+material = ExtResource("7_58kwt")
+
+[node name="Pillar4" type="CSGBox3D" parent="Arena" unique_id=137283480]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 8)
+size = Vector3(2, 8, 2)
+material = ExtResource("7_58kwt")
+
+[node name="Torch1" type="OmniLight3D" parent="." unique_id=911624117]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -6.5)
+light_color = Color(1, 0.55, 0.25, 1)
+light_energy = 2.0
+omni_range = 14.0
+
+[node name="Torch2" type="OmniLight3D" parent="." unique_id=306071730]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -6.5)
+light_color = Color(1, 0.55, 0.25, 1)
+light_energy = 2.0
+omni_range = 14.0
+
+[node name="Boss" parent="." unique_id=1649771320 instance=ExtResource("91_boss")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)

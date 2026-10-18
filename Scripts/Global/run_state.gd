@@ -3,17 +3,23 @@ extends Node
 # The run: which loop it is and which upgrades were taken.
 # Lives outside the scene, so it survives the level restart, and is saved to disk.
 # Finishing the level adds an upgrade and starts the next loop; a death wipes the whole run.
+# The final battle (its own scene): a death there is not the end, the run goes on with the next loop
+# on the normal level; beating the boss wins the run and starts a new one.
 
 const PATH := "user://run.cfg"
 const UPGRADES_DIR := "res://Upgrades/"
 const CHOICES_COUNT := 3
 const DEATH_RESTART_DELAY := 2.5 # sec
+const FINAL_SCENE := "res://Scenes/final_battle.tscn"
 
 var loop: int = 0 # 0 = the first pass of the run
 var upgrades: Dictionary = {} # upgrade id -> stacks
 var pool: Array[UpgradeData] = []
 var _by_id: Dictionary = {} # upgrade id -> UpgradeData
 var xp: int = 0
+var in_final := false # not saved: quitting during the final replays the loop
+var carried_weapons: PackedStringArray = [] # weapon names the player brings into the final
+var _level_scene := "" # the normal level, to come back to from the final
 
 func _enter_tree() -> void:
 	# loaded here, not in _ready: on the game's start the whole tree gets _enter_tree before
@@ -101,9 +107,37 @@ func reset_run() -> void:
 	save_run()
 
 func _on_player_died() -> void:
+	if in_final:
+		# lost the boss fight: the run goes on, the next loop on the normal level
+		loop += 1
+		save_run()
+		await get_tree().create_timer(DEATH_RESTART_DELAY).timeout
+		_leave_final()
+		return
 	reset_run() # right away, so quitting during the death screen doesn't keep the run
 	await get_tree().create_timer(DEATH_RESTART_DELAY).timeout
 	_restart_level()
+
+# the gate is open and the player walked through: on to the boss with the weapons in hands
+func enter_final(weapons: PackedStringArray) -> void:
+	in_final = true
+	carried_weapons = weapons
+	_level_scene = get_tree().current_scene.scene_file_path
+	get_tree().change_scene_to_file.call_deferred(FINAL_SCENE)
+
+# the boss is dead: a new run from the first loop
+func win_run() -> void:
+	reset_run()
+	_leave_final()
+
+func _leave_final() -> void:
+	in_final = false
+	carried_weapons = []
+	get_tree().paused = false
+	var level := _level_scene
+	if level == "":
+		level = ProjectSettings.get_setting("application/run/main_scene")
+	get_tree().change_scene_to_file(level)
 
 func _restart_level() -> void:
 	get_tree().paused = false

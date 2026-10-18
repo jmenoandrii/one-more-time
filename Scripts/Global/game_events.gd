@@ -25,6 +25,9 @@ signal level_started # the level timer started: enemies wake up
 var level_running := false # set by World; false until the timer starts
 signal level_completed
 signal player_died
+signal final_unlocked # every enemy of the level is dead: the gate to the final battle opens
+signal boss_health_changed(current: float, maximum: float)
+signal boss_defeated
 
 #Sound
 signal stamina_bar_picked

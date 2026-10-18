@@ -69,6 +69,7 @@ var _forearm := -1
 
 
 func _ready() -> void:
+	add_to_group("enemy") # World opens the final gate when the group is empty
 	sight_ray.add_exception(self)
 	detection_area.body_entered.connect(_on_body_entered)
 	detection_area.body_exited.connect(_on_body_exited)

@@ -37,7 +37,10 @@
 [ext_resource type="PackedScene" uid="uid://iyxujgcsks8j" path="res://Prefabs/stamina_bar.tscn" id="37_gbxrf"]
 [ext_resource type="PackedScene" uid="uid://bq3kyfmculrt4" path="res://Prefabs/range_monster.tscn" id="38_5ycf8"]
 [ext_resource type="PackedScene" uid="uid://cbx0ydyx67811" path="res://Prefabs/melee_monster.tscn" id="39_axv3x"]
+[ext_resource type="FontFile" uid="uid://dsuga7xeyd46y" path="res://UI/HUD/PressStart2P-Regular.ttf" id="39_fseo3"]
 [ext_resource type="PackedScene" uid="uid://mm6jappny2i6" path="res://Prefabs/start_trigger.tscn" id="40_trig"]
+[ext_resource type="PackedScene" path="res://Prefabs/final_portal.tscn" id="41_portal"]
+[ext_resource type="AudioStream" uid="uid://b6hykjetidyur" path="res://Sounds/Door/Gate/xFMNQAyw.wav" id="42_gate_sound"]
 
 [sub_resource type="Curve" id="Curve_fseo3"]
 _limits = [0.0, 300.0, 1.0, 20.0]
@@ -164,10 +167,14 @@ shader_parameter/dithering = true
 shader_parameter/colors = 12
 shader_parameter/dither_size = 1
 
-[node name="World" type="Node3D" unique_id=41126308 node_paths=PackedStringArray("start_trigger")]
+[node name="World" type="Node3D" unique_id=41126308 node_paths=PackedStringArray("start_triggers", "first_loop_only", "final_gate", "final_gate_sound")]
 script = ExtResource("1_fseo3")
-start_trigger = NodePath("Interactive/StartTrigger")
+start_triggers = [NodePath("Interactive/StartTrigger"), NodePath("Interactive/StartTrigger2")]
 time_by_upgrades = SubResource("Curve_fseo3")
+first_loop_only = [NodePath("LOOP 1"), NodePath("Door4"), NodePath("Level 1/door")]
+final_gate = NodePath("FinalGate")
+final_gate_sound = NodePath("FinalGateSound")
+streak_window = 4.0
 
 [node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1077777929]
 environment = SubResource("Environment_h2yge")
@@ -250,11 +257,6 @@ material = ExtResource("7_58kwt")
 [node name="CSGBox3D98" type="CSGBox3D" parent="Level 1" unique_id=2051667697]
 transform = Transform3D(0.49999997, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, 0.49999997, 91.862335, 3, 33.66766)
 size = Vector3(16, 7, 1)
-material = ExtResource("7_58kwt")
-
-[node name="CSGBox3D32" type="CSGBox3D" parent="Level 1" unique_id=116475215]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 94.74429, 3, 72.83353)
-size = Vector3(17.360718, 7, 1)
 material = ExtResource("7_58kwt")
 
 [node name="CSGBox3D60" type="CSGBox3D" parent="Level 1" unique_id=1645453173]
@@ -398,6 +400,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93.53668, 3, 82.00399)
 size = Vector3(48, 7, 1)
 material = ExtResource("7_58kwt")
 
+[node name="CSGBox3D73" type="CSGBox3D" parent="Level 1" unique_id=554872742]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.81583, 3.239685, 80.732475)
+size = Vector3(23.569214, 7.47937, 3.1054688)
+material = ExtResource("7_58kwt")
+
+[node name="CSGBox3D99" type="CSGBox3D" parent="Level 1" unique_id=1993424918]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 111.81583, 3.239685, 65.93972)
+size = Vector3(23.569214, 7.47937, 3.1054688)
+material = ExtResource("7_58kwt")
+
 [node name="CSGBox3D39" type="CSGBox3D" parent="Level 1" unique_id=1620246300]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.03668, 3, 82.00399)
 size = Vector3(11, 7, 1)
@@ -482,7 +494,7 @@ size = Vector3(20, 7, 1)
 material = ExtResource("7_58kwt")
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="Level 1" unique_id=700740675]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 50.889282, 3, 0.17933814)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 43.49746, 3, 0.17933846)
 size = Vector3(19, 7, 1)
 material = ExtResource("7_58kwt")
 
@@ -532,7 +544,7 @@ operation = 2
 size = Vector3(2, 2.4581177, 1.3508545)
 material = ExtResource("8_giwal")
 
-[node name="CSGBox3D11" type="CSGBox3D" parent="Level 1" unique_id=1893318227]
+[node name="door" type="CSGBox3D" parent="Level 1" unique_id=1893318227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.88747, 1.2695752, -0.7858695)
 operation = 2
 size = Vector3(2, 2.496692, 1.3508545)
@@ -648,12 +660,6 @@ material = ExtResource("8_giwal")
 
 [node name="CSGBox3D72" type="CSGBox3D" parent="Level 1" unique_id=1521118249]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1.0000001, 0, 1, 0, -4.371139e-08, 84.784, 1.3, 81.99)
-operation = 2
-size = Vector3(2, 2.526587, 1.3508545)
-material = ExtResource("8_giwal")
-
-[node name="CSGBox3D73" type="CSGBox3D" parent="Level 1" unique_id=1256390914]
-transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 94.79054, 1.1338449, 72.99658)
 operation = 2
 size = Vector3(2, 2.526587, 1.3508545)
 material = ExtResource("8_giwal")
@@ -1042,7 +1048,7 @@ grow_vertical = 2
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2.6599667, 0.11382973, 38.093254)
 
 [node name="PlayerSpawn2" type="Marker3D" parent="Spawns" unique_id=121535568 groups=["player_spawn"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 7.5614038, 0.099999525, 42.76238)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 7.76147, 0.099999525, 41.411484)
 
 [node name="WeaponSpawn1" type="Marker3D" parent="Spawns" unique_id=634924101 groups=["weapon_spawn"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.0097384, 0.3, 35.098984)
@@ -1051,16 +1057,22 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.0
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.1993027, 0.30000025, 35.944893)
 
 [node name="WeaponSpawn3" type="Marker3D" parent="Spawns" unique_id=892168949 groups=["weapon_spawn"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.8395319, 0.3, 43.565628)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.6604662, 0.3, 41.482014)
+
+[node name="SecondWeaponSpawn1" type="Marker3D" parent="Spawns" unique_id=1395027461 groups=["second_weapon_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.413944, 0.30338487, 50.392735)
+
+[node name="SecondWeaponSpawn2" type="Marker3D" parent="Spawns" unique_id=1873620944 groups=["second_weapon_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -48.49974, 0.3, 32.11835)
 
 [node name="SurprisePlayerSpawn" type="Marker3D" parent="Spawns" unique_id=1309458812 groups=["surprise_player_spawn"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -2.6599667, 0.11382973, 38.093254)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -119.558784, 0.11382973, 57.81109)
 
 [node name="SurpriseWeaponSpawn1" type="Marker3D" parent="Spawns" unique_id=1588203467 groups=["surprise_weapon_spawn"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -1.0097384, 0.3, 35.098984)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -118.5097, 0.3, 71.03904)
 
 [node name="SurpriseWeaponSpawn2" type="Marker3D" parent="Spawns" unique_id=2017364480 groups=["surprise_weapon_spawn"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 6.1993027, 0.30000025, 35.944893)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -102.26802, 0.30000025, 60.523132)
 
 [node name="LevelSpawner" type="Node" parent="." unique_id=1773454078]
 script = ExtResource("33_t7diw")
@@ -1078,6 +1090,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16075778, 1.2430772, 29.913
 [node name="Gate" parent="." unique_id=1138386591 instance=ExtResource("34_an5q5")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.360144, 2.2995605, 36.936977)
 required_key = "red"
+
+[node name="FinalGate" parent="." unique_id=1592830471 instance=ExtResource("34_an5q5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.17872, 2.2995605, 101.50697)
+interactable = false
+
+[node name="FinalPortal" parent="." unique_id=1250938476 instance=ExtResource("41_portal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.17872, 0, 103.50697)
+
+[node name="FinalGateSound" type="AudioStreamPlayer" parent="." unique_id=1768402394]
+stream = ExtResource("42_gate_sound")
+volume_db = 6.0
 
 [node name="Enemies" type="Node3D" parent="." unique_id=1387988080]
 
@@ -1117,6 +1140,9 @@ attack_range = 2.0
 [node name="StartTrigger" parent="Interactive" unique_id=1460283951 instance=ExtResource("40_trig")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.778717, 0, 36.936977)
 
+[node name="StartTrigger2" parent="Interactive" unique_id=2049310391 instance=ExtResource("40_trig")]
+transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, -117.73966, 0, 59.38027)
+
 [node name="ammo" parent="Interactive" unique_id=723814774 instance=ExtResource("35_te5wt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.678672, 0.56396437, 20.249245)
 
@@ -1134,5 +1160,41 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.21
 
 [node name="weapon_pickup2" parent="Interactive" unique_id=1630511879 instance=ExtResource("5_vcdxs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.844202, 0.30338487, 24.40176)
+appears_from_loop = 5
+spawn_group = &"second_weapon_spawn"
+
+[node name="LOOP 1" type="Node3D" parent="." unique_id=784185340]
+transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 1.0219791, 2.3630967, 0.3640117)
+
+[node name="Label3D" type="Label3D" parent="LOOP 1" unique_id=596507079]
+transform = Transform3D(2.976293e-09, 0, 1, 0, 1, 0, -1, 0, 2.976293e-09, -12.436322, 0.8350911, -0.24640751)
+pixel_size = 0.01
+text = "GRAB YOUR WEAPON
+GO AHEAD"
+font = ExtResource("39_fseo3")
+
+[node name="Label3D2" type="Label3D" parent="LOOP 1" unique_id=1236655443]
+transform = Transform3D(2.976293e-09, 0, 1, 0, 1, 0, -1, 0, 2.976293e-09, -29.016998, 1.6602707, 4.076398)
+pixel_size = 0.01
+text = "MEDKIT - HEALTH
+SNACK - ENERGY
+AMMO - WEAPONS"
+font = ExtResource("39_fseo3")
+
+[node name="Label3D3" type="Label3D" parent="LOOP 1" unique_id=1057420360]
+transform = Transform3D(2.976293e-09, 0, 1, 0, 1, 0, -1, 0, 2.976293e-09, -29.016998, 0.06913161, -6.2219696)
+pixel_size = 0.01
+text = "LMB - FIRE
+R - RELOAD
+RMB - INSPECT WEAPON"
+font = ExtResource("39_fseo3")
+
+[node name="Label3D4" type="Label3D" parent="LOOP 1" unique_id=1757688092]
+transform = Transform3D(1, 0, -4.668769e-08, 0, 1, 0, 4.668769e-08, 0, 1, -36.255367, 3.2980146, -10.010593)
+pixel_size = 0.015
+text = "KILL THEM ALL
+
+"
+font = ExtResource("39_fseo3")
 
 [connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]
