@@ -3,16 +3,7 @@
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="1_1jyks"]
 [ext_resource type="Script" uid="uid://dvvmoxodjvxw7" path="res://Scripts/MeleeMonster.gd" id="1_84jqe"]
 [ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="2_84jqe"]
-
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0qyx"]
-albedo_color = Color(0.9577101, 0.45239156, 0.5330228, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
-material = SubResource("StandardMaterial3D_g0qyx")
-
-[sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
-size = Vector3(0.5, 0.5, 0.5)
+[ext_resource type="PackedScene" uid="uid://ds132rmwp8l7m" path="res://Models/enemies/goblin_main.glb" id="2_tdu12"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
@@ -28,13 +19,11 @@ radius = 8.0
 [node name="MeleeMonster" type="CharacterBody3D" unique_id=465993397]
 script = ExtResource("1_84jqe")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1973579366]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_0rpfx")
+[node name="goblin_body" type="Node3D" parent="." unique_id=822083537]
+transform = Transform3D(-8.348875e-09, 0, 0.191, 0, 0.191, 0, -0.191, 0, -8.348875e-09, 0, 1.165, 0)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1319799134]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4660962, -0.32211053)
-mesh = SubResource("BoxMesh_0rpfx")
+[node name="goblin_main" parent="goblin_body" unique_id=297678100 instance=ExtResource("2_tdu12")]
+transform = Transform3D(0.99999994, 0, 3.5527137e-15, 0, 0.99999994, 0, -3.5527137e-15, 0, 0.99999994, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1383093541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

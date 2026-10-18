@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://6ihl2r7j2oot"]
+
+[ext_resource type="Texture2D" uid="uid://d2yody5wduq2h" path="res://Textures/Goblin_Texture_2.png" id="1_cryrm"]
+
+[resource]
+albedo_texture = ExtResource("1_cryrm")
+texture_filter = 0

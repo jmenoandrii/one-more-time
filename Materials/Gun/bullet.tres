@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ci2p3h4knxbu4"]
+
+[ext_resource type="Texture2D" uid="uid://deh02a5difcxf" path="res://Textures/bullet_bullet_texture.png" id="1_i7m4f"]
+
+[resource]
+albedo_texture = ExtResource("1_i7m4f")
+texture_filter = 0
