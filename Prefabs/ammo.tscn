@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://gryaoxe18jfk"]
 
 [ext_resource type="Script" uid="uid://bqm78lesh5wyt" path="res://Scripts/Interactable/ammo.gd" id="1_0xwdq"]
+[ext_resource type="PackedScene" uid="uid://scikkisitb2a" path="res://Models/Bullet_box/Box.glb" id="2_vvfbb"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umxg5"]
 albedo_color = Color(0.3764706, 0.0627451, 0.79607844, 1)
@@ -17,7 +18,11 @@ model = NodePath("Model")
 [node name="Model" type="Node3D" parent="." unique_id=1876761171]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Model" unique_id=1315453903]
+visible = false
 mesh = SubResource("BoxMesh_776o0")
+
+[node name="Box" parent="Model" unique_id=1514725687 instance=ExtResource("2_vvfbb")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1822341169]
 shape = SubResource("SphereShape3D_key")

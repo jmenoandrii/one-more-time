@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 	model.position.y = _base_y + sin(_time * bob_speed) * bob_height
 
 func _on_body_entered(body: Node3D) -> void:
-	if _pick_up(body):
+	if _pick_up(body):\
 		queue_free()
 
 # override: give the item to the body, return true if it was taken

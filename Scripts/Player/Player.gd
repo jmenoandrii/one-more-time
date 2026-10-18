@@ -345,6 +345,7 @@ func pick_up_weapon(pickup: String) -> bool:
 	return false     # everything from this pickup is already owned — it stays on the map
 
 func equip_weapon(index: int, draw: bool = true) -> void:
+	
 	if index < -1 or index >= weapons.size():
 		return
 		
@@ -369,6 +370,7 @@ func equip_weapon(index: int, draw: bool = true) -> void:
 		GameEvents.ammo_changed.emit(current_w.current_ammo, current_w.max_ammo)
 		GameEvents.cylinders_changed.emit(current_w.get_cylinder_rounds(), false)
 		GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
+		GameEvents.gun_picked.emit()
 
 func _reload_current_weapon() -> void:
 	# Weapon.reload() waits for the reload animation, so it has to be awaited

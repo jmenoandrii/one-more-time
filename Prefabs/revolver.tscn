@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://bmpelu4fckjsy" path="res://Materials/Gun/hand.tres" id="3_3gh0t"]
 [ext_resource type="AudioStream" uid="uid://d2qq6npmk0h3i" path="res://Sounds/Gun/reload_click_random.tres" id="6_rclick"]
 [ext_resource type="AudioStream" uid="uid://bj7w73uc28ylt" path="res://Sounds/Gun/shoot_random.tres" id="7_rshot"]
-[ext_resource type="Script" path="res://Scripts/Weapon/weapon_model.gd" id="8_model"]
+[ext_resource type="Script" uid="uid://bmc7pr8e2fuco" path="res://Scripts/Weapon/weapon_model.gd" id="8_model"]
 
 [sub_resource type="Animation" id="Animation_rf6un"]
 length = 0.001
@@ -272,7 +272,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.45, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6),
+"times": PackedFloat32Array(0.45, 0.6, 0.8, 1, 1.2, 1.4, 1.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "values": [{
 "args": [],
@@ -518,7 +518,7 @@ mesh = SubResource("ArrayMesh_s80en")
 [node name="ShootSound" type="AudioStreamPlayer3D" parent="." unique_id=1988202267]
 stream = ExtResource("7_rshot")
 attenuation_model = 3
-volume_db = -0.746
+volume_db = -2.0
 unit_size = 6.74
 max_db = 6.0
 pitch_scale = 1.23
@@ -526,9 +526,9 @@ max_distance = 421.08
 max_polyphony = 3
 
 [node name="ReloadSound" type="AudioStreamPlayer3D" parent="." unique_id=383672297]
-stream = ExtResource("6_rclick")
 transform = Transform3D(1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 0)
+stream = ExtResource("6_rclick")
 attenuation_model = 3
-volume_db = -0.577
+volume_db = -1.0
 pitch_scale = 0.94
 max_polyphony = 2
