@@ -3,6 +3,7 @@ extends CharacterBody3D
 
 const SPEED := 50.0
 var lifetime := 2.0
+var damage: float = 0.0
 
 
 func _ready() -> void:
@@ -16,8 +17,10 @@ func _process(delta: float) -> void:
 		var hit_object = collision.get_collider()
 		print("[BULLET]: hit '", hit_object.name, "'!")
 		
-		if hit_object.has_method("take_damage"):
-			hit_object.take_damage(25)
+		var health_component = hit_object.get_node_or_null("HealthComponent")
+		
+		if health_component and health_component.has_method("take_damage"):
+			health_component.take_damage(damage)
 			
 		queue_free()
 	

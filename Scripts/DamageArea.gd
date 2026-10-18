@@ -41,4 +41,4 @@ func _deal_damage_to(target: Node3D) -> void:
 	var health = target.get_node("HealthComponent") as HealthComponent
 	if health:
 		health.take_damage(damage_amount)
-		print("[", name, "]: damaged ", target.name, " on ", damage_amount)
+		#print("[", name, "]: damaged ", target.name, " on ", damage_amount)

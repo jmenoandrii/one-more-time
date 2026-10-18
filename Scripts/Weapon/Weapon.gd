@@ -150,6 +150,9 @@ func _fire(target_point: Vector3) -> void:
 func _spawn_bullet(muzzle: Node3D, target_point: Vector3) -> void:
 	var instance: PhysicsBody3D = bullet_scene.instantiate()
 	
+	if "damage" in instance:
+		instance.damage = damage
+	
 	# place the bullet before adding it to the tree,
 	# otherwise it appears at (0, 0, 0) for a moment — inside the player
 	var from := muzzle.global_position

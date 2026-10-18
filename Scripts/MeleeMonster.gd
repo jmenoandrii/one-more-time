@@ -8,12 +8,17 @@ const SPEED = 4.0
 var player: Node3D = null
 var is_chasing := false
 
+# health
+@onready var health_component: Node = $HealthComponent
+
 
 func _ready() -> void:
 	sight_ray.add_exception(self)
 	
 	detection_area.body_entered.connect(_on_body_entered)
 	detection_area.body_exited.connect(_on_body_exited)
+	
+	health_component.died.connect(die)
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player": 
@@ -36,14 +41,12 @@ func _physics_process(delta: float) -> void:
 		
 		if sight_ray.is_colliding():
 			var hit = sight_ray.get_collider()
-			print("Промінь влучив у: ", hit.name) # Покаже, у що впирається погляд
 			
 			if hit == player:
 				is_chasing = true
 			else:
 				is_chasing = false
 		else:
-			print("Промінь нікуди не влучив")
 			is_chasing = false
 	
 	# chasing
@@ -64,3 +67,6 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+func die():
+	queue_free()

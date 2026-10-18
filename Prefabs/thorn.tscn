@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dh3tggv2yw24s"]
+
+[ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="1_7s8su"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_osii8"]
+albedo_color = Color(0.9019608, 0.39215687, 0.31764707, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_0rpfx"]
+material = SubResource("StandardMaterial3D_osii8")
+
+[node name="Thorn" type="Node3D" unique_id=1498429826]
+
+[node name="DamageArea" parent="." unique_id=1014670161 instance=ExtResource("1_7s8su")]
+damage_amount = 40.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=138633343]
+mesh = SubResource("PrismMesh_0rpfx")

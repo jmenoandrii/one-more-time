@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://ca08kcx720pjo" path="res://Materials/untitled.png" id="26_mbq5o"]
 [ext_resource type="ArrayMesh" uid="uid://4wa5f3eilap4" path="res://Materials/box.obj" id="27_1o338"]
 [ext_resource type="PackedScene" uid="uid://cbx0ydyx67811" path="res://Prefabs/melee_monster.tscn" id="28_bl1qp"]
+[ext_resource type="PackedScene" uid="uid://dh3tggv2yw24s" path="res://Prefabs/thorn.tscn" id="29_1gqrq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -230,7 +231,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824
 
 [node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
 target_position = Vector3(0, 0, -1000)
-collide_with_areas = true
 
 [node name="InteractRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=143733516]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
@@ -1231,6 +1231,15 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 24.4
 
 [node name="MeleeMonster" parent="." unique_id=465993397 instance=ExtResource("28_bl1qp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2506857, 0.46764326, 25.968843)
+
+[node name="Thorn2" parent="." unique_id=1498429826 instance=ExtResource("29_1gqrq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9094996, 0.4425795, 24.973)
+
+[node name="Thorn3" parent="." unique_id=1303394881 instance=ExtResource("29_1gqrq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9094996, 0.4425795, 23.809374)
+
+[node name="Thorn4" parent="." unique_id=1533029495 instance=ExtResource("29_1gqrq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9094996, 0.4425795, 22.580564)
 
 [connection signal="pressed" from="UI/PauseMenu/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/ExitButton" to="UI/PauseMenu" method="_on_exit_button_pressed"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="1_1jyks"]
 [ext_resource type="Script" uid="uid://dvvmoxodjvxw7" path="res://Scripts/MeleeMonster.gd" id="1_84jqe"]
-[ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageArea.gd" id="1_i8060"]
+[ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="2_84jqe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0qyx"]
 albedo_color = Color(0.9577101, 0.45239156, 0.5330228, 1)
@@ -13,7 +13,8 @@ material = SubResource("StandardMaterial3D_g0qyx")
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_0rpfx"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_tdu12"]
+resource_local_to_scene = true
 size = Vector3(1.1, 2.1, 1.1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g0qyx"]
@@ -31,17 +32,12 @@ mesh = SubResource("CapsuleMesh_0rpfx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_g0qyx")
 
-[node name="DamageArea" type="Area3D" parent="." unique_id=94792843]
+[node name="DamageArea2" parent="." unique_id=1014670161 instance=ExtResource("2_84jqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("1_i8060")
 target_obj_name = "Player"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="DamageArea" unique_id=266645020]
-shape = SubResource("BoxShape3D_0rpfx")
-debug_color = Color(0.7711971, 0.39040944, 0.5637788, 0.41960785)
-
-[node name="Timer" type="Timer" parent="DamageArea" unique_id=1096139960]
-autostart = true
+[node name="CollisionShape3D" parent="DamageArea2" index="0" unique_id=1928030323]
+shape = SubResource("BoxShape3D_tdu12")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
@@ -55,3 +51,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
 [node name="HealthComponent" type="Node" parent="." unique_id=606694687]
 script = ExtResource("1_1jyks")
+
+[editable path="DamageArea2"]
