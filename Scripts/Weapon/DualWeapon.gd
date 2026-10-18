@@ -11,6 +11,7 @@ class_name DualWeapon
 @export var left_shoot_sound: AudioStreamPlayer3D
 @export var gun_fire_rate: float = 0.5 # cooldown of each revolver; fire_rate is only the gap between any two shots
 @export var recoil_side_yaw: float = 0.06 # extra kick outward, toward the side that fired
+@export var idle_left_phase: float = 1.7 # the left revolver's idle sway lags behind, so the pair doesn't move in lockstep
 
 @onready var bullet_pos_left: Marker3D = $BulletPosLeft
 @onready var right_model: Node3D = $Right
@@ -42,6 +43,7 @@ func _ready() -> void:
 	if left_shoot_sound == null:
 		left_shoot_sound = left_model.find_child("ShootSound", true, false) as AudioStreamPlayer3D
 
+	idle_on_self = false
 	super()
 	_connect_model(left_animation_player)
 	gun_fire_rate /= RunState.get_stat("fire_rate", 1.0)
@@ -59,8 +61,12 @@ func _process(delta: float) -> void:
 		_side_target_pos[i] = _side_target_pos[i].lerp(Vector3.ZERO, back)
 		_side_rot[i] = _side_rot[i].lerp(_side_target_rot[i], chase)
 		_side_pos[i] = _side_pos[i].lerp(_side_target_pos[i], chase)
+		var side := 1.0 if i == 0 else -1.0
+		var phase := 0.0 if i == 0 else idle_left_phase
+		var rot: Vector3 = _side_rot[i] + _idle_sway_rot(phase, side)
+		var pos: Vector3 = _side_pos[i] + _idle_sway_pos(phase, side)
 		var rest: Transform3D = _pivot_rest[i]
-		_pivots[i].transform = Transform3D(Basis.from_euler(_side_rot[i]) * rest.basis, rest.origin + _side_pos[i])
+		_pivots[i].transform = Transform3D(Basis.from_euler(rot) * rest.basis, rest.origin + pos)
 
 func _is_ready_to_fire() -> bool:
 	# strict alternation: the shot waits for the revolver whose turn it is

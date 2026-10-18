@@ -1,6 +1,6 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://dsehjydlvg5cm"]
 
-[ext_resource type="Script" uid="uid://ceudnvija6mj5" path="res://Scripts/InteractableKey.gd" id="1_key"]
+[ext_resource type="Script" uid="uid://ceudnvija6mj5" path="res://Scripts/Interactable/InteractableKey.gd" id="1_key"]
 
 [sub_resource type="TorusMesh" id="TorusMesh_ring"]
 inner_radius = 0.055
@@ -16,27 +16,27 @@ size = Vector3(0.03, 0.07, 0.025)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_key"]
 
-[node name="key_pickup" type="Area3D"]
+[node name="key_pickup" type="Area3D" unique_id=1008304884]
 script = ExtResource("1_key")
 spin_speed = 1.2
 
-[node name="Model" type="Node3D" parent="."]
+[node name="Model" type="Node3D" parent="." unique_id=1488815321]
 
-[node name="Ring" type="MeshInstance3D" parent="Model"]
+[node name="Ring" type="MeshInstance3D" parent="Model" unique_id=625338395]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.21, 0, 0)
 mesh = SubResource("TorusMesh_ring")
 
-[node name="Shaft" type="MeshInstance3D" parent="Model"]
+[node name="Shaft" type="MeshInstance3D" parent="Model" unique_id=1367846695]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_shaft")
 
-[node name="Tooth1" type="MeshInstance3D" parent="Model"]
+[node name="Tooth1" type="MeshInstance3D" parent="Model" unique_id=465105177]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, -0.045, 0)
 mesh = SubResource("BoxMesh_tooth")
 
-[node name="Tooth2" type="MeshInstance3D" parent="Model"]
+[node name="Tooth2" type="MeshInstance3D" parent="Model" unique_id=2078326277]
 transform = Transform3D(1, 0, 0, 0, 0.7, 0, 0, 0, 1, 0.135, -0.035, 0)
 mesh = SubResource("BoxMesh_tooth")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1385179683]
 shape = SubResource("SphereShape3D_key")

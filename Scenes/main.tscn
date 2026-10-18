@@ -20,17 +20,20 @@
 [ext_resource type="AudioStream" uid="uid://c17a8h5lxtf10" path="res://Sounds/Music/ribhavagrawal-core-punk-no-copyright-music-338077.mp3" id="13_wsu2k"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="14_1w6v2"]
 [ext_resource type="Texture2D" uid="uid://ca08kcx720pjo" path="res://Materials/untitled.png" id="17_fevyy"]
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="17_health"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="17_health"]
 [ext_resource type="ArrayMesh" uid="uid://4wa5f3eilap4" path="res://Materials/box.obj" id="18_hibaj"]
 [ext_resource type="PackedScene" uid="uid://dl3aifvilv1jx" path="res://Prefabs/weapon_pickup.tscn" id="21_3pmx8"]
+[ext_resource type="PackedScene" uid="uid://gryaoxe18jfk" path="res://Prefabs/ammo.tscn" id="27_r33sp"]
 [ext_resource type="Script" uid="uid://esp0o4jvam1s" path="res://Scripts/Weapon/DualWeapon.gd" id="30_dual"]
 [ext_resource type="PackedScene" uid="uid://c3qf00g76c8t4" path="res://Prefabs/door.tscn" id="31_door"]
 [ext_resource type="Shader" uid="uid://chytyk5wdcrm5" path="res://Shaders/main.gdshader" id="31_e08e2"]
-[ext_resource type="PackedScene" path="res://Prefabs/key_pickup.tscn" id="32_key"]
+[ext_resource type="PackedScene" uid="uid://dsehjydlvg5cm" path="res://Prefabs/key_pickup.tscn" id="32_key"]
 [ext_resource type="PackedScene" path="res://Prefabs/level_exit.tscn" id="33_exit"]
 [ext_resource type="PackedScene" uid="uid://bqnva1sb68c4f" path="res://Prefabs/door_garage.tscn" id="34_neg2b"]
+[ext_resource type="PackedScene" uid="uid://daj8pqg65x8wb" path="res://Prefabs/heal.tscn" id="37_heal"]
 [ext_resource type="Script" uid="uid://gquepqbnnniv" path="res://Scripts/level_spawner.gd" id="34_spawner"]
 [ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="35_upgrades"]
+[ext_resource type="PackedScene" uid="uid://iyxujgcsks8j" path="res://Prefabs/stamina_bar.tscn" id="36_hdf80"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
 [ext_resource type="Script" uid="uid://cedi0y4p5m7ps" path="res://Scripts/World.gd" id="60_world"]
@@ -1098,5 +1101,14 @@ is_open = true
 
 [node name="Door3" parent="." unique_id=1138386591 instance=ExtResource("34_neg2b")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.360144, 2.2995605, 36.936977)
+
+[node name="ammo" parent="." unique_id=723814774 instance=ExtResource("27_r33sp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.678672, 0.56396437, 20.249245)
+
+[node name="heal" parent="." unique_id=336040470 instance=ExtResource("37_heal")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2111744, 0.56396484, 17.577238)
+
+[node name="stamina_bar" parent="." unique_id=232772140 instance=ExtResource("36_hdf80")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4154444, 0.56396484, 20.856071)
 
 [connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]

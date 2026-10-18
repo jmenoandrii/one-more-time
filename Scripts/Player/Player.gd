@@ -376,6 +376,10 @@ func _reload_current_weapon() -> void:
 	current_reserve_ammo = await weapon.reload(current_reserve_ammo)
 	GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
 
+func _add_reserve_ammo(amount: int) -> void:
+	current_reserve_ammo += amount
+	GameEvents.reserve_ammo_changed.emit(current_reserve_ammo)
+
 func _on_weapon_reserve_ammo_changed(amount: int) -> void:
 	# the reserve is shared, so it's updated even if the reloading weapon was put away
 	current_reserve_ammo = amount
@@ -386,3 +390,8 @@ func _on_weapon_ammo_updated(current: int, maximum: int, weapon: Weapon) -> void
 	if current_weapon_index != -1 and weapons[current_weapon_index] == weapon:
 		GameEvents.ammo_changed.emit(current, maximum)
 		GameEvents.cylinders_changed.emit(weapon.get_cylinder_rounds(), true)
+
+func _add_curent_stamina(amount: float) -> void:
+	current_stamina = minf(current_stamina + amount, max_stamina)
+	stamina_changed.emit(current_stamina, max_stamina)
+	

@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://7inavb4ei1go" path="res://Scripts/RangeMonster.gd" id="1_6gfko"]
 [ext_resource type="PackedScene" uid="uid://drch2nvlo2ejw" path="res://Prefabs/stone.tscn" id="2_6gfko"]
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="3_0i20u"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="3_0i20u"]
+
 
 [sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
 size = Vector3(0.5, 0.5, 0.5)
