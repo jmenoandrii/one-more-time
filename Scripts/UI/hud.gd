@@ -3,7 +3,8 @@ extends CanvasLayer
 # The in-game HUD, pixel art: laid out in art pixels under Root (a PixelRoot).
 #
 # bottom-left: keys, health, stamina (fades out while full) | bottom-right: reserve, cylinders
-# center: crosshair, interact prompt, death message. The loop number is in the pause menu.
+# top-center: level timer | center: crosshair, interact prompt, death message.
+# The loop number is in the pause menu.
 
 const KEY_ICON := preload("res://UI/HUD/key.png")
 
@@ -14,6 +15,10 @@ const KEY_ICON := preload("res://UI/HUD/key.png")
 @export_group("Stamina")
 @export var stamina_hide_delay: float = 1.0 # after it's full again
 @export var stamina_fade_time: float = 0.3
+
+@export_group("Timer")
+@export var timer_warning_time: float = 10.0 # sec left when the timer turns red
+@export var timer_warning_color: Color = Color(0.9, 0.2, 0.2)
 
 @export_group("Reserve")
 @export var reserve_empty_color: Color = Color(0.9, 0.2, 0.2)
@@ -29,6 +34,7 @@ var reserve_label: Label
 var interact_label: Label
 var keys_box: HBoxContainer
 var death_label: Label
+var timer_label: Label
 
 var _trail_tween: Tween
 var _stamina_tween: Tween
@@ -45,6 +51,7 @@ func _enter_tree() -> void:
 	interact_label = %InteractLabel
 	keys_box = %KeysContainer
 	death_label = %DeathLabel
+	timer_label = %TimerLabel
 
 	GameEvents.health_changed.connect(_on_health_changed)
 	GameEvents.stamina_changed.connect(_on_stamina_changed)
@@ -54,6 +61,7 @@ func _enter_tree() -> void:
 	GameEvents.interact_prompt_changed.connect(_on_interact_prompt_changed)
 	GameEvents.keys_changed.connect(_on_keys_changed)
 	GameEvents.player_died.connect(_on_player_died)
+	GameEvents.time_changed.connect(_on_time_changed)
 
 func _on_health_changed(current: float, maximum: float) -> void:
 	health_fill.max_value = maximum
@@ -116,3 +124,8 @@ func _on_keys_changed(keys: Dictionary) -> void:
 
 func _on_player_died() -> void:
 	death_label.visible = true
+
+func _on_time_changed(time_left: float) -> void:
+	var seconds := ceili(time_left) # 0:00 only when the time is really up
+	timer_label.text = "%02d:%02d" % [seconds / 60, seconds % 60]
+	timer_label.modulate = timer_warning_color if time_left <= timer_warning_time else Color.WHITE

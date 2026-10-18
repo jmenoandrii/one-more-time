@@ -18,7 +18,6 @@
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="16_xl01j"]
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="17_8sb6c"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="18_bpypk"]
-[ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://Scripts/UI/pause_menu.gd" id="19_6wr68"]
 [ext_resource type="PackedScene" path="res://Prefabs/key_pickup.tscn" id="20_bmswj"]
 [ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageArea.gd" id="21_w8vqt"]
 [ext_resource type="Material" uid="uid://cgk2osihrxrd4" path="res://Materials/asphalt_psx.tres" id="22_c4o6a"]
@@ -30,6 +29,8 @@
 [ext_resource type="PackedScene" uid="uid://cbx0ydyx67811" path="res://Prefabs/melee_monster.tscn" id="28_bl1qp"]
 [ext_resource type="PackedScene" uid="uid://dh3tggv2yw24s" path="res://Prefabs/thorn.tscn" id="29_1gqrq"]
 [ext_resource type="PackedScene" uid="uid://bq3kyfmculrt4" path="res://Prefabs/range_monster.tscn" id="29_s3gjo"]
+[ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
+[ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -273,168 +274,9 @@ script = ExtResource("17_8sb6c")
 process_mode = 3
 script = ExtResource("18_bpypk")
 
-[node name="HUD" type="CanvasLayer" parent="UI" unique_id=239500367]
+[node name="HUD" parent="UI" instance=ExtResource("50_hud")]
 
-[node name="CenterContainer" type="CenterContainer" parent="UI/HUD" unique_id=1974874258]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="ColorRect" type="ColorRect" parent="UI/HUD/CenterContainer" unique_id=2022210584]
-custom_minimum_size = Vector2(4, 4)
-layout_mode = 2
-mouse_filter = 2
-color = Color(1, 0.2784314, 0.79607844, 1)
-
-[node name="AmmoLabel" type="Label" parent="UI/HUD" unique_id=885559988]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -94.0
-offset_top = -66.0
-offset_right = -12.0
-offset_bottom = -11.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "0 / 0"
-justification_flags = 131
-
-[node name="reserveAmmo" type="Label" parent="UI/HUD" unique_id=2032349978]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -35.0
-offset_top = -103.96503
-offset_right = -12.0
-offset_bottom = -48.965027
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-justification_flags = 131
-
-[node name="HeartSymbol" type="Label" parent="UI/HUD" unique_id=1881795301]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = -59.0
-offset_right = 61.0
-offset_bottom = -4.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "♥:"
-
-[node name="HealthLabel" type="Label" parent="UI/HUD" unique_id=202658451]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = -58.0
-offset_right = 96.0
-offset_bottom = -3.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "0 / 0"
-
-[node name="StaminaSymbol" type="Label" parent="UI/HUD" unique_id=893110678]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = -107.0
-offset_right = 61.0
-offset_bottom = -52.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "🏃:"
-
-[node name="StaminaLabel" type="Label" parent="UI/HUD" unique_id=1094148920]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = -106.0
-offset_right = 138.0
-offset_bottom = -51.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "0 / 0"
-
-[node name="InteractLabel" type="Label" parent="UI/HUD" unique_id=893624820]
-visible = false
-offset_left = 536.0
-offset_top = 602.0
-offset_right = 620.0
-offset_bottom = 625.0
-horizontal_alignment = 1
-
-[node name="KeysContainer" type="HBoxContainer" parent="UI/HUD" unique_id=730203913]
-offset_left = 2.0
-offset_top = 485.0
-offset_right = 156.0
-offset_bottom = 541.0
-
-[node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
-process_mode = 3
-visible = false
-script = ExtResource("19_6wr68")
-
-[node name="ColorRect" type="ColorRect" parent="UI/PauseMenu" unique_id=1873464838]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.28485027, 0.28485027, 0.28485027, 1)
-
-[node name="ResumeButton" type="Button" parent="UI/PauseMenu" unique_id=1769114960]
-offset_left = 518.0
-offset_top = 274.0
-offset_right = 651.0
-offset_bottom = 321.0
-text = "Resume"
-
-[node name="ExitButton" type="Button" parent="UI/PauseMenu" unique_id=535452121]
-offset_left = 518.0
-offset_top = 424.0
-offset_right = 651.0
-offset_bottom = 471.0
-text = "Exit"
-
-[node name="SensitivitySlider" type="HSlider" parent="UI/PauseMenu" unique_id=2041809233]
-offset_left = 424.0
-offset_top = 359.0
-offset_right = 743.0
-offset_bottom = 415.0
-min_value = 1.0
-max_value = 10.0
-step = 0.1
-value = 4.0
-
-[node name="Label" type="Label" parent="UI/PauseMenu/SensitivitySlider" unique_id=933893457]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.133
-anchor_bottom = 0.43
-offset_top = -4.0
-offset_right = 37.572998
-offset_bottom = -5.08
-text = "Sensitivity"
+[node name="PauseMenu" parent="UI" instance=ExtResource("51_pause")]
 
 [node name="Level 1" type="CSGCombiner3D" parent="." unique_id=2063705400]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
@@ -1245,6 +1087,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9094996, 0.4425795, 17.8761
 [node name="Thorn4" parent="." unique_id=1533029495 instance=ExtResource("29_1gqrq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9094996, 0.4425795, 16.64737)
 
-[connection signal="pressed" from="UI/PauseMenu/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
-[connection signal="pressed" from="UI/PauseMenu/ExitButton" to="UI/PauseMenu" method="_on_exit_button_pressed"]
-[connection signal="value_changed" from="UI/PauseMenu/SensitivitySlider" to="UI/PauseMenu" method="_on_sensitivity_slider_value_changed"]

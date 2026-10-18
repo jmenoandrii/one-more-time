@@ -62,6 +62,8 @@ func _build() -> void:
 	column.add_child(_cards_box)
 
 func _open() -> void:
+	if visible: # the exit and the level timer can both finish the level
+		return
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 

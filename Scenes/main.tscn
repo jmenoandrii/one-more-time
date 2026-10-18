@@ -31,6 +31,7 @@
 [ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="35_upgrades"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
+[ext_resource type="Script" uid="uid://cedi0y4p5m7ps" path="res://Scripts/World.gd" id="60_world"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -146,6 +147,7 @@ stream_2/stream = ExtResource("10_gt3je")
 stream_3/stream = ExtResource("11_3pmx8")
 
 [node name="World" type="Node3D" unique_id=41126308]
+script = ExtResource("60_world")
 
 [node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1077777929]
 environment = SubResource("Environment_h2yge")
@@ -1116,3 +1118,10 @@ transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.83
 
 [node name="LevelSpawner" type="Node" parent="." unique_id=1773454078]
 script = ExtResource("34_spawner")
+
+[node name="LevelTimer" type="Timer" parent="." unique_id=239987121]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]
