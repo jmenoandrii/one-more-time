@@ -19,3 +19,9 @@ signal xp_changed(current: int, delta: int)
 # Run
 signal level_completed
 signal player_died
+
+signal stamina_bar_picked
+signal ammo_picked
+signal heal_picked
+signal gun_picked
+signal key_picked

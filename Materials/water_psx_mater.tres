@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://clmb47o3ddytk"]
+
+[ext_resource type="Texture2D" uid="uid://cjjwieuwo23s3" path="res://Materials/water_psx.png" id="1_putkf"]
+
+[resource]
+albedo_texture = ExtResource("1_putkf")
+texture_filter = 0

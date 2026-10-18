@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://wste2nkrg3nw"]
+
+[ext_resource type="Material" uid="uid://yqlqddyi6gpu" path="res://Materials/roof_wood_psx.tres" id="1_eak3e"]
+[ext_resource type="ArrayMesh" uid="uid://4wa5f3eilap4" path="res://Materials/box.obj" id="2_r54wt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3mq26"]
+size = Vector3(1.9790039, 2.0075378, 2.029419)
+
+[node name="BoxP" type="Node3D" unique_id=533280362]
+
+[node name="Box" type="MeshInstance3D" parent="." unique_id=106995984]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = ExtResource("1_eak3e")
+mesh = ExtResource("2_r54wt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box" unique_id=235754123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01928711, 0.019546509, 0.0014038086)
+shape = SubResource("BoxShape3D_3mq26")

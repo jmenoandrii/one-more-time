@@ -27,6 +27,10 @@ var aggro_time_left: float = 0.0
 @onready var health_component: Node = $HealthComponent
 @onready var damage_area: Node = $DamageArea
 @onready var animator: EnemyAnimator = get_node_or_null("EnemyAnimator")
+@onready var goblin_sound: AudioStreamPlayer3D = $GoblinSound
+@onready var goblin_attack: AudioStreamPlayer3D = $GoblinAttack
+@onready var goblin_ambient: AudioStreamPlayer3D = $GoblinAmbient
+@onready var stone_break: AudioStreamPlayer3D = $StoneBreak
 
 var player: Node3D = null
 var can_see_player := false
@@ -173,6 +177,7 @@ func _set_state(state: ThrowState) -> void:
 	is_throwing = state != ThrowState.READY
 
 func _update_throw(delta: float) -> void:
+	
 	if _throw_state == ThrowState.READY:
 		return
 	_state_time += delta
@@ -180,6 +185,7 @@ func _update_throw(delta: float) -> void:
 	match _throw_state:
 		ThrowState.WINDUP:
 			if _state_time < windup_time:
+				
 				return
 			if not can_see_player or player == null:
 				_set_state(ThrowState.READY)
@@ -187,18 +193,24 @@ func _update_throw(delta: float) -> void:
 				_set_state(ThrowState.THROWING)
 				_released = false
 				_throw_length = animator.play_random_attack()
+				goblin_attack.play()
 				if _held_stone:
 					_held_stone.global_position = _get_palm_position()
 					_held_stone.visible = true
 			else:
 				_release_stone()
 				_set_state(ThrowState.COOLDOWN)
+				
 
 		ThrowState.THROWING:
+			
 			if not _released and _state_time >= throw_release_time:
 				_release_stone()
+				
 			if _state_time >= _throw_length:
+				
 				_set_state(ThrowState.COOLDOWN)
+				
 
 		ThrowState.COOLDOWN:
 			if _state_time >= cooldown_time:
@@ -207,8 +219,10 @@ func _update_throw(delta: float) -> void:
 func _release_stone() -> void:
 	_released = true
 	if _held_stone:
+		
 		_held_stone.visible = false
 	if stone_scene == null:
+		
 		return
 
 	var from := _get_palm_position()
@@ -224,6 +238,7 @@ func _release_stone() -> void:
 	stone.add_collision_exception_with(self)
 	stone.transform = Transform3D(Basis.looking_at(target_point - from, Vector3.UP), from)
 	get_tree().root.add_child(stone)
+	
 
 func _get_palm_position() -> Vector3:
 	if _hand < 0:
@@ -265,4 +280,5 @@ func _on_damage_caused(amount: float) -> void:
 
 func die():
 	RunState.add_xp(xp_reward)
+	goblin_sound.play()
 	queue_free()
