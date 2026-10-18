@@ -10,9 +10,11 @@ sections = 2
 size = Vector3(0.4, 0.4, 0.4)
 
 [node name="Stone" type="CharacterBody3D" unique_id=1713610658]
+collision_layer = 4
 script = ExtResource("1_hswjb")
 speed = 20.0
 damage = 10.0
+tracer_length = 0.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1813965873]
 mesh = SubResource("TubeTrailMesh_g0qyx")

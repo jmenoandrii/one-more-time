@@ -9,7 +9,7 @@ material = ExtResource("2_gvfbv")
 size = Vector3(1.3447266, 2.4711914, 0.21583202)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_leaf"]
-size = Vector3(1.3447266, 2.4711914, 0.21583202)
+size = Vector3(12.346008, 4.692749, 0.21583202)
 
 [sub_resource type="Animation" id="Animation_reset"]
 length = 0.005
@@ -82,7 +82,7 @@ transform = Transform3D(-1.5172223e-07, -4.9999995, 0, 3.471, -2.1855692e-07, 0,
 mesh = SubResource("BoxMesh_leaf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge" unique_id=830351412]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6723633, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6791687, 0.016418457, 0)
 shape = SubResource("BoxShape3D_leaf")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=792981098]

@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://i8ajubhtmkna"]
+
+[ext_resource type="Texture2D" uid="uid://bywy7uxfms0y3" path="res://Textures/Goblin_Texture_blue.png" id="1_8tmuh"]
+
+[resource]
+albedo_texture = ExtResource("1_8tmuh")
+texture_filter = 0

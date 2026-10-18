@@ -22,7 +22,6 @@ extends Node3D
 @onready var open_sound: AudioStreamPlayer3D = $Open
 @onready var close_sound: AudioStreamPlayer3D = $Close
 
-
 func _ready() -> void:
 	add_to_group("interactable")
 	if is_open:
