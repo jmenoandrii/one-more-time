@@ -30,10 +30,10 @@
 [ext_resource type="PackedScene" uid="uid://dsehjydlvg5cm" path="res://Prefabs/key_pickup.tscn" id="32_key"]
 [ext_resource type="PackedScene" path="res://Prefabs/level_exit.tscn" id="33_exit"]
 [ext_resource type="PackedScene" uid="uid://bqnva1sb68c4f" path="res://Prefabs/door_garage.tscn" id="34_neg2b"]
-[ext_resource type="PackedScene" uid="uid://daj8pqg65x8wb" path="res://Prefabs/heal.tscn" id="37_heal"]
 [ext_resource type="Script" uid="uid://gquepqbnnniv" path="res://Scripts/level_spawner.gd" id="34_spawner"]
 [ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="35_upgrades"]
 [ext_resource type="PackedScene" uid="uid://iyxujgcsks8j" path="res://Prefabs/stamina_bar.tscn" id="36_hdf80"]
+[ext_resource type="PackedScene" uid="uid://daj8pqg65x8wb" path="res://Prefabs/heal.tscn" id="37_heal"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
 [ext_resource type="Script" uid="uid://cedi0y4p5m7ps" path="res://Scripts/World.gd" id="60_world"]
@@ -922,7 +922,7 @@ size = Vector3(70, 1, 17)
 material = ExtResource("1_fevyy")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040 groups=["player"]]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.6002213, 0)
 script = ExtResource("1_jkdf5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=808242478]
@@ -1019,13 +1019,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
 [node name="dirt" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1168338759]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21978569, 0)
 stream = SubResource("AudioStreamRandomizer_upu61")
+volume_db = -35.0
 
 [node name="stone" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=43388868]
 stream = SubResource("AudioStreamRandomizer_5vw27")
+volume_db = -50.0
 
 [node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
 stream = ExtResource("12_u50mg")
-volume_db = -23.0
+volume_db = -25.0
 
 [node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
 collision_mask = 2
