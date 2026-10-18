@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://7inavb4ei1go" path="res://Scripts/RangeMonster.gd" id="1_6gfko"]
 [ext_resource type="PackedScene" uid="uid://drch2nvlo2ejw" path="res://Prefabs/stone.tscn" id="2_6gfko"]
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="3_0i20u"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="3_0i20u"]
 [ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="3_eis7u"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]

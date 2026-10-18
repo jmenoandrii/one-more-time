@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://cbx0ydyx67811"]
 
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="1_1jyks"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="1_1jyks"]
 [ext_resource type="Script" uid="uid://dvvmoxodjvxw7" path="res://Scripts/MeleeMonster.gd" id="1_84jqe"]
 [ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="2_84jqe"]
+
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0qyx"]
 albedo_color = Color(0.9577101, 0.45239156, 0.5330228, 1)

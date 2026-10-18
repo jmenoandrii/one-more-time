@@ -1,0 +1,94 @@
+[gd_scene format=3 uid="uid://bqnva1sb68c4f"]
+
+[ext_resource type="Script" uid="uid://klkm5isfhp7r" path="res://Scripts/door_func.gd" id="1_w3tfi"]
+[ext_resource type="Material" uid="uid://yqlqddyi6gpu" path="res://Materials/roof_wood_psx.tres" id="2_gvfbv"]
+[ext_resource type="AudioStream" uid="uid://cvspnjj447xhw" path="res://Sounds/Door/Gate/x_AvZuzP.wav" id="4_w3tfi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_leaf"]
+material = ExtResource("2_gvfbv")
+size = Vector3(1.3447266, 2.4711914, 0.21583202)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_leaf"]
+size = Vector3(1.3447266, 2.4711914, 0.21583202)
+
+[sub_resource type="Animation" id="Animation_reset"]
+length = 0.005
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hinge:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.001),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hinge:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_open"]
+resource_name = "door_open"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Hinge:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5707964, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hinge:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 7.964556),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_door"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"door_open": SubResource("Animation_open")
+}
+
+[node name="Door" type="Node3D" unique_id=3639644]
+script = ExtResource("1_w3tfi")
+
+[node name="Hinge" type="AnimatableBody3D" parent="." unique_id=347375953]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Hinge" unique_id=1036091664]
+transform = Transform3D(-1.5172223e-07, -4.9999995, 0, 3.471, -2.1855692e-07, 0, 0, 0, 1, 0.6723633, 0, 0)
+mesh = SubResource("BoxMesh_leaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hinge" unique_id=830351412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6723633, 0, 0)
+shape = SubResource("BoxShape3D_leaf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=792981098]
+libraries/ = SubResource("AnimationLibrary_door")
+
+[node name="Open" type="AudioStreamPlayer3D" parent="." unique_id=153798265]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5527159, 0, 0)
+stream = ExtResource("4_w3tfi")
+volume_db = -1.0
