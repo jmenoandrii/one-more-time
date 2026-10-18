@@ -5,6 +5,11 @@
 [ext_resource type="Script" uid="uid://cg8ci0q8eo2i6" path="res://Scripts/UI/pixel_button.gd" id="3_ce3w2"]
 [ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="3_opfnp"]
 [ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="4_cp0ys"]
+[ext_resource type="Texture2D" uid="uid://hofrwmu8y8wk" path="res://UI/HUD/bar_frame.png" id="5_yhxw7"]
+[ext_resource type="Texture2D" uid="uid://yga7ldyfyvqa" path="res://UI/HUD/bar_fill.png" id="6_trj04"]
+[ext_resource type="Texture2D" uid="uid://b75irnk5sjrpk" path="res://UI/HUD/bullet.png" id="7_16hvj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yhxw7"]
 
 [node name="MainMenu" type="Control" unique_id=1325345040]
 layout_mode = 3
@@ -69,6 +74,15 @@ text = "PLAY"
 flat = true
 script = ExtResource("3_ce3w2")
 
+[node name="SettingsButton" type="Button" parent="ControlMenu/MarginContainer/VBoxContainer" unique_id=1119671133]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "SETTINGS"
+flat = true
+script = ExtResource("3_ce3w2")
+
 [node name="CreditsButton" type="Button" parent="ControlMenu/MarginContainer/VBoxContainer" unique_id=2113195214]
 unique_name_in_owner = true
 layout_mode = 2
@@ -88,6 +102,7 @@ flat = true
 script = ExtResource("3_ce3w2")
 
 [node name="ControlCredits" type="Control" parent="." unique_id=1329346895]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -194,3 +209,104 @@ Music used under CC BY 4.0."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="ControlSettings" type="Control" parent="." unique_id=26873248]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlSettings" unique_id=1870442575]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -27.0
+offset_right = 72.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BackButton" type="Button" parent="ControlSettings/VBoxContainer" unique_id=1423559139]
+custom_minimum_size = Vector2(250, 0)
+custom_maximum_size = Vector2(300, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "BACK"
+flat = true
+script = ExtResource("3_ce3w2")
+
+[node name="Gap2" type="Control" parent="ControlSettings/VBoxContainer" unique_id=188984429]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="ControlSettings/VBoxContainer" unique_id=723591603]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 18
+text = "SETTINGS"
+
+[node name="Gap" type="Control" parent="ControlSettings/VBoxContainer" unique_id=1744593638]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SensitivityLabel" type="Label" parent="ControlSettings/VBoxContainer" unique_id=318059123]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SENSITIVITY 4.0"
+
+[node name="SensitivityBar" type="NinePatchRect" parent="ControlSettings/VBoxContainer" unique_id=818585553]
+custom_minimum_size = Vector2(110, 10)
+layout_mode = 2
+texture = ExtResource("5_yhxw7")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="SensitivityFill" type="TextureProgressBar" parent="ControlSettings/VBoxContainer/SensitivityBar" unique_id=1346737709]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+step = 0.0
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("6_trj04")
+tint_progress = Color(1, 0.76, 0.055, 1)
+
+[node name="SensitivitySlider" type="HSlider" parent="ControlSettings/VBoxContainer/SensitivityBar" unique_id=1909543931]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("7_16hvj")
+theme_override_icons/grabber_highlight = ExtResource("7_16hvj")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_yhxw7")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_yhxw7")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_yhxw7")
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 4.0
