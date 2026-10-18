@@ -1,16 +1,31 @@
 extends CharacterBody3D
 
-@export var speed: float = 4.0
-@export var aggro_time: float = 2.0
-var aggro_time_left: float = 0.0
-
-
 @onready var detection_area: Area3D = $DetectionArea
 @onready var sight_ray: RayCast3D = $SightRay
 @onready var health_component: Node = $HealthComponent
+@onready var damage_area: Node = $DamageArea
 
 var player: Node3D = null
 var is_chasing := false
+
+@export var speed: float = 4.0
+@export var melee_damage: float = 15.0
+@export var aggro_time: float = 2.0
+var aggro_time_left: float = 0.0
+
+@export_group("Randomization")
+
+@export_subgroup("Scale")
+@export var min_height_offset: float = 0.1
+@export var max_offset: float = 0.1
+
+@export_subgroup("Speed")
+@export var min_speed_offset: float = 0.2
+@export var max_speed_offset: float = 0.2
+
+@export_subgroup("Damage")
+@export var min_melee_damage_offset: float = 2.0
+@export var max_melee_damage_offset: float = 2.0
 
 
 func _ready() -> void:
@@ -21,6 +36,16 @@ func _ready() -> void:
 	
 	health_component.died.connect(die)
 	health_component.damage_caused.connect(_on_damage_caused)
+	
+	# Randomization
+	speed += randf_range(-min_speed_offset, max_speed_offset)
+	
+	var random_scale = 1.0 + randf_range(-min_height_offset, max_offset)
+	scale = Vector3(random_scale, random_scale, random_scale)
+	
+	melee_damage += randf_range(-min_melee_damage_offset, max_melee_damage_offset)
+	if "damage_amount" in damage_area:
+		damage_area.damage_amount = melee_damage
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player": 

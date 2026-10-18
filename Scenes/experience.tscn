@@ -33,6 +33,8 @@
 [ext_resource type="Shader" uid="uid://chytyk5wdcrm5" path="res://Shaders/main.gdshader" id="31_iiad7"]
 [ext_resource type="PackedScene" path="res://Prefabs/level_exit.tscn" id="32_01o3k"]
 [ext_resource type="Script" uid="uid://gquepqbnnniv" path="res://Scripts/level_spawner.gd" id="33_i1mh1"]
+[ext_resource type="PackedScene" uid="uid://cbx0ydyx67811" path="res://Prefabs/melee_monster.tscn" id="34_6qhsw"]
+[ext_resource type="PackedScene" uid="uid://bq3kyfmculrt4" path="res://Prefabs/range_monster.tscn" id="34_08xqt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -1147,5 +1149,23 @@ script = ExtResource("33_i1mh1")
 wait_time = 120.0
 one_shot = true
 autostart = true
+
+[node name="MeleeMonster" parent="." unique_id=465993397 instance=ExtResource("34_6qhsw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.052731, 0.063964844, 26.14783)
+
+[node name="MeleeMonster2" parent="." unique_id=1533588439 instance=ExtResource("34_6qhsw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2890277, 0.063964844, 22.658688)
+
+[node name="MeleeMonster3" parent="." unique_id=536145647 instance=ExtResource("34_6qhsw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.804522, 0.06396437, 19.32947)
+
+[node name="RangeMonster" parent="." unique_id=532861933 instance=ExtResource("34_08xqt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9803224, 0.06396437, 25.720663)
+
+[node name="RangeMonster2" parent="." unique_id=1732451294 instance=ExtResource("34_08xqt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.1326175, 0.063964844, 22.014296)
+
+[node name="RangeMonster3" parent="." unique_id=861947711 instance=ExtResource("34_08xqt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.083648, 0.063964844, 18.775394)
 
 [connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]
