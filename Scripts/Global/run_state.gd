@@ -13,6 +13,7 @@ var loop: int = 0 # 0 = the first pass of the run
 var upgrades: Dictionary = {} # upgrade id -> stacks
 var pool: Array[UpgradeData] = []
 var _by_id: Dictionary = {} # upgrade id -> UpgradeData
+var xp: int = 0
 
 func _ready() -> void:
 	_load_pool()
@@ -74,6 +75,8 @@ func complete_level(upgrade: UpgradeData) -> void:
 func reset_run() -> void:
 	loop = 0
 	upgrades.clear()
+	xp = 0
+	GameEvents.xp_changed.emit(xp, 0)
 	save_run()
 
 func _on_player_died() -> void:
@@ -91,9 +94,17 @@ func load_run() -> void:
 		return
 	loop = cfg.get_value("run", "loop", 0)
 	upgrades = cfg.get_value("run", "upgrades", {})
+	xp = cfg.get_value("run", "xp", 0)
 
 func save_run() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value("run", "loop", loop)
 	cfg.set_value("run", "upgrades", upgrades)
+	cfg.set_value("run", "xp", xp)
 	cfg.save(PATH)
+
+func add_xp(amount: int) -> void:
+	if amount <= 0:
+		return
+	xp += amount
+	GameEvents.xp_changed.emit(xp, amount)

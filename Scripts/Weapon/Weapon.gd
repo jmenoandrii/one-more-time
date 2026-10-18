@@ -48,6 +48,19 @@ var is_owned: bool
 @export var inspect_rotation: Vector3 = Vector3(0.15, 0.7, 0.3) # muzzle up, turn side to the camera, tilt
 @export var inspect_blend_speed: float = 8.0
 
+# spent casings drop out when the reload animation calls eject_shells() on the model
+@export_group("Shells")
+@export var drop_shells: bool = true
+@export var shell_eject_spread: float = 0.6 # random push of each casing, m/s
+
+# muzzle flash: a star quad + a short light at the muzzle on every shot
+@export_group("Muzzle Flash")
+@export var muzzle_flash: bool = true
+@export var muzzle_flash_size: float = 0.35 # m
+@export var muzzle_flash_duration: float = 0.06 # s
+@export var muzzle_flash_light_energy: float = 3.0
+@export var muzzle_flash_light_range: float = 4.0
+
 # idle: slow "breathing" sway at rest (figure-eight), fades out during reload / inspect / equip
 @export_group("Idle")
 @export var idle_sway_speed: float = 1.8 # rad/s of the main wave
@@ -70,6 +83,8 @@ var _idle_time := 0.0
 var _idle_weight := 0.0
 var idle_on_self := true # DualWeapon sways each revolver separately instead
 var shooter: PhysicsBody3D # body that holds the weapon, bullets ignore it
+var _models: Array[Node] = [] # model roots in _connect_model order: [right, left] for DualWeapon
+var _flashes := {} # muzzle -> MuzzleFlash, created on the first shot from it
 
 var _rest_transform: Transform3D
 var _recoil_target_rot := Vector3.ZERO
@@ -100,7 +115,8 @@ func _ready() -> void:
 		reload_sound = find_child("ReloadSound", true, false) as AudioStreamPlayer3D
 
 	_connect_model(animation_player)
-	
+	ImpactEffects.prepare(self) # build the hit particles now, not on the first hit
+
 	is_owned = owned_at_start
 	
 	var node := get_parent()
@@ -190,20 +206,40 @@ func _fire(target_point: Vector3) -> void:
 	_spawn_bullet(bullet_pos, target_point)
 
 func _spawn_bullet(muzzle: Node3D, target_point: Vector3) -> void:
+	_flash_at(muzzle)
 	var instance: PhysicsBody3D = bullet_scene.instantiate()
 	
 	if "damage" in instance:
 		instance.damage = damage
 	
-	# place the bullet before adding it to the tree,
-	# otherwise it appears at (0, 0, 0) for a moment — inside the player
-	var from := muzzle.global_position
+	# the bullet flies from the camera, exactly along the aim: the muzzle sits far in front and to
+	# the side, so from there it would miss the crosshair (and start inside walls up close).
+	# It is drawn leaving the muzzle and merging into that path.
+	# Placed before adding it to the tree, otherwise it appears at (0, 0, 0) for a moment
+	var cam := get_viewport().get_camera_3d()
+	var from := cam.global_position if cam else muzzle.global_position
 	instance.transform = Transform3D(Basis.looking_at(target_point - from, Vector3.UP), from)
+	if instance.has_method(&"set_visual_start"):
+		instance.set_visual_start(muzzle.global_position, target_point)
 	if shooter:
 		instance.add_collision_exception_with(shooter)
 	instance.set(&"damage", damage)
 
 	get_tree().root.add_child(instance)
+
+func _flash_at(muzzle: Node3D) -> void:
+	if not muzzle_flash:
+		return
+	var flash: MuzzleFlash = _flashes.get(muzzle)
+	if flash == null:
+		flash = MuzzleFlash.new()
+		flash.size = muzzle_flash_size
+		flash.duration = muzzle_flash_duration
+		flash.light_energy = muzzle_flash_light_energy
+		flash.light_range = muzzle_flash_light_range
+		muzzle.add_child(flash)
+		_flashes[muzzle] = flash
+	flash.flash()
 
 func _play_shoot_animation(player: AnimationPlayer) -> void:
 	if player == null:
@@ -343,6 +379,31 @@ func _connect_model(player: AnimationPlayer) -> void:
 	var model := player.get_node_or_null(player.root_node)
 	if model and model.has_signal("round_loaded"):
 		model.round_loaded.connect(load_reload_round)
+	if model and model.has_signal("shells_ejected"):
+		model.shells_ejected.connect(_on_shells_ejected.bind(_models.size()))
+	_models.append(model)
+
+# the reload animation swung the cylinder out: one casing for every spent round of that model
+func _on_shells_ejected(origin: Vector3, model_index: int) -> void:
+	if not drop_shells:
+		return
+	var rounds := get_cylinder_rounds()
+	var capacity := ceili(float(max_ammo) / _models.size())
+	var spent := capacity - (rounds[model_index] if model_index < rounds.size() else 0)
+
+	var exclude: Array[RID] = []
+	var carried := Vector3.ZERO # casings keep the holder's speed, so they don't fly back when running
+	if shooter:
+		exclude.append(shooter.get_rid())
+		if shooter is CharacterBody3D:
+			carried = (shooter as CharacterBody3D).velocity
+	for k in spent:
+		var jitter := Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * 0.02
+		var velocity := carried + Vector3(
+			randf_range(-shell_eject_spread, shell_eject_spread),
+			randf_range(0.0, shell_eject_spread),
+			randf_range(-shell_eject_spread, shell_eject_spread))
+		ShellCasings.spawn(self, origin + jitter, velocity, exclude)
 
 # rounds per cylinder for the HUD; DualWeapon splits the magazine between its two revolvers
 func get_cylinder_rounds() -> Array[int]:
