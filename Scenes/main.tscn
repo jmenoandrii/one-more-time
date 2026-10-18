@@ -91,6 +91,16 @@ points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jut3y"]
+shader = ExtResource("31_e08e2")
+shader_parameter/wiggle = 0.03
+shader_parameter/wiggle_speed = 25.0
+shader_parameter/smear = 1.0
+shader_parameter/blur_samples = 15
+
+[sub_resource type="QuadMesh" id="QuadMesh_upu61"]
+size = Vector2(2, 2)
+
 [sub_resource type="Animation" id="Animation_b3802"]
 length = 0.001
 
@@ -164,10 +174,10 @@ stream_3/stream = ExtResource("11_3pmx8")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e08e2"]
 shader = ExtResource("31_e08e2")
-shader_parameter/enabled = true
-shader_parameter/dithering = true
-shader_parameter/colors = 12
-shader_parameter/dither_size = 1
+shader_parameter/wiggle = 0.03
+shader_parameter/wiggle_speed = 25.0
+shader_parameter/smear = 1.0
+shader_parameter/blur_samples = 15
 
 [node name="World" type="Node3D" unique_id=41126308]
 script = ExtResource("60_world")
@@ -1214,6 +1224,10 @@ target_position = Vector3(0, -2, 0)
 light_color = Color(0.6074377, 0.60743773, 3.85046e-07, 1)
 spot_range = 9.245
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D" unique_id=902833284]
+material_override = SubResource("ShaderMaterial_jut3y")
+mesh = SubResource("QuadMesh_upu61")
+
 [node name="headbob" type="AnimationPlayer" parent="Player/Head" unique_id=279278114]
 root_node = NodePath("../..")
 libraries/ = SubResource("AnimationLibrary_5vw27")
@@ -1272,6 +1286,22 @@ volume_db = -25.0
 process_mode = 3
 script = ExtResource("14_1w6v2")
 
+[node name="Shaders" type="CanvasLayer" parent="UI" unique_id=1183673316]
+physics_interpolation_mode = 2
+auto_translate_mode = 2
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/Shaders" unique_id=1208324704]
+material = SubResource("ShaderMaterial_e08e2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
 [node name="HUD" parent="UI" unique_id=1677919738 instance=ExtResource("50_hud")]
 
 [node name="PauseMenu" parent="UI" unique_id=2016965836 instance=ExtResource("51_pause")]
@@ -1282,21 +1312,6 @@ process_mode = 3
 layer = 2
 visible = false
 script = ExtResource("35_upgrades")
-
-[node name="Shaders" type="CanvasLayer" parent="UI" unique_id=1183673316]
-physics_interpolation_mode = 2
-auto_translate_mode = 2
-layer = 2
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="UI/Shaders" unique_id=1208324704]
-material = SubResource("ShaderMaterial_e08e2")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 3.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="LevelExit" parent="." unique_id=2037178586 instance=ExtResource("33_exit")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.339674, 0, 10.479895)
