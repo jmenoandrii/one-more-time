@@ -137,8 +137,9 @@ func shoot(target_point: Vector3) -> void:
 		
 	# shooting
 	can_shoot = false
-	_update_ammo(current_ammo - 1)
 	_fire(target_point)
+	# after _fire: DualWeapon has already switched sides, get_cylinder_rounds() relies on it
+	_update_ammo(current_ammo - 1)
 	_add_recoil()
 	
 	# timer
@@ -307,6 +308,10 @@ func _connect_model(player: AnimationPlayer) -> void:
 	var model := player.get_node_or_null(player.root_node)
 	if model and model.has_signal("round_loaded"):
 		model.round_loaded.connect(load_reload_round)
+
+# rounds per cylinder for the HUD; DualWeapon splits the magazine between its two revolvers
+func get_cylinder_rounds() -> Array[int]:
+	return [current_ammo]
 
 func _update_ammo(ammo: int) -> void:
 	current_ammo = ammo

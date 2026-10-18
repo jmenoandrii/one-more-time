@@ -1,0 +1,169 @@
+[gd_scene format=3 uid="uid://dmdc2yxhyisuu"]
+
+[ext_resource type="Script" uid="uid://doeulblpmm8y" path="res://Scripts/UI/pause_menu.gd" id="1_pause"]
+[ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="2_root"]
+[ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="3_theme"]
+[ext_resource type="Script" uid="uid://cg8ci0q8eo2i6" path="res://Scripts/UI/pixel_button.gd" id="4_button"]
+[ext_resource type="Texture2D" uid="uid://hofrwmu8y8wk" path="res://UI/HUD/bar_frame.png" id="5_frame"]
+[ext_resource type="Texture2D" uid="uid://yga7ldyfyvqa" path="res://UI/HUD/bar_fill.png" id="6_fill"]
+[ext_resource type="Texture2D" uid="uid://b75irnk5sjrpk" path="res://UI/HUD/bullet.png" id="7_bullet"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_slider"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+content_margin_left = 7.0
+content_margin_top = 6.0
+content_margin_right = 7.0
+content_margin_bottom = 6.0
+texture = ExtResource("5_frame")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=191703245]
+process_mode = 3
+script = ExtResource("1_pause")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=1488587654]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="Root" type="Control" parent="." unique_id=1853287501]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+theme = ExtResource("3_theme")
+script = ExtResource("2_root")
+
+[node name="Center" type="CenterContainer" parent="Root" unique_id=309646786]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Columns" type="HBoxContainer" parent="Root/Center" unique_id=1026863933]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 12
+
+[node name="Left" type="VBoxContainer" parent="Root/Center/Columns" unique_id=2029097271]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Root/Center/Columns/Left" unique_id=1112902931]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "PAUSED"
+
+[node name="LoopLabel" type="Label" parent="Root/Center/Columns/Left" unique_id=1116450718]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.055, 1)
+text = "LOOP 1"
+
+[node name="Gap" type="Control" parent="Root/Center/Columns/Left" unique_id=375767906]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="SensitivityLabel" type="Label" parent="Root/Center/Columns/Left" unique_id=488560655]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SENSITIVITY 4.0"
+
+[node name="SensitivityBar" type="NinePatchRect" parent="Root/Center/Columns/Left" unique_id=1090252824]
+custom_minimum_size = Vector2(110, 10)
+layout_mode = 2
+texture = ExtResource("5_frame")
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="SensitivityFill" type="TextureProgressBar" parent="Root/Center/Columns/Left/SensitivityBar" unique_id=1541993108]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+step = 0.0
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_top = 1
+stretch_margin_bottom = 1
+texture_progress = ExtResource("6_fill")
+tint_progress = Color(1, 0.76, 0.055, 1)
+
+[node name="SensitivitySlider" type="HSlider" parent="Root/Center/Columns/Left/SensitivityBar" unique_id=1814244515]
+unique_name_in_owner = true
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_icons/grabber = ExtResource("7_bullet")
+theme_override_icons/grabber_highlight = ExtResource("7_bullet")
+theme_override_styles/slider = SubResource("StyleBoxEmpty_slider")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_slider")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_slider")
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 4.0
+
+[node name="Gap2" type="Control" parent="Root/Center/Columns/Left" unique_id=394974975]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ResumeButton" type="Button" parent="Root/Center/Columns/Left" unique_id=157030246]
+unique_name_in_owner = true
+layout_mode = 2
+text = "RESUME"
+script = ExtResource("4_button")
+pressed_font_color = Color(1, 1, 1, 1)
+
+[node name="ExitButton" type="Button" parent="Root/Center/Columns/Left" unique_id=1746088161]
+unique_name_in_owner = true
+layout_mode = 2
+text = "EXIT"
+script = ExtResource("4_button")
+pressed_font_color = Color(1, 1, 1, 1)
+
+[node name="UpgradesPanel" type="PanelContainer" parent="Root/Center/Columns" unique_id=621641080]
+custom_minimum_size = Vector2(130, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
+
+[node name="Content" type="VBoxContainer" parent="Root/Center/Columns/UpgradesPanel" unique_id=1831867508]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Header" type="Label" parent="Root/Center/Columns/UpgradesPanel/Content" unique_id=1978527352]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.055, 1)
+text = "UPGRADES"
+
+[node name="UpgradesList" type="VBoxContainer" parent="Root/Center/Columns/UpgradesPanel/Content" unique_id=1079946586]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 2

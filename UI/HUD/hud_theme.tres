@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://cseo0je1ksceb"]
+
+[ext_resource type="FontFile" uid="uid://dsuga7xeyd46y" path="res://UI/HUD/PressStart2P-Regular.ttf" id="1_j5ohj"]
+
+[resource]
+default_font = ExtResource("1_j5ohj")
+default_font_size = 8
