@@ -6,7 +6,9 @@ extends CharacterBody3D
 @export var cooldown_time: float = 1.5 # cooldown after throw
 @export var stop_distance: float = 12.0
 
-const SPEED = 3.0
+@export var speed: float = 4.0
+@export var aggro_time: float = 2.0
+var aggro_time_left: float = 0.0
 
 @onready var detection_area: Area3D = $DetectionArea
 @onready var sight_ray: RayCast3D = $SightRay
@@ -22,6 +24,7 @@ func _ready() -> void:
 	detection_area.body_entered.connect(_on_body_entered)
 	detection_area.body_exited.connect(_on_body_exited)
 	health_component.died.connect(die)
+	health_component.damage_caused.connect(_on_damage_caused)
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player":
@@ -37,15 +40,19 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
-	# check if player is visiable
-	if player:
-		sight_ray.target_position = sight_ray.to_local(player.global_position + Vector3(0, 1.0, 0))
-		sight_ray.force_raycast_update()
-		
-		if sight_ray.is_colliding() and sight_ray.get_collider() == player:
-			can_see_player = true
-		else:
-			can_see_player = false
+	# sight system
+	if aggro_time_left > 0:
+		aggro_time_left -= delta
+		can_see_player = true
+	else:
+		if player:
+			sight_ray.target_position = sight_ray.to_local(player.global_position + Vector3(0, 1.0, 0))
+			sight_ray.force_raycast_update()
+			
+			if sight_ray.is_colliding() and sight_ray.get_collider() == player:
+				can_see_player = true
+			else:
+				can_see_player = false
 
 	# movement and attack
 	if can_see_player and player:
@@ -58,20 +65,23 @@ func _physics_process(delta: float) -> void:
 		
 		# move to player
 		if distance_to_player <= stop_distance:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-			velocity.z = move_toward(velocity.z, 0, SPEED)
+			velocity.x = move_toward(velocity.x, 0, speed)
+			velocity.z = move_toward(velocity.z, 0, speed) # Повернули зупинку по Z!
 			
 			if not is_throwing:
 				_throw_routine()
 		# throw in player
 		elif not is_throwing:
 			var direction = (player.global_position - global_position).normalized()
-			velocity.x = direction.x * SPEED
-			velocity.z = direction.z * SPEED
+			velocity.x = direction.x * speed
+			velocity.z = direction.z * speed
+		else:
+			velocity.x = move_toward(velocity.x, 0, speed)
+			velocity.z = move_toward(velocity.z, 0, speed)
 	else:
 		# if do not see player just stand
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
 
@@ -103,6 +113,12 @@ func _throw_routine() -> void:
 	await get_tree().create_timer(cooldown_time).timeout
 	
 	is_throwing = false
+
+func _on_damage_caused(amount: float) -> void:
+	aggro_time_left = aggro_time
+	
+	if player == null:
+		player = get_tree().current_scene.get_node_or_null("Player")
 
 func die():
 	queue_free()

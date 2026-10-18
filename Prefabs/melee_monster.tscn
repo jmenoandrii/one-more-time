@@ -10,10 +10,13 @@ albedo_color = Color(0.9577101, 0.45239156, 0.5330228, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 material = SubResource("StandardMaterial3D_g0qyx")
 
+[sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
+size = Vector3(0.5, 0.5, 0.5)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_tdu12"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_84jqe"]
 resource_local_to_scene = true
 size = Vector3(1.1, 2.1, 1.1)
 
@@ -28,6 +31,10 @@ script = ExtResource("1_84jqe")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_0rpfx")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1319799134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4660962, -0.32211053)
+mesh = SubResource("BoxMesh_0rpfx")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1383093541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_g0qyx")
@@ -37,7 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_obj_name = "Player"
 
 [node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
-shape = SubResource("BoxShape3D_tdu12")
+shape = SubResource("BoxShape3D_84jqe")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
