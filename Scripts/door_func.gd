@@ -19,6 +19,9 @@ extends Node3D
 @export var unlock_text: String = "[E] Unlock"
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var open_sound: AudioStreamPlayer3D = $Open
+@onready var close_sound: AudioStreamPlayer3D = $Close
+
 
 
 func _ready() -> void:
@@ -45,7 +48,10 @@ func interact(interactor: Node) -> void:
 	is_open = not is_open
 	if is_open:
 		animation_player.play("door_open")
+		open_sound.play()
+		
 	else:
+		close_sound.play()
 		animation_player.play_backwards("door_open")
 
 func get_interact_text(interactor: Node = null) -> String:
