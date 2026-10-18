@@ -5,25 +5,39 @@
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="3_0i20u"]
 [ext_resource type="PackedScene" uid="uid://dntbbuwti0cwi" path="res://Models/enemies/goblin-main.fbx" id="3_ba2bf"]
 [ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="3_eis7u"]
-[ext_resource type="Script" path="res://Scripts/EnemyAnimator.gd" id="4_anim"]
+[ext_resource type="Script" uid="uid://b720xr8x6ilsf" path="res://Scripts/EnemyAnimator.gd" id="4_anim"]
 [ext_resource type="AnimationLibrary" uid="uid://e27pt2lr1cad" path="res://Models/enemies/Idle.fbx" id="5_idle"]
 [ext_resource type="AnimationLibrary" uid="uid://ducltfcthxbvc" path="res://Models/enemies/walk range.fbx" id="6_walk"]
 [ext_resource type="AnimationLibrary" uid="uid://c8jj5hxypx1ds" path="res://Models/enemies/Throw Object.fbx" id="7_throw"]
-[ext_resource type="Script" path="res://Scripts/RandomMaterial.gd" id="8_rmat"]
+[ext_resource type="Script" uid="uid://23fc5agtycyr" path="res://Scripts/RandomMaterial.gd" id="8_rmat"]
 [ext_resource type="Material" uid="uid://i8ajubhtmkna" path="res://Materials/Enemy/goblin_blue.tres" id="9_blue"]
 [ext_resource type="Material" uid="uid://5qhjxkftdmno" path="res://Materials/Enemy/goblin_gray.tres" id="10_gray"]
 [ext_resource type="Material" uid="uid://6ihl2r7j2oot" path="res://Materials/Enemy/goblin_green.tres" id="11_green"]
+[ext_resource type="AudioStream" path="res://Models/Goblin/freesound_community-goblin-death-6729.mp3" id="14_q8v5l"]
+[ext_resource type="AudioStream" uid="uid://dm7t3tc3te7gg" path="res://Sounds/Goblin/attack_rock1_psx.wav" id="15_iq4sn"]
+[ext_resource type="AudioStream" uid="uid://bo1rhpd5gp6y0" path="res://Sounds/Goblin/attack_rock_psx.wav" id="16_k3hck"]
+[ext_resource type="AudioStream" uid="uid://dx2nwn1n4bkw8" path="res://Sounds/Goblin/attack_rock3_psx.wav" id="17_3wsk4"]
+[ext_resource type="AudioStream" uid="uid://dgijtla2bcbpq" path="res://Sounds/Goblin/magiaz-angry_ogre-407702(1).mp3" id="17_xc3ja"]
+[ext_resource type="AudioStream" uid="uid://7socy3kjl33k" path="res://Sounds/Goblin/rockdestroy_psx.wav" id="18_yjgsx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ra3p5"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_xtaiy"]
 resource_local_to_scene = true
 size = Vector3(1.1, 2.1, 1.1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g0qyx"]
 height = 4.0
 radius = 11.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1vvqj"]
+playback_mode = 1
+random_pitch = 1.3348398
+streams_count = 3
+stream_0/stream = ExtResource("15_iq4sn")
+stream_1/stream = ExtResource("16_k3hck")
+stream_2/stream = ExtResource("17_3wsk4")
 
 [node name="RangeMonster" type="CharacterBody3D" unique_id=465993397]
 script = ExtResource("1_6gfko")
@@ -45,7 +59,7 @@ damage_amount = 5.0
 target_obj_name = "Player"
 
 [node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
-shape = SubResource("BoxShape3D_ra3p5")
+shape = SubResource("BoxShape3D_xtaiy")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
@@ -74,5 +88,26 @@ attacks = Array[AnimationLibrary]([ExtResource("7_throw")])
 script = ExtResource("8_rmat")
 target = NodePath("../goblin_body")
 materials = Array[Material]([ExtResource("9_blue"), ExtResource("10_gray"), ExtResource("11_green")])
+
+[node name="GoblinSound" type="AudioStreamPlayer3D" parent="." unique_id=854808870]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7008753, 0)
+stream = ExtResource("14_q8v5l")
+
+[node name="GoblinAttack" type="AudioStreamPlayer3D" parent="." unique_id=1935362733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4076118, 0)
+stream = SubResource("AudioStreamRandomizer_1vvqj")
+
+[node name="GoblinAmbient" type="AudioStreamPlayer3D" parent="." unique_id=22500099]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.821085, 0)
+stream = ExtResource("17_xc3ja")
+volume_db = -15.0
+autoplay = true
+max_distance = 50.0
+bus = &"Enemy"
+parameters/looping = true
+
+[node name="StoneBreak" type="AudioStreamPlayer3D" parent="." unique_id=387310531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.821085, 0)
+stream = ExtResource("18_yjgsx")
 
 [editable path="DamageArea"]
