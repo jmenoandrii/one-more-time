@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bn4y6blpg1e74"]
 
 [ext_resource type="Script" uid="uid://cedi0y4p5m7ps" path="res://Scripts/World.gd" id="1_we71p"]
-[ext_resource type="PackedScene" path="res://Prefabs/door.tscn" id="2_08xqt"]
-[ext_resource type="PackedScene" path="res://Prefabs/key_pickup.tscn" id="3_6qhsw"]
+[ext_resource type="PackedScene" uid="uid://c3qf00g76c8t4" path="res://Prefabs/door.tscn" id="2_08xqt"]
+[ext_resource type="PackedScene" uid="uid://dsehjydlvg5cm" path="res://Prefabs/key_pickup.tscn" id="3_6qhsw"]
 [ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageArea.gd" id="4_516ss"]
 [ext_resource type="PackedScene" uid="uid://dl3aifvilv1jx" path="res://Prefabs/weapon_pickup.tscn" id="5_2gyby"]
 [ext_resource type="Material" uid="uid://cgk2osihrxrd4" path="res://Materials/asphalt_psx.tres" id="6_5haua"]
@@ -25,7 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://480u2annwkb" path="res://Sounds/Foot/Stone/Footstep Stone 3.ogg" id="23_blee1"]
 [ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="24_7xv1q"]
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="25_xi85n"]
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="26_36fig"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="26_36fig"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="27_s756y"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="28_xgbg1"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="29_kkbjb"]
@@ -1053,7 +1053,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824
 
 [node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
 target_position = Vector3(0, 0, -1000)
-collide_with_areas = true
 
 [node name="InteractRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=143733516]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)

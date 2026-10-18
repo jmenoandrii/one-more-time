@@ -12,6 +12,7 @@ extends CharacterBody3D
 @export var stop_distance: float = 12.0
 
 @export var speed: float = 4.0
+@export var xp_reward: int = 10
 @export var aggro_time: float = 2.0
 var aggro_time_left: float = 0.0
 
@@ -62,6 +63,10 @@ var _forearm := -1
 @export var min_cooldown_offset: float = 0.3
 @export var max_cooldown_offset: float = 0.2
 
+@export_subgroup("Ex reward")
+@export var min_xp_reward_offset: int = 0
+@export var max_xp_reward_offset: int = 0
+
 
 func _ready() -> void:
 	sight_ray.add_exception(self)
@@ -84,6 +89,8 @@ func _ready() -> void:
 
 	windup_time = max(0.01, windup_time + randf_range(-min_windup_offset, max_windup_offset))
 	cooldown_time = max(0.01, cooldown_time + randf_range(-min_cooldown_offset, max_cooldown_offset))
+	
+	xp_reward += randi_range(-min_xp_reward_offset, max_xp_reward_offset)
 
 	if _uses_throw_animation():
 		_hand = animator.find_bone(hand_bone)
@@ -257,4 +264,5 @@ func _on_damage_caused(amount: float) -> void:
 		player = get_tree().current_scene.get_node_or_null("Player")
 
 func die():
+	RunState.add_xp(xp_reward)
 	queue_free()
