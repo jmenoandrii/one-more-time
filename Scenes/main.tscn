@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://lpn3hxmrfyuh" path="res://Materials/redbrick_psx.tres" id="1_fevyy"]
 [ext_resource type="Script" uid="uid://6vq11mknutph" path="res://Scripts/Player/Player.gd" id="1_jkdf5"]
-[ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageCube.gd" id="1_k12tt"]
+[ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageArea.gd" id="1_k12tt"]
 [ext_resource type="Material" uid="uid://dh64pwyyql22f" path="res://Materials/graybrick_psx.tres" id="2_hibaj"]
 [ext_resource type="Script" uid="uid://c7f4265cs6mif" path="res://Scripts/Weapon/Weapon.gd" id="2_wsu2k"]
 [ext_resource type="PackedScene" uid="uid://2c2yvqfjbuaq" path="res://Prefabs/bullet.tscn" id="3_jkdf5"]
