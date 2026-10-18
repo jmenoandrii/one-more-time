@@ -3,27 +3,37 @@
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="1_1jyks"]
 [ext_resource type="Script" uid="uid://dvvmoxodjvxw7" path="res://Scripts/MeleeMonster.gd" id="1_84jqe"]
 [ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="2_84jqe"]
-[ext_resource type="PackedScene" uid="uid://ds132rmwp8l7m" path="res://Models/enemies/goblin_main.glb" id="2_tdu12"]
+[ext_resource type="PackedScene" uid="uid://dntbbuwti0cwi" path="res://Models/enemies/goblin-main.fbx" id="2_fcy2k"]
+[ext_resource type="Script" uid="uid://b720xr8x6ilsf" path="res://Scripts/EnemyAnimator.gd" id="6_anim"]
+[ext_resource type="AnimationLibrary" uid="uid://dbj041xoisjem" path="res://Models/enemies/Standing Walk Forward.fbx" id="7_walk"]
+[ext_resource type="AnimationLibrary" uid="uid://dpixciagdur3b" path="res://Models/enemies/Mutant Punch.fbx" id="8_atk1"]
+[ext_resource type="AnimationLibrary" uid="uid://bl0w12tmegfwq" path="res://Models/enemies/Punching.fbx" id="9_atk2"]
+[ext_resource type="AnimationLibrary" uid="uid://cev7doycxc31t" path="res://Models/enemies/Right Hook.fbx" id="10_atk3"]
+[ext_resource type="AnimationLibrary" uid="uid://e27pt2lr1cad" path="res://Models/enemies/Idle.fbx" id="11_idle"]
+[ext_resource type="Script" uid="uid://23fc5agtycyr" path="res://Scripts/RandomMaterial.gd" id="12_rmat"]
+[ext_resource type="Material" uid="uid://i8ajubhtmkna" path="res://Materials/Enemy/goblin_blue.tres" id="13_blue"]
+[ext_resource type="Material" uid="uid://5qhjxkftdmno" path="res://Materials/Enemy/goblin_gray.tres" id="14_gray"]
+[ext_resource type="Material" uid="uid://6ihl2r7j2oot" path="res://Materials/Enemy/goblin_green.tres" id="15_green"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_84jqe"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_3o70k"]
 resource_local_to_scene = true
 size = Vector3(1.1, 2.1, 1.1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g0qyx"]
 height = 4.0
-radius = 8.0
+radius = 12.0
 
 [node name="MeleeMonster" type="CharacterBody3D" unique_id=465993397]
 script = ExtResource("1_84jqe")
+attack_range = 4.0
 
 [node name="goblin_body" type="Node3D" parent="." unique_id=822083537]
-transform = Transform3D(-8.348875e-09, 0, 0.191, 0, 0.191, 0, -0.191, 0, -8.348875e-09, 0, 1.165, 0)
+transform = Transform3D(-0.191, 0, -1.669775e-08, 0, 0.191, 0, 1.669775e-08, 0, -0.191, 0, -0.005533576, 0)
 
-[node name="goblin_main" parent="goblin_body" unique_id=297678100 instance=ExtResource("2_tdu12")]
-transform = Transform3D(0.99999994, 0, 3.5527137e-15, 0, 0.99999994, 0, -3.5527137e-15, 0, 0.99999994, 0, 0, 0)
+[node name="goblin-main" parent="goblin_body" unique_id=1021355942 instance=ExtResource("2_fcy2k")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1383093541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -34,7 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_obj_name = "Player"
 
 [node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
-shape = SubResource("BoxShape3D_84jqe")
+shape = SubResource("BoxShape3D_3o70k")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
@@ -48,5 +58,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 
 [node name="HealthComponent" type="Node" parent="." unique_id=606694687]
 script = ExtResource("1_1jyks")
+
+[node name="EnemyAnimator" type="Node" parent="." unique_id=1847201933 node_paths=PackedStringArray("model")]
+script = ExtResource("6_anim")
+model = NodePath("../goblin_body/goblin-main")
+idle = ExtResource("11_idle")
+walk = ExtResource("7_walk")
+attacks = Array[AnimationLibrary]([ExtResource("8_atk1"), ExtResource("9_atk2"), ExtResource("10_atk3")])
+
+[node name="RandomMaterial" type="Node" parent="." unique_id=1902648315 node_paths=PackedStringArray("target")]
+script = ExtResource("12_rmat")
+target = NodePath("../goblin_body")
+materials = Array[Material]([ExtResource("13_blue"), ExtResource("14_gray"), ExtResource("15_green")])
 
 [editable path="DamageArea"]

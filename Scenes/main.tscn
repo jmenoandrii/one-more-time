@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="35_upgrades"]
 [ext_resource type="PackedScene" uid="uid://iyxujgcsks8j" path="res://Prefabs/stamina_bar.tscn" id="36_hdf80"]
 [ext_resource type="PackedScene" uid="uid://daj8pqg65x8wb" path="res://Prefabs/heal.tscn" id="37_heal"]
+[ext_resource type="PackedScene" uid="uid://bq3kyfmculrt4" path="res://Prefabs/range_monster.tscn" id="38_536cc"]
 [ext_resource type="PackedScene" uid="uid://cbx0ydyx67811" path="res://Prefabs/melee_monster.tscn" id="38_k2e45"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
@@ -1113,7 +1114,35 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4154444, 0.56396484, 20.85
 
 [node name="Enemies" type="Node3D" parent="." unique_id=1387988080]
 
-[node name="MeleeMonster" parent="." unique_id=465993397 instance=ExtResource("38_k2e45")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.984817, 0.063964844, 8.013429)
+[node name="RangeMonster" parent="Enemies" unique_id=465993397 instance=ExtResource("38_536cc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.991924, 0, 34.01205)
+
+[node name="MeleeMonster" parent="Enemies" unique_id=2073231378 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.69995, 0.06396508, 34.799583)
+attack_range = 2.0
+
+[node name="MeleeMonster2" parent="Enemies" unique_id=624663036 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.32637, 0.06396508, 29.167765)
+attack_range = 2.0
+
+[node name="MeleeMonster3" parent="Enemies" unique_id=2120525571 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.346806, 0.06396508, 34.00145)
+attack_range = 2.0
+
+[node name="MeleeMonster4" parent="Enemies" unique_id=790867772 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.607506, 0.06396508, 24.418564)
+attack_range = 2.0
+
+[node name="MeleeMonster5" parent="Enemies" unique_id=691431567 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.667313, 0.06396508, 30.259289)
+attack_range = 2.0
+
+[node name="MeleeMonster6" parent="Enemies" unique_id=1459562973 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.827906, 0.06396508, 37.94225)
+attack_range = 2.0
+
+[node name="MeleeMonster7" parent="Enemies" unique_id=1841794618 instance=ExtResource("38_k2e45")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.92044, 0.06396508, 26.547558)
+attack_range = 2.0
 
 [connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]

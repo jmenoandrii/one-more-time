@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
+type="AnimationLibrary"
 uid="uid://bl0w12tmegfwq"
-path="res://.godot/imported/Punching.fbx-3ca8a757ab38b302fcb09363516d15fb.scn"
+path="res://.godot/imported/Punching.fbx-3ca8a757ab38b302fcb09363516d15fb.res"
 
 [deps]
 
 source_file="res://Models/enemies/Punching.fbx"
-dest_files=["res://.godot/imported/Punching.fbx-3ca8a757ab38b302fcb09363516d15fb.scn"]
+dest_files=["res://.godot/imported/Punching.fbx-3ca8a757ab38b302fcb09363516d15fb.res"]
 
 [params]
 

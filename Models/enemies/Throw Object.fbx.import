@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
+type="AnimationLibrary"
 uid="uid://c8jj5hxypx1ds"
-path="res://.godot/imported/Throw Object.fbx-b24322f755252cbe57acf1b84a2284e6.scn"
+path="res://.godot/imported/Throw Object.fbx-b24322f755252cbe57acf1b84a2284e6.res"
 
 [deps]
 
 source_file="res://Models/enemies/Throw Object.fbx"
-dest_files=["res://.godot/imported/Throw Object.fbx-b24322f755252cbe57acf1b84a2284e6.scn"]
+dest_files=["res://.godot/imported/Throw Object.fbx-b24322f755252cbe57acf1b84a2284e6.res"]
 
 [params]
 
