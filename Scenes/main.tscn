@@ -866,91 +866,91 @@ height = 11.0
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Level 1" unique_id=1938709066]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.564697, 7.117279, 0.0039251936)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.564697, 7, 0.00392754)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(97, 1, 20)
 material = ExtResource("1_fevyy")
 
+[node name="weapon_pickup2" parent="Level 1" unique_id=1630511879 instance=ExtResource("21_3pmx8")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 24.40176, 0.30338487, 11.844201)
+
 [node name="CSGBox3D81" type="CSGBox3D" parent="Level 1" unique_id=252073998]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.564697, 7.117279, 18.503925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.564697, 7, 18.503927)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(47, 1, 17)
 material = ExtResource("1_fevyy")
 
+[node name="CSGBox3D87" type="CSGBox3D" parent="Level 1" unique_id=1011058253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.5647, 7, 73.00392)
+material_override = ExtResource("3_pdsj5")
+size = Vector3(21, 1, 18)
+material = ExtResource("1_fevyy")
+
 [node name="CSGBox3D82" type="CSGBox3D" parent="Level 1" unique_id=1497957444]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.564697, 7.117279, 35.503925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.564697, 7, 35.503925)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(73, 1, 17)
 material = ExtResource("1_fevyy")
 
-[node name="CSGBox3D84" type="CSGBox3D" parent="Level 1" unique_id=945566680]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.0647, 7.117279, 35.503925)
-material_override = ExtResource("3_pdsj5")
-size = Vector3(26, 1, 17)
-material = ExtResource("1_fevyy")
-
-[node name="CSGBox3D85" type="CSGBox3D" parent="Level 1" unique_id=1498269688]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.0647, 7.117279, 63.503925)
-material_override = ExtResource("3_pdsj5")
-size = Vector3(20, 1, 39)
-material = ExtResource("1_fevyy")
-
 [node name="CSGBox3D86" type="CSGBox3D" parent="Level 1" unique_id=1442221031]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.35968, 7.117279, 91.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.65466, 7, 91.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(46.589966, 1, 18)
+size = Vector3(46, 1, 18)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D88" type="CSGBox3D" parent="Level 1" unique_id=752292088]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.0647, 7.117279, 111.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.513794, 7, 111.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(16, 1, 22)
+size = Vector3(15.705811, 1, 22)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D89" type="CSGBox3D" parent="Level 1" unique_id=1415503663]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.564697, 7.117279, 102.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.363586, 7, 102.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(41, 1, 50)
+size = Vector3(38.59778, 1, 50)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D91" type="CSGBox3D" parent="Level 1" unique_id=441747345]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.56469715, 7.117279, 112.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0646985, 7, 112.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(33, 1, 30)
+size = Vector3(36, 1, 30)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D92" type="CSGBox3D" parent="Level 1" unique_id=429502749]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43530285, 7.117279, 84.50392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0646971, 7, 84.50392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(35, 1, 25)
+size = Vector3(38, 1, 25)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D93" type="CSGBox3D" parent="Level 1" unique_id=1457500213]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5646973, 7.117279, 66.50392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5646973, 7, 66.50392)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(27, 1, 11)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D90" type="CSGBox3D" parent="Level 1" unique_id=637253120]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.064697, 7.117279, 69.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.064697, 7, 69.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(6, 1, 16)
+size = Vector3(8, 1, 16)
 material = ExtResource("1_fevyy")
 
-[node name="CSGBox3D87" type="CSGBox3D" parent="Level 1" unique_id=1011058253]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.5647, 7.117279, 73.00392)
+[node name="CSGBox3D85" type="CSGBox3D" parent="Level 1" unique_id=1498269688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.0647, 7, 63.503925)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(21, 1, 18)
+size = Vector3(20, 1, 39)
+material = ExtResource("1_fevyy")
+
+[node name="CSGBox3D84" type="CSGBox3D" parent="Level 1" unique_id=945566680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.0647, 7, 35.503925)
+material_override = ExtResource("3_pdsj5")
+size = Vector3(26, 1, 17)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D83" type="CSGBox3D" parent="Level 1" unique_id=1538693917]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.064697, 7.117279, 52.503925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.064697, 7, 52.503925)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(70, 1, 17)
 material = ExtResource("1_fevyy")
-
-[node name="weapon_pickup2" parent="Level 1" unique_id=1630511879 instance=ExtResource("21_3pmx8")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 24.40176, 0.30338487, 11.844201)
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040 groups=["player"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
