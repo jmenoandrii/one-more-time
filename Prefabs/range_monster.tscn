@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://7inavb4ei1go" path="res://Scripts/RangeMonster.gd" id="1_6gfko"]
 [ext_resource type="PackedScene" uid="uid://drch2nvlo2ejw" path="res://Prefabs/stone.tscn" id="2_6gfko"]
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="3_0i20u"]
+[ext_resource type="PackedScene" uid="uid://d0hxf1d4blh3l" path="res://Prefabs/damage_area.tscn" id="3_eis7u"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0rpfx"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -15,6 +16,10 @@ material = SubResource("StandardMaterial3D_g0qyx")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0i20u"]
+resource_local_to_scene = true
+size = Vector3(1.1, 2.1, 1.1)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_g0qyx"]
 height = 4.0
@@ -37,6 +42,14 @@ mesh = SubResource("CapsuleMesh_0rpfx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_g0qyx")
 
+[node name="DamageArea" parent="." unique_id=1014670161 instance=ExtResource("3_eis7u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+damage_amount = 5.0
+target_obj_name = "Player"
+
+[node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
+shape = SubResource("BoxShape3D_0i20u")
+
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="DetectionArea" unique_id=775731315]
@@ -52,3 +65,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51829076, 1.5, -0.5692475)
 
 [node name="HealthComponent" type="Node" parent="." unique_id=606694687]
 script = ExtResource("3_0i20u")
+
+[editable path="DamageArea"]
