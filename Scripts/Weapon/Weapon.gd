@@ -48,6 +48,13 @@ var is_owned: bool
 @export var inspect_rotation: Vector3 = Vector3(0.15, 0.7, 0.3) # muzzle up, turn side to the camera, tilt
 @export var inspect_blend_speed: float = 8.0
 
+# idle: slow "breathing" sway at rest (figure-eight), fades out during reload / inspect / equip
+@export_group("Idle")
+@export var idle_sway_speed: float = 1.8 # rad/s of the main wave
+@export var idle_sway_pos: Vector3 = Vector3(0.004, 0.006, 0.002) # m
+@export var idle_sway_rot: Vector3 = Vector3(0.015, 0.01, 0.012) # rad: pitch, yaw, roll
+@export var idle_blend_speed: float = 4.0
+
 var current_ammo: int
 var reload_speed: float = 1.0 # speed of the reload animation, from the run's upgrades
 var can_shoot: bool = true
@@ -59,6 +66,9 @@ var _reload_close_time: float = -1.0 # >= 0 while fast-forwarding the reload to 
 var _inspect_weight := 0.0
 var _draw_offset := 0.0 # < 0 while the weapon is below its rest position
 var _draw_velocity := 0.0
+var _idle_time := 0.0
+var _idle_weight := 0.0
+var idle_on_self := true # DualWeapon sways each revolver separately instead
 var shooter: PhysicsBody3D # body that holds the weapon, bullets ignore it
 
 var _rest_transform: Transform3D
@@ -120,11 +130,33 @@ func _process(delta: float) -> void:
 	_draw_velocity += (-draw_stiffness * _draw_offset - draw_damping * _draw_velocity) * delta
 	_draw_offset += _draw_velocity * delta
 
+	_idle_time += delta
+	var idle_target := 0.0 if is_reloading or is_inspecting or is_equipping else 1.0
+	_idle_weight = lerpf(_idle_weight, idle_target, 1.0 - exp(-idle_blend_speed * delta))
+
 	var rot := _recoil_rot + inspect_rotation * _inspect_weight + Vector3(_draw_offset * draw_tilt, 0, 0)
 	var pos := _recoil_pos + inspect_offset * _inspect_weight + Vector3(0, _draw_offset, 0)
+	if idle_on_self:
+		rot += _idle_sway_rot(0.0, 1.0)
+		pos += _idle_sway_pos(0.0, 1.0)
 
 	# rotate around the weapon's own origin, but along the camera axes
 	transform = Transform3D(Basis.from_euler(rot) * _rest_transform.basis, _rest_transform.origin + pos)
+
+# idle sway at the current time; phase shifts the wave, side = -1 mirrors it (left hand)
+func _idle_sway_pos(phase: float, side: float) -> Vector3:
+	var t := _idle_time * idle_sway_speed + phase
+	return Vector3(
+		sin(t * 0.5) * idle_sway_pos.x * side,
+		sin(t) * idle_sway_pos.y,
+		sin(t * 0.5 + 0.8) * idle_sway_pos.z) * _idle_weight
+
+func _idle_sway_rot(phase: float, side: float) -> Vector3:
+	var t := _idle_time * idle_sway_speed + phase
+	return Vector3(
+		sin(t + 0.6) * idle_sway_rot.x,
+		sin(t * 0.5 + 1.2) * idle_sway_rot.y * side,
+		sin(t * 0.5) * idle_sway_rot.z * side) * _idle_weight
 
 func shoot(target_point: Vector3) -> void:
 	# shot accessibility check

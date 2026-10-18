@@ -16,7 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://480u2annwkb" path="res://Sounds/Foot/Stone/Footstep Stone 3.ogg" id="14_idole"]
 [ext_resource type="AudioStream" uid="uid://brse3y3ed4xlr" path="res://Sounds/Foot/Stone/Footstep Stone 4.ogg" id="15_w5pwq"]
 [ext_resource type="AudioStream" uid="uid://bh8p460br1bba" path="res://Sounds/lumora_studios-pixel-jump-319167.mp3" id="16_xl01j"]
-[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="17_8sb6c"]
+[ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/Player/HealthComponent.gd" id="17_8sb6c"]
 [ext_resource type="Script" uid="uid://4jaonda2bhh7" path="res://Scripts/UI/ui_controller.gd" id="18_bpypk"]
 [ext_resource type="PackedScene" path="res://Prefabs/key_pickup.tscn" id="20_bmswj"]
 [ext_resource type="Script" uid="uid://dr0rltusaobj8" path="res://Scripts/DamageArea.gd" id="21_w8vqt"]
@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bq3kyfmculrt4" path="res://Prefabs/range_monster.tscn" id="29_s3gjo"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
+
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)

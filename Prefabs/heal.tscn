@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://daj8pqg65x8wb"]
+
+[ext_resource type="Script" uid="uid://efjo7buunmx7" path="res://Scripts/Interactable/heal.gd" id="1_te0o0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_umxg5"]
+albedo_color = Color(1, 0.23529412, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_776o0"]
+material = SubResource("StandardMaterial3D_umxg5")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_key"]
+
+[node name="heal" type="Area3D" unique_id=723814774]
+script = ExtResource("1_te0o0")
+
+[node name="Model" type="Node3D" parent="." unique_id=1876761171]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Model" unique_id=1315453903]
+mesh = SubResource("BoxMesh_776o0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1822341169]
+shape = SubResource("SphereShape3D_key")
