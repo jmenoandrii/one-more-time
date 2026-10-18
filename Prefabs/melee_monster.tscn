@@ -32,11 +32,11 @@ mesh = SubResource("CapsuleMesh_0rpfx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_g0qyx")
 
-[node name="DamageArea2" parent="." unique_id=1014670161 instance=ExtResource("2_84jqe")]
+[node name="DamageArea" parent="." unique_id=1014670161 instance=ExtResource("2_84jqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 target_obj_name = "Player"
 
-[node name="CollisionShape3D" parent="DamageArea2" index="0" unique_id=1928030323]
+[node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
 shape = SubResource("BoxShape3D_tdu12")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
@@ -52,4 +52,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 [node name="HealthComponent" type="Node" parent="." unique_id=606694687]
 script = ExtResource("1_1jyks")
 
-[editable path="DamageArea2"]
+[editable path="DamageArea"]
