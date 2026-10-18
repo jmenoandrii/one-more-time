@@ -6,18 +6,6 @@
 [ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="3_opfnp"]
 [ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="4_cp0ys"]
 
-[sub_resource type="Gradient" id="Gradient_n45e2"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_g0qyx"]
-gradient = SubResource("Gradient_n45e2")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0rpfx"]
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(10, 100, 1)
-gravity = Vector3(0, -20, 0)
-color_ramp = SubResource("GradientTexture1D_g0qyx")
-
 [node name="MainMenu" type="Control" unique_id=1325345040]
 layout_mode = 3
 anchors_preset = 15
@@ -26,6 +14,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_opfnp")
+script = ExtResource("4_cp0ys")
+
+[node name="Manager" type="Control" parent="." unique_id=968081232]
+anchors_preset = 0
 script = ExtResource("1_1ehe0")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1378684818]
@@ -38,7 +30,22 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_28flt")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=982457012]
+[node name="CursorLabel" type="Label" parent="." unique_id=1773620991]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 30.0
+text = ">"
+
+[node name="ControlMenu" type="Control" parent="." unique_id=26553128]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ControlMenu" unique_id=982457012]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,15 +53,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 offset_transform_position = Vector2(100, 0)
-script = ExtResource("4_cp0ys")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1545271846]
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlMenu/MarginContainer" unique_id=1545271846]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 10
 
-[node name="PlayButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1499745119]
+[node name="PlayButton" type="Button" parent="ControlMenu/MarginContainer/VBoxContainer" unique_id=1499745119]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -63,7 +69,7 @@ text = "PLAY"
 flat = true
 script = ExtResource("3_ce3w2")
 
-[node name="CreditsButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2113195214]
+[node name="CreditsButton" type="Button" parent="ControlMenu/MarginContainer/VBoxContainer" unique_id=2113195214]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -72,7 +78,7 @@ text = "CREDITS"
 flat = true
 script = ExtResource("3_ce3w2")
 
-[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1386605917]
+[node name="QuitButton" type="Button" parent="ControlMenu/MarginContainer/VBoxContainer" unique_id=1386605917]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
@@ -81,14 +87,110 @@ text = "QUIT"
 flat = true
 script = ExtResource("3_ce3w2")
 
-[node name="CursorLabel" type="Label" parent="." unique_id=1773620991]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_font_sizes/font_size = 30
-text = ">"
+[node name="ControlCredits" type="Control" parent="." unique_id=1329346895]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1571397207]
-amount = 35
-lifetime = 4.0
-process_material = SubResource("ParticleProcessMaterial_0rpfx")
+[node name="CreditsVBox" type="VBoxContainer" parent="ControlCredits" unique_id=441616972]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -70.5
+offset_right = 50.0
+offset_bottom = 70.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 25
+
+[node name="BackButton" type="Button" parent="ControlCredits/CreditsVBox" unique_id=1475994940]
+custom_minimum_size = Vector2(300, 0)
+custom_maximum_size = Vector2(350, -1)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+text = "BACK"
+flat = true
+script = ExtResource("3_ce3w2")
+
+[node name="CreditsScroll" type="ScrollContainer" parent="ControlCredits/CreditsVBox" unique_id=1268736597]
+custom_minimum_size = Vector2(350, 100)
+layout_mode = 2
+
+[node name="ScrollContent" type="VBoxContainer" parent="ControlCredits/CreditsVBox/CreditsScroll" unique_id=1013983286]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+
+[node name="Title" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=998224334]
+layout_mode = 2
+text = "— Game Design & Programming —"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=1301890898]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Andrii Dryhaniuk, Maksym Dryhaniuk, Roman Sarchuk"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Title2" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=953329477]
+layout_mode = 2
+text = "— Art & Animation —"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc2" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=1960192158]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Andrii Dryhaniuk, Mariana Cherniavska, Serhii"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Title3" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=638878603]
+layout_mode = 2
+text = "— Sound Design —"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc3" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=65259605]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Maksym Dryhaniuk"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Title4" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=1193831945]
+layout_mode = 2
+text = "— THIRD-PARTY RESOURCES —"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Desc4" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=2088653799]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Music: Interstellar EDM/Metal Music Pack — DavidKBD
+Track names: Naitsel
+License: Creative Commons Attribution 4.0 International (CC BY 4.0) (https://creativecommons.org/licenses/by/4.0/)
+Source: https://davidkbd.itch.io/interstellar-edm-metal-music-pack
+Music used under CC BY 4.0."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
