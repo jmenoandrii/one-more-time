@@ -1,6 +1,7 @@
 extends Area3D
 
 @export var damage_amount: float = 10.0
+@export var target_obj_name := ""
 
 var targets_in_range: Array[Node3D] = []
 
@@ -13,13 +14,17 @@ func _ready() -> void:
 	damage_timer.timeout.connect(_on_timer_timeout)
 
 func _on_body_entered(body: Node3D) -> void:
-	if body.has_node("HealthComponent"):
-		targets_in_range.append(body)
+	if target_obj_name and body.name != target_obj_name:
+		return
+	if not body.has_node("HealthComponent"):
+		return
+	
+	targets_in_range.append(body)
 		
-		_deal_damage_to(body)
-		
-		if targets_in_range.size() == 1:
-			damage_timer.start()
+	_deal_damage_to(body)
+	
+	if targets_in_range.size() == 1:
+		damage_timer.start()
 
 func _on_body_exited(body: Node3D) -> void:
 	if targets_in_range.has(body):

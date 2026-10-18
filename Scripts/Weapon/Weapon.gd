@@ -9,6 +9,7 @@ signal reserve_ammo_changed(amount: int) # reserve left, sent on every round loa
 @export var bullet_scene: PackedScene
 @export var fire_rate: float = 0.5 # in sec
 @export var max_ammo: int = 6
+@export var damage: float = 20.0
 @export var animation_player: AnimationPlayer
 @export var shoot_animation: StringName = &"fire"
 @export var reload_animation: StringName = &"reload"
