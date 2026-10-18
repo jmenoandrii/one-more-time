@@ -293,8 +293,8 @@ func _physics_process(delta: float) -> void:
 
 	if direction and on_floor:
 		headbob.speed_scale = 2 if is_running else 1
-	if not headbob.is_playing():
-		headbob.play("new_animation")
+		if not headbob.is_playing():
+			headbob.play("new_animation")
 	else:
 		headbob.stop()
 
