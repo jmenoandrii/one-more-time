@@ -10,6 +10,8 @@ const KEYS_BOX := "HUD/KeysContainer"
 const LOOP_LABEL := "HUD/LoopLabel"
 const DEATH_LABEL := "HUD/DeathLabel"
 const KEY_ICON := preload("res://UI/Key_white.png")
+const TIMER_LABEL := "HUD/TimerLabel"
+
 
 func _enter_tree() -> void:
 	# connect before the player's _ready, which sends the initial values
@@ -21,6 +23,7 @@ func _enter_tree() -> void:
 	GameEvents.interact_prompt_changed.connect(_on_interact_prompt_changed)
 	GameEvents.keys_changed.connect(_on_keys_changed)
 	GameEvents.player_died.connect(_on_player_died)
+	GameEvents.time_changed.connect(_on_timer_changed)
 
 func _ready() -> void:
 	_set_text(LOOP_LABEL, "LOOP %d" % (RunState.loop + 1))
@@ -81,3 +84,9 @@ func _on_keys_changed(keys: Dictionary) -> void:
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icon.tooltip_text = key_id
 		box.add_child(icon)
+
+func _on_timer_changed(time_left: float) -> void:
+	var minutes := int(time_left) / 60
+	var seconds := int(time_left) % 60
+	
+	_set_text(TIMER_LABEL, "%02d:%02d" % [minutes, seconds])
