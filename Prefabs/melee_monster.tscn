@@ -29,6 +29,7 @@ radius = 16.0
 [node name="MeleeMonster" type="CharacterBody3D" unique_id=465993397]
 script = ExtResource("1_84jqe")
 attack_range = 4.0
+max_offset = 0.3
 
 [node name="goblin_body" type="Node3D" parent="." unique_id=822083537]
 transform = Transform3D(-0.191, 0, -1.669775e-08, 0, 0.191, 0, 1.669775e-08, 0, -0.191, 0, -0.005533576, 0)

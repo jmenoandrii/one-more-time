@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://mm6jappny2i6"]
+
+[ext_resource type="Script" uid="uid://byf1vipjghonm" path="res://Scripts/start_trigger.gd" id="1_trig"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trig"]
+size = Vector3(12.116638, 4.921753, 1)
+
+[node name="StartTrigger" type="Area3D" unique_id=2049310391]
+monitorable = false
+script = ExtResource("1_trig")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=932689738]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+shape = SubResource("BoxShape3D_trig")
+debug_color = Color(0.2, 0.8, 0.3, 0.42)

@@ -1,7 +1,8 @@
 extends CanvasLayer
 
-# Shown when the level is finished: pick 1 of 3 upgrade cards (click or keys 1-3),
-# then the level starts again with it. The UI is built in code, in the HUD's pixel style:
+# Shown when the level is finished: buy 1 of 3 upgrade cards with the run's points
+# (click or keys 1-3) or skip and keep the points (SKIP / key 4); then the next loop starts.
+# Cards the player can't afford yet are shown, but locked. The UI is built in code, in the HUD's pixel style:
 # laid out in art pixels under a PixelRoot, the cards are PixelButtons.
 
 const THEME := preload("res://UI/HUD/hud_theme.tres")
@@ -9,6 +10,8 @@ const CARD_SIZE := Vector2(84, 108) # art px
 const APPEAR_TIME := 0.25 # sec per card
 const APPEAR_STAGGER := 0.1 # sec between the cards
 const CHOICE_KEYS := [KEY_1, KEY_2, KEY_3]
+const SKIP_KEY := KEY_4
+const RED := Color(0.9, 0.2, 0.2)
 const DIM_COLOR := Color(1, 1, 1, 0.5)
 const GOLD := Color(1.0, 0.76, 0.055)
 
@@ -68,15 +71,23 @@ func _open() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 	_title.text = "LOOP %d COMPLETE" % (RunState.loop + 1)
-	_subtitle.text = "CHOOSE AN UPGRADE"
 	_choices = RunState.roll_choices()
-	for i in _choices.size():
-		_cards.append(_make_card(_choices[i], i))
+	var affordable := _choices.any(RunState.can_afford)
 	if _choices.is_empty(): # every card is maxed
 		_subtitle.text = "EVERYTHING IS MAXED"
-		_cards.append(_make_continue_button())
+	elif affordable:
+		_subtitle.text = "BUY AN UPGRADE: %d PTS" % RunState.xp
+	else:
+		_subtitle.text = "NOT ENOUGH POINTS: %d PTS" % RunState.xp
+	for i in _choices.size():
+		_cards.append(_make_card(_choices[i], i))
 	for card in _cards:
 		_cards_box.add_child(card)
+	# skip = keep the points for later; just "continue" when there is nothing to buy
+	var skip := _make_continue_button("[4] SKIP" if affordable else "CONTINUE")
+	_cards.append(skip)
+	_cards_box.get_parent().add_child(skip)
+	skip.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 
 	visible = true
 	_appear()
@@ -85,6 +96,9 @@ func _make_card(upgrade: UpgradeData, index: int) -> Button:
 	var card := _make_button()
 	card.custom_minimum_size = CARD_SIZE
 	card.pressed.connect(_choose.bind(upgrade))
+	var price := RunState.get_price(upgrade)
+	var affordable := RunState.can_afford(upgrade)
+	card.disabled = not affordable
 
 	var box := VBoxContainer.new()
 	box.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, PixelButton.BORDER + 3)
@@ -106,12 +120,15 @@ func _make_card(upgrade: UpgradeData, index: int) -> Button:
 	box.add_child(_make_label(upgrade.description, DIM_COLOR))
 	var stacks := RunState.get_stacks(upgrade)
 	box.add_child(_make_label("LV %d/%d" % [stacks + 1, upgrade.max_stacks], GOLD))
+	box.add_child(_make_label("%d PTS" % price, GOLD if affordable else RED))
+	if not affordable:
+		box.modulate = DIM_COLOR
 	return card
 
-func _make_continue_button() -> Button:
+func _make_continue_button(text: String) -> Button:
 	var button := _make_button()
 	button.custom_minimum_size = Vector2(CARD_SIZE.x, 0)
-	button.text = "CONTINUE"
+	button.text = text
 	button.pressed.connect(_choose.bind(null))
 	return button
 
@@ -144,8 +161,12 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if _accepting and event is InputEventKey and event.pressed and not event.echo:
+		if event.physical_keycode == SKIP_KEY:
+			get_viewport().set_input_as_handled()
+			_choose(null)
+			return
 		var index := CHOICE_KEYS.find(event.physical_keycode)
-		if index != -1 and index < _choices.size():
+		if index != -1 and index < _choices.size() and RunState.can_afford(_choices[index]):
 			get_viewport().set_input_as_handled()
 			_choose(_choices[index])
 

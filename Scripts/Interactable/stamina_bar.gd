@@ -8,6 +8,8 @@ func _ready() -> void:
 func _pick_up(body: Node3D) -> bool:
 	if not body.has_method("_add_curent_stamina"):
 		return false
+		
+	GameEvents.stamina_bar_picked.emit()
 
 	body._add_curent_stamina(amount)
 	return true

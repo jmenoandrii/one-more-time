@@ -83,6 +83,14 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
+	# asleep until the level timer starts: just stand (and fall)
+	if not GameEvents.level_running:
+		velocity.x = 0
+		velocity.z = 0
+		move_and_slide()
+		_update_locomotion()
+		return
+	
 	# sight system
 	if aggro_time_left > 0:
 		aggro_time_left -= delta
@@ -189,4 +197,5 @@ func _on_damage_caused(amount: float) -> void:
 
 func die():
 	RunState.add_xp(xp_reward)
+	GameEvents.enemy_killed.emit()
 	queue_free()

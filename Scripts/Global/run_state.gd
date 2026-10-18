@@ -48,6 +48,20 @@ func get_stat(stat: String, base: float) -> float:
 func get_stacks(upgrade: UpgradeData) -> int:
 	return upgrades.get(upgrade.id, 0)
 
+# every level of every upgrade bought this run
+func get_upgrade_count() -> int:
+	var count := 0
+	for id in upgrades:
+		count += upgrades[id]
+	return count
+
+# points for the next level of the upgrade
+func get_price(upgrade: UpgradeData) -> int:
+	return roundi(upgrade.cost * pow(upgrade.cost_growth, get_stacks(upgrade)))
+
+func can_afford(upgrade: UpgradeData) -> bool:
+	return xp >= get_price(upgrade)
+
 # up to CHOICES_COUNT different cards, not maxed yet, picked by weight
 func roll_choices() -> Array[UpgradeData]:
 	var candidates := pool.filter(func(u: UpgradeData) -> bool: return get_stacks(u) < u.max_stacks)
@@ -64,10 +78,13 @@ func roll_choices() -> Array[UpgradeData]:
 				break
 	return result
 
-# upgrade can be null when every card is already maxed
+# upgrade = the bought card, paid with points; null = skipped (or nothing left to buy)
 func complete_level(upgrade: UpgradeData) -> void:
-	if upgrade:
+	if upgrade and can_afford(upgrade):
+		var price := get_price(upgrade)
+		xp -= price
 		upgrades[upgrade.id] = get_stacks(upgrade) + 1
+		GameEvents.xp_changed.emit(xp, -price)
 	loop += 1
 	save_run()
 	_restart_level()

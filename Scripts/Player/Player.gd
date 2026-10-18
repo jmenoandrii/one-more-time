@@ -31,7 +31,7 @@ var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 @onready var floortype_ray: RayCast3D = $floortype_ray
 
 # Stamina
-const MAX_STAMINA: float = 100.0
+const MAX_STAMINA: float = 200.0
 const STAMINA_DRAIN_RATE: float = 20.0 # per second
 const STAMINA_REGEN_RATE: float = 10.0 # per second
 const STAMINA_JUMP_RATE: float = 10.0
@@ -60,7 +60,7 @@ var is_cursor_locked := true
 var weapons: Array[Weapon] = []
 var current_weapon_index: int = -1
 
-const RESERVE_AMMO: int = 18
+const RESERVE_AMMO: int = 999999
 var current_reserve_ammo: int
 
 # health

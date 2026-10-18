@@ -1,5 +1,8 @@
 extends Node3D
 
+signal opened # the player opened it (not emitted for a door placed open in the editor)
+signal closed
+
 # Door root sits on the hinge. The animation rotates the Hinge body (AnimatableBody3D) itself —
 # its mesh and collision are offset by half the width, so the door swings around the hinge.
 # (The body must be the animated node: if a parent moves it, sync_to_physics drifts it off.)
@@ -47,10 +50,11 @@ func interact(interactor: Node) -> void:
 	if is_open:
 		animation_player.play("door_open")
 		open_sound.play()
-		
+		opened.emit()
 	else:
 		close_sound.play()
 		animation_player.play_backwards("door_open")
+		closed.emit()
 
 func get_interact_text(interactor: Node = null) -> String:
 	var text := close_text if is_open else open_text
