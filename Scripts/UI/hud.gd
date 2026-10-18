@@ -3,7 +3,7 @@ extends CanvasLayer
 # The in-game HUD, pixel art: laid out in art pixels under Root (a PixelRoot).
 #
 # bottom-left: keys, health, stamina (fades out while full) | bottom-right: reserve, cylinders
-# top-center: level timer | center: crosshair, interact prompt, death message.
+# top-left: level timer (ClockHUD) | center: crosshair, interact prompt, death message.
 # The loop number is in the pause menu.
 
 const KEY_ICON := preload("res://UI/HUD/key.png")
@@ -16,9 +16,12 @@ const KEY_ICON := preload("res://UI/HUD/key.png")
 @export var stamina_hide_delay: float = 1.0 # after it's full again
 @export var stamina_fade_time: float = 0.3
 
-@export_group("Timer")
-@export var timer_warning_time: float = 10.0 # sec left when the timer turns red
-@export var timer_warning_color: Color = Color(0.9, 0.2, 0.2)
+@export_group("XP")
+@export var xp_count_time: float = 0.5 # the counter runs up to the new value
+@export var xp_income_rise: float = 6.0 # "+N" floats up this far, art px
+@export var xp_income_time: float = 0.9
+@export var xp_gain_color: Color = Color(1.0, 0.76, 0.055)
+@export var xp_loss_color: Color = Color(0.9, 0.2, 0.2)
 
 @export_group("Reserve")
 @export var reserve_empty_color: Color = Color(0.9, 0.2, 0.2)
@@ -34,11 +37,15 @@ var reserve_label: Label
 var interact_label: Label
 var keys_box: HBoxContainer
 var death_label: Label
-var timer_label: Label
 var xp_label: Label
 var xp_income_label: Label
 
 var _trail_tween: Tween
+var _xp_tween: Tween
+var _xp_income_tween: Tween
+var _xp_shown := 0.0
+var _xp_income_y := 0.0 # where "+N" starts, from the scene
+var _xp_income_sum := 0 # gains in a quick row (a kill + its streak bonus) add up in one "+N"
 var _stamina_tween: Tween
 var _stamina_full := false
 
@@ -53,10 +60,10 @@ func _enter_tree() -> void:
 	interact_label = %InteractLabel
 	keys_box = %KeysContainer
 	death_label = %DeathLabel
-	timer_label = %TimerLabel
 	xp_label = %ExLabel
 	xp_income_label = %ExIncomeLabel
 	xp_income_label.text = ""
+	_set_xp_shown(RunState.xp) # the run's points carry over to the next loop
 
 	GameEvents.health_changed.connect(_on_health_changed)
 	GameEvents.stamina_changed.connect(_on_stamina_changed)
@@ -66,8 +73,11 @@ func _enter_tree() -> void:
 	GameEvents.interact_prompt_changed.connect(_on_interact_prompt_changed)
 	GameEvents.keys_changed.connect(_on_keys_changed)
 	GameEvents.player_died.connect(_on_player_died)
-	GameEvents.time_changed.connect(_on_time_changed)
 	GameEvents.xp_changed.connect(_on_xp_changed)
+
+func _ready() -> void:
+	# after the PixelRoot has laid the labels out
+	_xp_income_y = xp_income_label.position.y
 
 func _on_health_changed(current: float, maximum: float) -> void:
 	health_fill.max_value = maximum
@@ -105,7 +115,7 @@ func _on_stamina_changed(current: float, maximum: float) -> void:
 
 # the rounds in the magazine are shown by the cylinders, here it only means a weapon is in hands
 func _on_ammo_changed(_current: int, _maximum: int) -> void:
-	reserve.visible = true
+	reserve.visible = false
 
 func _on_reserve_ammo_changed(amount: int) -> void:
 	reserve_label.text = "x%d" % amount
@@ -131,28 +141,41 @@ func _on_keys_changed(keys: Dictionary) -> void:
 func _on_player_died() -> void:
 	death_label.visible = true
 
-func _on_time_changed(time_left: float) -> void:
-	var seconds := ceili(time_left) # 0:00 only when the time is really up
-	timer_label.text = "%02d:%02d" % [seconds / 60, seconds % 60]
-	timer_label.modulate = timer_warning_color if time_left <= timer_warning_time else Color.WHITE
-
-func _on_xp_changed(current: int, delta: int):
-	xp_label.text = "XP %d" % current
+func _on_xp_changed(current: int, delta: int) -> void:
+	if _xp_tween:
+		_xp_tween.kill()
+	if delta == 0: # a reset: no show
+		_set_xp_shown(current)
+		return
 	
-	if delta > 0:
-		xp_income_label.text = "+%d" % delta
-		xp_income_label.modulate.a = 1.0
-		
-		var tween = get_tree().create_tween()
-		
-		tween.tween_interval(0.5)
-		tween.tween_property(xp_income_label, "modulate:a", 0.0, 0.3)
-		
-	elif delta < 0:
-		xp_income_label.text = "%d" % delta
-		xp_income_label.modulate.a = 1.0
-		xp_income_label.modulate = Color.RED
-		
-		var tween = get_tree().create_tween()
-		tween.tween_interval(0.5)
-		tween.tween_property(xp_income_label, "modulate:a", 0.0, 0.3)
+	# the counter runs up to the new value, punching and flashing
+	var color := xp_gain_color if delta > 0 else xp_loss_color
+	xp_label.pivot_offset = xp_label.size * 0.5
+	xp_label.scale = Vector2.ONE * 1.25
+	xp_label.modulate = color
+	_xp_tween = create_tween().set_parallel()
+	_xp_tween.tween_method(_set_xp_shown, _xp_shown, float(current), xp_count_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_xp_tween.tween_property(xp_label, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_xp_tween.tween_property(xp_label, "modulate", Color.WHITE, xp_count_time)
+	
+	# "+N" pops in under it and floats up while fading
+	var still_shown := _xp_income_tween != null and _xp_income_tween.is_running()
+	if still_shown and signi(delta) == signi(_xp_income_sum):
+		_xp_income_sum += delta
+	else:
+		_xp_income_sum = delta
+	xp_income_label.text = ("+%d" if _xp_income_sum > 0 else "%d") % _xp_income_sum
+	xp_income_label.modulate = color
+	xp_income_label.position.y = _xp_income_y
+	xp_income_label.pivot_offset = xp_income_label.size * 0.5
+	xp_income_label.scale = Vector2.ONE * 1.6
+	if _xp_income_tween:
+		_xp_income_tween.kill()
+	_xp_income_tween = create_tween().set_parallel()
+	_xp_income_tween.tween_property(xp_income_label, "scale", Vector2.ONE, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_xp_income_tween.tween_property(xp_income_label, "position:y", _xp_income_y - xp_income_rise, xp_income_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_xp_income_tween.tween_property(xp_income_label, "modulate:a", 0.0, xp_income_time * 0.4).set_delay(xp_income_time * 0.6)
+
+func _set_xp_shown(value: float) -> void:
+	_xp_shown = value
+	xp_label.text = "%d pts" % roundi(value)

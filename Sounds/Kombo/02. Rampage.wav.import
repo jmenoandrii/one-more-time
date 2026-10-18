@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://w6udb3hicrfd"
+path="res://.godot/imported/02. Rampage.wav-6cc4a1ac10cd341c6c8cb3845e1fa74a.sample"
+
+[deps]
+
+source_file="res://Sounds/Kombo/02. Rampage.wav"
+dest_files=["res://.godot/imported/02. Rampage.wav-6cc4a1ac10cd341c6c8cb3845e1fa74a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

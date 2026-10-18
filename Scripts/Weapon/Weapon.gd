@@ -19,6 +19,8 @@ signal reserve_ammo_changed(amount: int) # reserve left, sent on every round loa
 @export var shoot_speed_min: float = 0.9 # random speed of the shoot animation,
 @export var shoot_speed_max: float = 1.15 # so shots don't look identical
 @export var owned_at_start: bool = false
+@export var crit_chance: float = 0.15 # 0..1, rolled for every bullet
+@export var crit_multiplier: float = 2.0 # damage of a crit
 var is_owned: bool
 
 # procedural recoil: every shot gets random values from these ranges
@@ -130,6 +132,8 @@ func _apply_upgrades() -> void:
 	max_ammo = int(RunState.get_stat("mag_size", max_ammo))
 	damage = RunState.get_stat("damage", damage)
 	reload_speed = RunState.get_stat("reload_speed", 1.0)
+	crit_chance = RunState.get_stat("crit_chance", crit_chance)
+	crit_multiplier = RunState.get_stat("crit_damage", crit_multiplier)
 
 func _process(delta: float) -> void:
 	_update_reload_fast_forward()
@@ -209,8 +213,10 @@ func _spawn_bullet(muzzle: Node3D, target_point: Vector3) -> void:
 	_flash_at(muzzle)
 	var instance: PhysicsBody3D = bullet_scene.instantiate()
 	
-	if "damage" in instance:
-		instance.damage = damage
+	var is_crit := randf() < crit_chance
+	instance.set(&"damage", damage * crit_multiplier if is_crit else damage)
+	instance.set(&"is_crit", is_crit)
+	instance.set(&"from_player", true) # its hits go to the HUD (crits, kills)
 	
 	# the bullet flies from the camera, exactly along the aim: the muzzle sits far in front and to
 	# the side, so from there it would miss the crosshair (and start inside walls up close).
@@ -223,7 +229,6 @@ func _spawn_bullet(muzzle: Node3D, target_point: Vector3) -> void:
 		instance.set_visual_start(muzzle.global_position, target_point)
 	if shooter:
 		instance.add_collision_exception_with(shooter)
-	instance.set(&"damage", damage)
 
 	get_tree().root.add_child(instance)
 

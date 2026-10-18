@@ -11,6 +11,15 @@
 [ext_resource type="Script" uid="uid://dx0wyen6abk7v" path="res://Scripts/UI/revolver_cylinders_hud.gd" id="9_cylinders"]
 [ext_resource type="Script" uid="uid://b136wflqkfccb" path="res://Scripts/UI/revolver_cylinder_hud.gd" id="10_cylinder"]
 [ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="11_root"]
+[ext_resource type="Script" uid="uid://d3pyg3ltacrj1" path="res://Scripts/UI/clock_hud.gd" id="12_clock"]
+[ext_resource type="Texture2D" uid="uid://dwan6xfoxquaj" path="res://UI/HUD/clock.png" id="13_clock_tex"]
+[ext_resource type="Shader" uid="uid://dbk1i6om4k2j7" path="res://Shaders/clock_hud.gdshader" id="14_clock_shader"]
+[ext_resource type="Script" uid="uid://cotkl7do1eiua" path="res://Scripts/UI/combat_messages.gd" id="15_combat"]
+[ext_resource type="AudioStream" uid="uid://br33irad6j3r6" path="res://Sounds/Kombo/03. Double Kill.wav" id="16_double"]
+[ext_resource type="AudioStream" uid="uid://c7dq3qjfcw6r8" path="res://Sounds/Kombo/04. Triple Kill.wav" id="17_triple"]
+[ext_resource type="AudioStream" uid="uid://ba327r73emopp" path="res://Sounds/Kombo/06. Unstoppable.wav" id="18_unstoppable"]
+[ext_resource type="AudioStream" uid="uid://cppgqri4g53ap" path="res://Sounds/Kombo/05. Dominating.wav" id="19_dominating"]
+[ext_resource type="AudioStream" uid="uid://w6udb3hicrfd" path="res://Sounds/Kombo/02. Rampage.wav" id="20_rampage"]
 [ext_resource type="Texture2D" uid="uid://dadwx7d2bmdx1" path="res://UI/Revolver/cylinder_0.png" id="cyl0"]
 [ext_resource type="Texture2D" uid="uid://dc5rrornq6swx" path="res://UI/Revolver/cylinder_1.png" id="cyl1"]
 [ext_resource type="Texture2D" uid="uid://cm8s3a8j3joy" path="res://UI/Revolver/cylinder_2.png" id="cyl2"]
@@ -18,6 +27,13 @@
 [ext_resource type="Texture2D" uid="uid://c0xpg863s5553" path="res://UI/Revolver/cylinder_4.png" id="cyl4"]
 [ext_resource type="Texture2D" uid="uid://ba2jf65t6brbh" path="res://UI/Revolver/cylinder_5.png" id="cyl5"]
 [ext_resource type="Texture2D" uid="uid://c48ig5o6ak8yj" path="res://UI/Revolver/cylinder_6.png" id="cyl6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_clock"]
+shader = ExtResource("14_clock_shader")
+shader_parameter/progress = 0.0
+shader_parameter/face_center = Vector2(15, 19)
+shader_parameter/face_radius = 11.4
+shader_parameter/darkness = 0.45
 
 [node name="HUD" type="CanvasLayer" unique_id=800763505]
 script = ExtResource("1_hud")
@@ -48,17 +64,19 @@ texture = ExtResource("4_36s6t")
 [node name="InteractLabel" type="Label" parent="Root" unique_id=1483955999]
 unique_name_in_owner = true
 visible = false
-layout_mode = 0
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -100.0
-offset_top = 8.0
+offset_top = 6.0
 offset_right = 100.0
-offset_bottom = 18.0
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 7
 text = "[E] Interact"
 horizontal_alignment = 1
 
@@ -83,19 +101,98 @@ the run is lost"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TimerLabel" type="Label" parent="Root" unique_id=1883068576]
-unique_name_in_owner = true
-layout_mode = 0
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -40.0
-offset_top = 6.0
-offset_right = 40.0
-offset_bottom = 24.0
+[node name="CombatMessages" type="Control" parent="Root" unique_id=1572039486]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 18
-text = "00:00"
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("15_combat")
+streak_sounds = Array[AudioStream]([ExtResource("16_double"), ExtResource("17_triple"), ExtResource("18_unstoppable"), ExtResource("19_dominating"), ExtResource("20_rampage")])
+
+[node name="CritLabel" type="Label" parent="Root/CombatMessages" unique_id=1938475620]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -18.0
+offset_right = 88.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "CRIT! 40"
+
+[node name="StreakLabel" type="Label" parent="Root/CombatMessages" unique_id=1203857461]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.28
+anchor_right = 0.5
+anchor_bottom = 0.28
+offset_left = -100.0
+offset_top = -8.0
+offset_right = 100.0
+offset_bottom = 8.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.76, 0.055, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "DOUBLE KILL"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StreakSound" type="AudioStreamPlayer" parent="Root/CombatMessages" unique_id=1840273615]
+volume_db = 5.0
+pitch_scale = 0.76
+
+[node name="Clock" type="Control" parent="Root" unique_id=1883068576]
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 37.0
+offset_bottom = 41.0
+mouse_filter = 2
+script = ExtResource("12_clock")
+drop_stiffness = 150.0
+drop_damping = 16.0
+
+[node name="Body" type="Control" parent="Root/Clock" unique_id=1203948571]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(15.5, 35)
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="Root/Clock/Body" unique_id=1749203316]
+material = SubResource("ShaderMaterial_clock")
+layout_mode = 0
+offset_right = 31.0
+offset_bottom = 35.0
+mouse_filter = 2
+texture = ExtResource("13_clock_tex")
+
+[node name="Number" type="Label" parent="Root/Clock/Body" unique_id=1083746201]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 16.0
+offset_right = 29.0
+offset_bottom = 25.0
+theme_override_colors/font_color = Color(0.12, 0.12, 0.12, 1)
+text = "30"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ExLabel" type="Label" parent="Root" unique_id=558820301]
 unique_name_in_owner = true
@@ -103,14 +200,14 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -45.0
-offset_top = 28.0
-offset_right = 45.0
-offset_bottom = 46.0
+offset_left = 63.0
+offset_top = 4.0
+offset_right = 185.0
+offset_bottom = 17.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 18
-text = "XP 0"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 12
+text = "0 pts"
+horizontal_alignment = 2
 
 [node name="ExIncomeLabel" type="Label" parent="Root" unique_id=251562851]
 unique_name_in_owner = true
@@ -118,10 +215,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -45.0
-offset_top = 49.0
-offset_right = 45.0
-offset_bottom = 67.0
+offset_left = 53.0
+offset_top = 25.0
+offset_right = 143.0
+offset_bottom = 43.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 18
 text = "+0"

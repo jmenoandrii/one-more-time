@@ -8,6 +8,8 @@ var lifetime: float = 2.0
 @export var speed: float = 50.0
 @export var damage: float = 0.0
 @export var target_obj_name := ""
+var is_crit := false # set by the weapon, damage already includes the multiplier
+var from_player := false # set by the weapon: hits on enemies are reported to the HUD
 
 # tracer: a thin glowing streak behind the bullet, grows from the muzzle up to tracer_length
 @export var tracer_length: float = 3.0
@@ -61,6 +63,8 @@ func _physics_process(delta: float) -> void:
 		if not target_obj_name or hit_object.name == target_obj_name:
 			if health_component and health_component.has_method("take_damage"):
 				health_component.take_damage(damage)
+				if from_player:
+					GameEvents.enemy_hit.emit(damage, is_crit, health_component.current_health <= 0)
 
 		ImpactEffects.spawn(self, collision.get_position(), collision.get_normal(), health_component != null)
 		queue_free()

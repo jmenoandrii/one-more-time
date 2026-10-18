@@ -31,7 +31,7 @@ var crouch_height: float	# = normal_height - normal_height * CROUCH_PERSENT
 @onready var floortype_ray: RayCast3D = $floortype_ray
 
 # Stamina
-const MAX_STAMINA: float = 100.0
+const MAX_STAMINA: float = 200.0
 const STAMINA_DRAIN_RATE: float = 20.0 # per second
 const STAMINA_REGEN_RATE: float = 10.0 # per second
 const STAMINA_JUMP_RATE: float = 10.0
@@ -60,7 +60,7 @@ var is_cursor_locked := true
 var weapons: Array[Weapon] = []
 var current_weapon_index: int = -1
 
-const RESERVE_AMMO: int = 18
+const RESERVE_AMMO: int = 999999
 var current_reserve_ammo: int
 
 # health
@@ -92,6 +92,15 @@ func _ready() -> void:
 		w.ammo_updated.connect(_on_weapon_ammo_updated.bind(w))
 		w.reserve_ammo_changed.connect(_on_weapon_reserve_ammo_changed)
 	equip_weapon(-1)
+	# into the final the player brings the weapons picked up on the level
+	if RunState.in_final:
+		var best := -1
+		for i in weapons.size():
+			if weapons[i].weapon_name in RunState.carried_weapons:
+				weapons[i].is_owned = true
+				best = i # the later one in the list (dual revolvers) is the stronger one
+		if best != -1:
+			equip_weapon(best)
 
 	mouse_sensitivity = Settings.mouse_sensitivity * SENSITIVITY_SCALE
 	
@@ -333,6 +342,13 @@ func play_step_sounds():
 
 # gives the first not yet owned weapon this pickup belongs to:
 # the 1st revolver pickup -> Revolver, the 2nd -> DualRevolvers (its pickup_name is "revolver")
+func get_owned_weapon_names() -> PackedStringArray:
+	var names: PackedStringArray = []
+	for weapon in weapons:
+		if weapon.is_owned:
+			names.append(weapon.weapon_name)
+	return names
+
 func pick_up_weapon(pickup: String) -> bool:
 	for i in weapons.size():
 		var weapon := weapons[i]

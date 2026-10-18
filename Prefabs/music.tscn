@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://0tlmxw53qoej"]
+
+[ext_resource type="AudioStream" uid="uid://bor6tm675q6ep" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 01 - Interstellar.ogg" id="1_bvoww"]
+[ext_resource type="AudioStream" uid="uid://blxq2f4vdys0f" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 02 - Plasma Storm.ogg" id="2_rj563"]
+[ext_resource type="AudioStream" uid="uid://ceb0mmjvphlbb" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 03 - Temple of Madness.ogg" id="3_5memm"]
+[ext_resource type="AudioStream" uid="uid://c36smk5n5ud5v" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 04 - Horsehead Nebula.ogg" id="4_4ytvm"]
+[ext_resource type="AudioStream" uid="uid://x8cfoquwc367" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 05 - Forgotten Station.ogg" id="5_1fmio"]
+[ext_resource type="AudioStream" uid="uid://cbcxksme8dfko" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 06 - Hope on the Horizon.ogg" id="6_bxlxl"]
+[ext_resource type="AudioStream" uid="uid://bct7vloei40we" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 08 - Synth Kobra.ogg" id="7_als8d"]
+[ext_resource type="AudioStream" uid="uid://1xw33js0ek80" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 09 - Spiral of Plasma.ogg" id="8_y83fp"]
+[ext_resource type="Script" uid="uid://ch1ajhxoxcj3a" path="res://Scripts/Global/music.gd" id="9_rj563"]
+
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_776o0"]
+shuffle = true
+fade_time = 0.15
+stream_count = 8
+stream_0 = ExtResource("1_bvoww")
+stream_1 = ExtResource("2_rj563")
+stream_2 = ExtResource("3_5memm")
+stream_3 = ExtResource("4_4ytvm")
+stream_4 = ExtResource("5_1fmio")
+stream_5 = ExtResource("6_bxlxl")
+stream_6 = ExtResource("7_als8d")
+stream_7 = ExtResource("8_y83fp")
+
+[node name="Music" type="AudioStreamPlayer" unique_id=330048300]
+process_mode = 3
+stream = SubResource("AudioStreamPlaylist_776o0")
+volume_db = -10.0
+autoplay = true
+bus = &"Music"
+script = ExtResource("9_rj563")

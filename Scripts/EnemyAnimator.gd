@@ -11,6 +11,8 @@ class_name EnemyAnimator
 @export var idle: AnimationLibrary
 @export var walk: AnimationLibrary
 @export var attacks: Array[AnimationLibrary] = []
+# named one-off animations played on purpose, not picked at random (e.g. the boss's "throw")
+@export var specials: Dictionary[StringName, AnimationLibrary] = {}
 @export var blend_time: float = 0.2
 @export var walk_anim_speed: float = 2.0 # movement speed (m/s) at which the walk plays at normal speed
 
@@ -19,6 +21,7 @@ var _skeleton: Skeleton3D
 var _idle_name := &""
 var _walk_name := &""
 var _attack_names: Array[StringName] = []
+var _special_names: Dictionary[StringName, StringName] = {} # special -> full animation name
 var _last_attack := -1
 
 func _ready() -> void:
@@ -39,6 +42,10 @@ func _ready() -> void:
 		var anim_name := _add(StringName("attack_%d" % i), attacks[i], false)
 		if anim_name != &"":
 			_attack_names.append(anim_name)
+	for special in specials:
+		var anim_name := _add(StringName("special_%s" % special), specials[special], false)
+		if anim_name != &"":
+			_special_names[special] = anim_name
 	play_idle()
 
 func is_active() -> bool:
@@ -46,6 +53,17 @@ func is_active() -> bool:
 
 func can_attack() -> bool:
 	return _player != null and not _attack_names.is_empty()
+
+func has_special(special: StringName) -> bool:
+	return _special_names.has(special)
+
+# returns its length in seconds, 0 if there is no such special
+func play_special(special: StringName) -> float:
+	if not has_special(special):
+		return 0.0
+	_player.speed_scale = 1.0
+	_player.play(_special_names[special], 0.1)
+	return _player.current_animation_length
 
 func play_idle() -> void:
 	# no idle clip: stand still on the first frame of the walk

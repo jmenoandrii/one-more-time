@@ -9,10 +9,12 @@ class_name UpgradeData
 @export_multiline var description: String
 @export var icon: Texture2D
 @export_enum("move_speed", "jump", "max_stamina", "stamina_regen", "stamina_drain",
-	"max_health", "fire_rate", "damage", "mag_size", "reserve_ammo", "reload_speed") var stat: String
+	"max_health", "fire_rate", "damage", "mag_size", "reserve_ammo", "reload_speed", "crit_chance", "crit_damage") var stat: String
 @export var flat: float = 0.0
 @export var mult: float = 1.0
 @export var max_stacks: int = 5
 @export var weight: float = 1.0 # chance to be offered, relative to the other cards
+@export var cost: int = 50 # points for the first level
+@export var cost_growth: float = 1.5 # every next level costs this many times more
 
 var id: String # set by RunState from the file name

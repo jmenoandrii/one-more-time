@@ -73,6 +73,7 @@ var _forearm := -1
 
 
 func _ready() -> void:
+	add_to_group("enemy") # World opens the final gate when the group is empty
 	sight_ray.add_exception(self)
 	detection_area.body_entered.connect(_on_body_entered)
 	detection_area.body_exited.connect(_on_body_exited)
@@ -114,6 +115,14 @@ func _physics_process(delta: float) -> void:
 	# gravity
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	# asleep until the level timer starts: just stand (and fall)
+	if not GameEvents.level_running:
+		velocity.x = 0
+		velocity.z = 0
+		move_and_slide()
+		_update_locomotion()
+		return
 
 	# sight system
 	if aggro_time_left > 0:
@@ -280,5 +289,6 @@ func _on_damage_caused(amount: float) -> void:
 
 func die():
 	RunState.add_xp(xp_reward)
+	GameEvents.enemy_killed.emit()
 	goblin_sound.play()
 	queue_free()
