@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bq3kyfmculrt4"]
 
-[ext_resource type="Script" uid="uid://2bg1vdthjqnd" path="res://Scenes/RangeMonster.gd" id="1_h8sjb"]
+[ext_resource type="Script" uid="uid://s20tg4rihyo1" path="res://Scripts/RangeMonster.gd" id="1_6gfko"]
 [ext_resource type="PackedScene" uid="uid://drch2nvlo2ejw" path="res://Prefabs/stone.tscn" id="2_6gfko"]
 [ext_resource type="Script" uid="uid://3w08oe525cl4" path="res://Scripts/HealthComponent.gd" id="3_0i20u"]
 
@@ -21,7 +21,7 @@ height = 4.0
 radius = 10.0
 
 [node name="RangeMonster" type="CharacterBody3D" unique_id=465993397]
-script = ExtResource("1_h8sjb")
+script = ExtResource("1_6gfko")
 stone_scene = ExtResource("2_6gfko")
 stop_distance = 8.0
 
