@@ -10,6 +10,7 @@ var is_chasing := false
 
 @export var speed: float = 4.0
 @export var melee_damage: float = 15.0
+@export var xp_reward: int = 10
 @export var aggro_time: float = 2.0
 var aggro_time_left: float = 0.0
 
@@ -26,6 +27,10 @@ var aggro_time_left: float = 0.0
 @export_subgroup("Damage")
 @export var min_melee_damage_offset: float = 2.0
 @export var max_melee_damage_offset: float = 2.0
+
+@export_subgroup("Ex reward")
+@export var min_xp_reward_offset: int = 0
+@export var max_xp_reward_offset: int = 0
 
 
 func _ready() -> void:
@@ -46,6 +51,8 @@ func _ready() -> void:
 	melee_damage += randf_range(-min_melee_damage_offset, max_melee_damage_offset)
 	if "damage_amount" in damage_area:
 		damage_area.damage_amount = melee_damage
+	
+	xp_reward += randi_range(-min_xp_reward_offset, max_xp_reward_offset)
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player": 
@@ -103,4 +110,5 @@ func _on_damage_caused(amount: float) -> void:
 		player = get_tree().current_scene.get_node_or_null("Player")
 
 func die():
+	RunState.add_xp(xp_reward)
 	queue_free()
