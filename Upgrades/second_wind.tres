@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UpgradeData" format=3]
+
+[ext_resource type="Script" path="res://Scripts/Upgrades/upgrade_data.gd" id="1_upgrade"]
+
+[resource]
+script = ExtResource("1_upgrade")
+title = "Second Wind"
+description = "+25% stamina regeneration"
+stat = "stamina_regen"
+mult = 1.25
+max_stacks = 5

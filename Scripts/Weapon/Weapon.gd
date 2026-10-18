@@ -49,6 +49,7 @@ var is_owned: bool
 @export var inspect_blend_speed: float = 8.0
 
 var current_ammo: int
+var reload_speed: float = 1.0 # speed of the reload animation, from the run's upgrades
 var can_shoot: bool = true
 var is_reloading: bool = false
 var is_inspecting: bool = false
@@ -72,6 +73,7 @@ var _recoil_pos := Vector3.ZERO
 @export var reload_sound_offset: float = 0.6 # the click in the sound file starts here
 
 func _ready() -> void:
+	_apply_upgrades()
 	current_ammo = max_ammo
 	_rest_transform = transform
 
@@ -95,6 +97,13 @@ func _ready() -> void:
 	while node != null and not node is PhysicsBody3D:
 		node = node.get_parent()
 	shooter = node
+
+# "fire_rate" upgrades are shots per second, so the delay between shots is divided by them
+func _apply_upgrades() -> void:
+	fire_rate /= RunState.get_stat("fire_rate", 1.0)
+	max_ammo = int(RunState.get_stat("mag_size", max_ammo))
+	damage = RunState.get_stat("damage", damage)
+	reload_speed = RunState.get_stat("reload_speed", 1.0)
 
 func _process(delta: float) -> void:
 	_update_reload_fast_forward()
@@ -159,7 +168,8 @@ func _spawn_bullet(muzzle: Node3D, target_point: Vector3) -> void:
 	instance.transform = Transform3D(Basis.looking_at(target_point - from, Vector3.UP), from)
 	if shooter:
 		instance.add_collision_exception_with(shooter)
-	
+	instance.set(&"damage", damage)
+
 	get_tree().root.add_child(instance)
 
 func _play_shoot_animation(player: AnimationPlayer) -> void:
@@ -205,7 +215,8 @@ func reload(reserve_ammo: int) -> int:
 		is_reloading = true
 		is_inspecting = false
 		# the animation calls load_reload_round() on every cylinder click
-		_anim_play(reload_animation, 0.2)
+		# custom speed, separate from speed_scale, which the fast-forward changes
+		_anim_play(reload_animation, 0.2, reload_speed)
 		await animation_player.animation_finished
 	
 	# top up whatever the animation didn't load (e.g. a weapon without per-click calls)

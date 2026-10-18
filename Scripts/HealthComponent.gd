@@ -30,6 +30,11 @@ func heal(amount: float) -> void:
 	_update_health(current_health + amount)
 	healing_caused.emit(amount)
 
+# new maximum, the health is refilled to it
+func set_max_health(value: float) -> void:
+	max_health = value
+	_update_health(max_health)
+
 func _update_health(health: float) -> void:
 	if health < 0: 
 		current_health = 0.0

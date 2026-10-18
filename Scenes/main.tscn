@@ -27,6 +27,9 @@
 [ext_resource type="Script" uid="uid://esp0o4jvam1s" path="res://Scripts/Weapon/DualWeapon.gd" id="30_dual"]
 [ext_resource type="PackedScene" path="res://Prefabs/door.tscn" id="31_door"]
 [ext_resource type="PackedScene" path="res://Prefabs/key_pickup.tscn" id="32_key"]
+[ext_resource type="PackedScene" path="res://Prefabs/level_exit.tscn" id="33_exit"]
+[ext_resource type="Script" uid="uid://gquepqbnnniv" path="res://Scripts/level_spawner.gd" id="34_spawner"]
+[ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="35_upgrades"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -39,6 +42,32 @@ sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 background_mode = 2
 sky = SubResource("Sky_0xm2m")
 glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puclg"]
+albedo_color = Color(0.93070734, 0.24337113, 0.24450329, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_g0qyx"]
+material = SubResource("StandardMaterial3D_puclg")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qcgbb"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_1w6v2"]
+size = Vector2(20, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ueoa1"]
+size = Vector3(48.72087, 0.7709961, 29.515076)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vcvc"]
+albedo_texture = ExtResource("17_fevyy")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7k868"]
+points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hpc6h"]
+points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kltya"]
+points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 
@@ -115,32 +144,6 @@ stream_1/stream = ExtResource("9_ee4r6")
 stream_2/stream = ExtResource("10_gt3je")
 stream_3/stream = ExtResource("11_3pmx8")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_puclg"]
-albedo_color = Color(0.93070734, 0.24337113, 0.24450329, 1)
-
-[sub_resource type="PrismMesh" id="PrismMesh_g0qyx"]
-material = SubResource("StandardMaterial3D_puclg")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_qcgbb"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_1w6v2"]
-size = Vector2(20, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_ueoa1"]
-size = Vector3(48.72087, 0.7709961, 29.515076)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vcvc"]
-albedo_texture = ExtResource("17_fevyy")
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_7k868"]
-points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hpc6h"]
-points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1)
-
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_kltya"]
-points = PackedVector3Array(1, 1, 1, 1, 1, -1, -1, 1, 1, 1, -1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, -1, -1)
-
 [node name="World" type="Node3D" unique_id=41126308]
 
 [node name="Enviroment" type="WorldEnvironment" parent="." unique_id=1077777929]
@@ -154,285 +157,6 @@ shadow_enabled = true
 transform = Transform3D(-4.371138e-08, 0, 0.9999998, 0, 1, 0, -0.9999998, 0, -4.371138e-08, 12.874932, 1.2644043, -0.10489303)
 required_key = "red"
 locked_text = "Locked: find the red key"
-
-[node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040]
-transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
-script = ExtResource("1_jkdf5")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=808242478]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
-mesh = SubResource("CapsuleMesh_0rpfx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=996913945]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_g0qyx")
-
-[node name="Head" type="Node3D" parent="Player" unique_id=1770461712]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-
-[node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2670164)
-
-[node name="Weapons" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)
-
-[node name="Revolver" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=870522707]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.019011676, 0.09287548, -0.084962666)
-visible = false
-script = ExtResource("2_wsu2k")
-weapon_name = "revolver"
-bullet_scene = ExtResource("3_jkdf5")
-shoot_speed_min = 1.1
-shoot_speed_max = 1.3
-recoil_pitch = Vector2(0.3, 0.55)
-recoil_kick = Vector2(0.1, 0.25)
-
-[node name="Revolver" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1433082735 instance=ExtResource("11_u50mg")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
-
-[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1875669028]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0064813793, 0.12732923, 0.52824354)
-
-[node name="DualRevolvers" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1630511874]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345, 0.09287548, -0.084962666)
-visible = false
-script = ExtResource("30_dual")
-weapon_name = "dual_revolvers"
-pickup_name = "revolver"
-bullet_scene = ExtResource("3_jkdf5")
-fire_rate = 0.08
-max_ammo = 12
-shoot_speed_min = 1.1
-shoot_speed_max = 1.3
-recoil_pitch = Vector2(0.3, 0.55)
-recoil_kick = Vector2(0.1, 0.25)
-can_inspect = false
-
-[node name="Right" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511880]
-transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.364, 0, 0)
-
-[node name="RightModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Right" unique_id=1630511875 instance=ExtResource("11_u50mg")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
-
-[node name="Left" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511881]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, -0.364, 0, 0)
-
-[node name="LeftModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Left" unique_id=1630511876 instance=ExtResource("11_u50mg")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
-
-[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511877]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3575, 0.12732923, -0.52824354)
-
-[node name="BulletPosLeft" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511878]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824354)
-
-[node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
-target_position = Vector3(0, 0, -1000)
-collide_with_areas = true
-
-[node name="InteractRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=143733516]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
-target_position = Vector3(0, -2, 0)
-
-[node name="headbob" type="AnimationPlayer" parent="Player/Head" unique_id=279278114]
-root_node = NodePath("../..")
-libraries/ = SubResource("AnimationLibrary_5vw27")
-
-[node name="Music" type="AudioStreamPlayer3D" parent="Player/Head" unique_id=1264888633]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023120165, 0)
-stream = ExtResource("13_wsu2k")
-attenuation_model = 3
-volume_db = -25.0
-max_db = -3.0
-autoplay = true
-
-[node name="Sounds" type="Node3D" parent="Player" unique_id=135702811]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
-
-[node name="dirt" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1168338759]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21978569, 0)
-stream = SubResource("AudioStreamRandomizer_upu61")
-
-[node name="stone" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=43388868]
-stream = SubResource("AudioStreamRandomizer_5vw27")
-
-[node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
-stream = ExtResource("12_u50mg")
-volume_db = -23.0
-
-[node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
-collision_mask = 2
-
-[node name="HealthComponent" type="Node" parent="Player" unique_id=1280028663]
-script = ExtResource("17_health")
-
-[node name="UI" type="Node" parent="." unique_id=1119755475]
-process_mode = 3
-script = ExtResource("14_1w6v2")
-
-[node name="HUD" type="CanvasLayer" parent="UI" unique_id=239500367]
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/HUD" unique_id=1974874258]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-
-[node name="ColorRect" type="ColorRect" parent="UI/HUD/CenterContainer" unique_id=2022210584]
-custom_minimum_size = Vector2(4, 4)
-layout_mode = 2
-mouse_filter = 2
-color = Color(1, 0.2784314, 0.79607844, 1)
-
-[node name="AmmoLabel" type="Label" parent="UI/HUD" unique_id=885559988]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -94.0
-offset_top = -66.0
-offset_right = -12.0
-offset_bottom = -11.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "0 / 0"
-justification_flags = 131
-
-[node name="reserveAmmo" type="Label" parent="UI/HUD" unique_id=2032349978]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -35.0
-offset_top = -103.96503
-offset_right = -12.0
-offset_bottom = -48.965027
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-justification_flags = 131
-
-[node name="HeartSymbol" type="Label" parent="UI/HUD" unique_id=1881795301]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = -59.0
-offset_right = 61.0
-offset_bottom = -4.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "♥:"
-
-[node name="HealthLabel" type="Label" parent="UI/HUD" unique_id=202658451]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = -58.0
-offset_right = 96.0
-offset_bottom = -3.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "0 / 0"
-
-[node name="StaminaSymbol" type="Label" parent="UI/HUD" unique_id=893110678]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = -107.0
-offset_right = 61.0
-offset_bottom = -52.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "🏃:"
-
-[node name="StaminaLabel" type="Label" parent="UI/HUD" unique_id=1094148920]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = -106.0
-offset_right = 138.0
-offset_bottom = -51.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 40
-text = "0 / 0"
-
-[node name="InteractLabel" type="Label" parent="UI/HUD" unique_id=893624820]
-visible = false
-offset_left = 536.0
-offset_top = 602.0
-offset_right = 620.0
-offset_bottom = 625.0
-horizontal_alignment = 1
-
-[node name="KeysContainer" type="HBoxContainer" parent="UI/HUD" unique_id=730203913]
-offset_left = 2.0
-offset_top = 485.0
-offset_right = 156.0
-offset_bottom = 541.0
-
-[node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
-process_mode = 3
-visible = false
-script = ExtResource("13_cbgmd")
-
-[node name="ColorRect" type="ColorRect" parent="UI/PauseMenu" unique_id=1873464838]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.28485027, 0.28485027, 0.28485027, 1)
-
-[node name="ResumeButton" type="Button" parent="UI/PauseMenu" unique_id=1769114960]
-offset_left = 518.0
-offset_top = 274.0
-offset_right = 651.0
-offset_bottom = 321.0
-text = "Resume"
-
-[node name="ExitButton" type="Button" parent="UI/PauseMenu" unique_id=535452121]
-offset_left = 518.0
-offset_top = 424.0
-offset_right = 651.0
-offset_bottom = 471.0
-text = "Exit"
-
-[node name="SensitivitySlider" type="HSlider" parent="UI/PauseMenu" unique_id=2041809233]
-offset_left = 424.0
-offset_top = 359.0
-offset_right = 743.0
-offset_bottom = 415.0
-min_value = 1.0
-max_value = 10.0
-step = 0.1
-value = 4.0
-
-[node name="Label" type="Label" parent="UI/PauseMenu/SensitivitySlider" unique_id=933893457]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.133
-anchor_bottom = 0.43
-offset_top = -4.0
-offset_right = 37.572998
-offset_bottom = -5.08
-text = "Sensitivity"
 
 [node name="Level 1" type="CSGCombiner3D" parent="." unique_id=2063705400]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
@@ -455,6 +179,9 @@ shape = SubResource("BoxShape3D_qcgbb")
 [node name="Timer" type="Timer" parent="Level 1/DamageCube" unique_id=381521869]
 autostart = true
 
+[node name="weapon_pickup" parent="Level 1" unique_id=2110892615 instance=ExtResource("21_3pmx8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5659447, 0.30338427, 0.6131034)
+
 [node name="CSGBox3D57" type="CSGBox3D" parent="Level 1" unique_id=1777276823]
 transform = Transform3D(-4.8363113e-08, 0, -0.8540246, 0, 0.79941714, 0, 1.1064188, 0, -3.7330587e-08, 64.59751, -0.5529563, 110.85929)
 size = Vector3(20, 2, 21)
@@ -466,9 +193,6 @@ operation = 2
 radius = 7.347
 height = 4.519043
 material = ExtResource("3_pdsj5")
-
-[node name="weapon_pickup" parent="Level 1" unique_id=2110892615 instance=ExtResource("21_3pmx8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5659447, 0.30338427, 0.6131034)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Level 1" unique_id=1383717317]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.06902, 3, -9.504109)
@@ -1142,91 +866,432 @@ height = 11.0
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Level 1" unique_id=1938709066]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.564697, 7.117279, 0.0039251936)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.564697, 7, 0.00392754)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(97, 1, 20)
 material = ExtResource("1_fevyy")
 
+[node name="weapon_pickup2" parent="Level 1" unique_id=1630511879 instance=ExtResource("21_3pmx8")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 24.40176, 0.30338487, 11.844201)
+
 [node name="CSGBox3D81" type="CSGBox3D" parent="Level 1" unique_id=252073998]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.564697, 7.117279, 18.503925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.564697, 7, 18.503927)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(47, 1, 17)
 material = ExtResource("1_fevyy")
 
+[node name="CSGBox3D87" type="CSGBox3D" parent="Level 1" unique_id=1011058253]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.5647, 7, 73.00392)
+material_override = ExtResource("3_pdsj5")
+size = Vector3(21, 1, 18)
+material = ExtResource("1_fevyy")
+
 [node name="CSGBox3D82" type="CSGBox3D" parent="Level 1" unique_id=1497957444]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.564697, 7.117279, 35.503925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33.564697, 7, 35.503925)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(73, 1, 17)
 material = ExtResource("1_fevyy")
 
-[node name="CSGBox3D84" type="CSGBox3D" parent="Level 1" unique_id=945566680]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.0647, 7.117279, 35.503925)
-material_override = ExtResource("3_pdsj5")
-size = Vector3(26, 1, 17)
-material = ExtResource("1_fevyy")
-
-[node name="CSGBox3D85" type="CSGBox3D" parent="Level 1" unique_id=1498269688]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.0647, 7.117279, 63.503925)
-material_override = ExtResource("3_pdsj5")
-size = Vector3(20, 1, 39)
-material = ExtResource("1_fevyy")
-
 [node name="CSGBox3D86" type="CSGBox3D" parent="Level 1" unique_id=1442221031]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.35968, 7.117279, 91.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.65466, 7, 91.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(46.589966, 1, 18)
+size = Vector3(46, 1, 18)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D88" type="CSGBox3D" parent="Level 1" unique_id=752292088]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.0647, 7.117279, 111.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.513794, 7, 111.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(16, 1, 22)
+size = Vector3(15.705811, 1, 22)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D89" type="CSGBox3D" parent="Level 1" unique_id=1415503663]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.564697, 7.117279, 102.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 39.363586, 7, 102.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(41, 1, 50)
+size = Vector3(38.59778, 1, 50)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D91" type="CSGBox3D" parent="Level 1" unique_id=441747345]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.56469715, 7.117279, 112.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0646985, 7, 112.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(33, 1, 30)
+size = Vector3(36, 1, 30)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D92" type="CSGBox3D" parent="Level 1" unique_id=429502749]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.43530285, 7.117279, 84.50392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0646971, 7, 84.50392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(35, 1, 25)
+size = Vector3(38, 1, 25)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D93" type="CSGBox3D" parent="Level 1" unique_id=1457500213]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5646973, 7.117279, 66.50392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5646973, 7, 66.50392)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(27, 1, 11)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D90" type="CSGBox3D" parent="Level 1" unique_id=637253120]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.064697, 7.117279, 69.00392)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55.064697, 7, 69.00392)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(6, 1, 16)
+size = Vector3(8, 1, 16)
 material = ExtResource("1_fevyy")
 
-[node name="CSGBox3D87" type="CSGBox3D" parent="Level 1" unique_id=1011058253]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 106.5647, 7.117279, 73.00392)
+[node name="CSGBox3D85" type="CSGBox3D" parent="Level 1" unique_id=1498269688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 86.0647, 7, 63.503925)
 material_override = ExtResource("3_pdsj5")
-size = Vector3(21, 1, 18)
+size = Vector3(20, 1, 39)
+material = ExtResource("1_fevyy")
+
+[node name="CSGBox3D84" type="CSGBox3D" parent="Level 1" unique_id=945566680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 83.0647, 7, 35.503925)
+material_override = ExtResource("3_pdsj5")
+size = Vector3(26, 1, 17)
 material = ExtResource("1_fevyy")
 
 [node name="CSGBox3D83" type="CSGBox3D" parent="Level 1" unique_id=1538693917]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.064697, 7.117279, 52.503925)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.064697, 7, 52.503925)
 material_override = ExtResource("3_pdsj5")
 size = Vector3(70, 1, 17)
 material = ExtResource("1_fevyy")
 
-[node name="weapon_pickup2" parent="Level 1" unique_id=1630511879 instance=ExtResource("21_3pmx8")]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 24.40176, 0.30338487, 11.844201)
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040 groups=["player"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0, 0)
+script = ExtResource("1_jkdf5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player" unique_id=808242478]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_0rpfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=996913945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_g0qyx")
+
+[node name="Head" type="Node3D" parent="Player" unique_id=1770461712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2670164)
+
+[node name="Weapons" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)
+
+[node name="Revolver" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=870522707]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.019011676, 0.09287548, -0.084962666)
+visible = false
+script = ExtResource("2_wsu2k")
+weapon_name = "revolver"
+bullet_scene = ExtResource("3_jkdf5")
+shoot_speed_min = 1.1
+shoot_speed_max = 1.3
+recoil_pitch = Vector2(0.3, 0.55)
+recoil_kick = Vector2(0.1, 0.25)
+
+[node name="Revolver" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1433082735 instance=ExtResource("11_u50mg")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/Revolver" unique_id=1875669028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0064813793, 0.12732923, 0.52824354)
+
+[node name="DualRevolvers" type="Node3D" parent="Player/Head/Camera3D/Weapons" unique_id=1630511874]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.345, 0.09287548, -0.084962666)
+visible = false
+script = ExtResource("30_dual")
+weapon_name = "dual_revolvers"
+pickup_name = "revolver"
+bullet_scene = ExtResource("3_jkdf5")
+fire_rate = 0.08
+max_ammo = 12
+shoot_speed_min = 1.1
+shoot_speed_max = 1.3
+recoil_pitch = Vector2(0.3, 0.55)
+recoil_kick = Vector2(0.1, 0.25)
+can_inspect = false
+
+[node name="Right" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511880]
+transform = Transform3D(-1, 0, 8.742278e-08, 0, 1, 0, -8.742278e-08, 0, -1, 0.364, 0, 0)
+
+[node name="RightModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Right" unique_id=1630511875 instance=ExtResource("11_u50mg")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="Left" type="Node3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, -1, -0.364, 0, 0)
+
+[node name="LeftModel" parent="Player/Head/Camera3D/Weapons/DualRevolvers/Left" unique_id=1630511876 instance=ExtResource("11_u50mg")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="BulletPos" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511877]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3575, 0.12732923, -0.52824354)
+
+[node name="BulletPosLeft" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511878]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824354)
+
+[node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
+target_position = Vector3(0, 0, -1000)
+collide_with_areas = true
+
+[node name="InteractRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=143733516]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+target_position = Vector3(0, -2, 0)
+
+[node name="headbob" type="AnimationPlayer" parent="Player/Head" unique_id=279278114]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_5vw27")
+
+[node name="Music" type="AudioStreamPlayer3D" parent="Player/Head" unique_id=1264888633]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.023120165, 0)
+stream = ExtResource("13_wsu2k")
+attenuation_model = 3
+volume_db = -25.0
+max_db = -3.0
+autoplay = true
+
+[node name="Sounds" type="Node3D" parent="Player" unique_id=135702811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.21978569, 0)
+
+[node name="dirt" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1168338759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.21978569, 0)
+stream = SubResource("AudioStreamRandomizer_upu61")
+
+[node name="stone" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=43388868]
+stream = SubResource("AudioStreamRandomizer_5vw27")
+
+[node name="jump" type="AudioStreamPlayer3D" parent="Player/Sounds" unique_id=1208844341]
+stream = ExtResource("12_u50mg")
+volume_db = -23.0
+
+[node name="floortype_ray" type="RayCast3D" parent="Player" unique_id=883116546]
+collision_mask = 2
+
+[node name="HealthComponent" type="Node" parent="Player" unique_id=1280028663]
+script = ExtResource("17_health")
+
+[node name="UI" type="Node" parent="." unique_id=1119755475]
+process_mode = 3
+script = ExtResource("14_1w6v2")
+
+[node name="HUD" type="CanvasLayer" parent="UI" unique_id=239500367]
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/HUD" unique_id=1974874258]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="ColorRect" type="ColorRect" parent="UI/HUD/CenterContainer" unique_id=2022210584]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(1, 0.2784314, 0.79607844, 1)
+
+[node name="AmmoLabel" type="Label" parent="UI/HUD" unique_id=885559988]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = -66.0
+offset_right = -12.0
+offset_bottom = -11.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
+justification_flags = 131
+
+[node name="reserveAmmo" type="Label" parent="UI/HUD" unique_id=2032349978]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -103.96503
+offset_right = -12.0
+offset_bottom = -48.965027
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+justification_flags = 131
+
+[node name="HeartSymbol" type="Label" parent="UI/HUD" unique_id=1881795301]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -59.0
+offset_right = 61.0
+offset_bottom = -4.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "♥:"
+
+[node name="HealthLabel" type="Label" parent="UI/HUD" unique_id=202658451]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -58.0
+offset_right = 96.0
+offset_bottom = -3.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
+
+[node name="StaminaSymbol" type="Label" parent="UI/HUD" unique_id=893110678]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = -107.0
+offset_right = 61.0
+offset_bottom = -52.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "🏃:"
+
+[node name="StaminaLabel" type="Label" parent="UI/HUD" unique_id=1094148920]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -106.0
+offset_right = 138.0
+offset_bottom = -51.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "0 / 0"
+
+[node name="InteractLabel" type="Label" parent="UI/HUD" unique_id=893624820]
+visible = false
+offset_left = 536.0
+offset_top = 602.0
+offset_right = 620.0
+offset_bottom = 625.0
+horizontal_alignment = 1
+
+[node name="KeysContainer" type="HBoxContainer" parent="UI/HUD" unique_id=730203913]
+offset_left = 2.0
+offset_top = 485.0
+offset_right = 156.0
+offset_bottom = 541.0
+
+[node name="LoopLabel" type="Label" parent="UI/HUD" unique_id=320355967]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = 63.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 40
+text = "LOOP 1"
+horizontal_alignment = 2
+
+[node name="DeathLabel" type="Label" parent="UI/HUD" unique_id=1742589265]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -70.0
+offset_right = 300.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.9, 0.15, 0.15, 1)
+theme_override_font_sizes/font_size = 56
+text = "YOU DIED
+the run is lost"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseMenu" type="CanvasLayer" parent="UI" unique_id=194481686]
+process_mode = 3
+visible = false
+script = ExtResource("13_cbgmd")
+
+[node name="ColorRect" type="ColorRect" parent="UI/PauseMenu" unique_id=1873464838]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.28485027, 0.28485027, 0.28485027, 1)
+
+[node name="ResumeButton" type="Button" parent="UI/PauseMenu" unique_id=1769114960]
+offset_left = 518.0
+offset_top = 274.0
+offset_right = 651.0
+offset_bottom = 321.0
+text = "Resume"
+
+[node name="ExitButton" type="Button" parent="UI/PauseMenu" unique_id=535452121]
+offset_left = 518.0
+offset_top = 424.0
+offset_right = 651.0
+offset_bottom = 471.0
+text = "Exit"
+
+[node name="SensitivitySlider" type="HSlider" parent="UI/PauseMenu" unique_id=2041809233]
+offset_left = 424.0
+offset_top = 359.0
+offset_right = 743.0
+offset_bottom = 415.0
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 4.0
+
+[node name="Label" type="Label" parent="UI/PauseMenu/SensitivitySlider" unique_id=933893457]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.133
+anchor_bottom = 0.43
+offset_top = -4.0
+offset_right = 37.572998
+offset_bottom = -5.08
+text = "Sensitivity"
+
+[node name="UpgradeScreen" type="CanvasLayer" parent="UI" unique_id=755991532]
+process_mode = 3
+layer = 2
+visible = false
+script = ExtResource("35_upgrades")
+
+[node name="LevelExit" parent="." unique_id=2037178586 instance=ExtResource("33_exit")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.339674, 0, 10.479895)
+
+[node name="Spawns" type="Node3D" parent="." unique_id=2142811523]
+
+[node name="PlayerSpawn1" type="Marker3D" parent="Spawns" unique_id=2082718066 groups=["player_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.613, 0.1, -4.566)
+
+[node name="PlayerSpawn2" type="Marker3D" parent="Spawns" unique_id=121535568 groups=["player_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.5198776, 0.099999525, 34.639908)
+
+[node name="WeaponSpawn1" type="Marker3D" parent="Spawns" unique_id=634924101 groups=["weapon_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0, 0.3, 0)
+
+[node name="WeaponSpawn2" type="Marker3D" parent="Spawns" unique_id=606940323 groups=["weapon_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -4, 0.3, -0.6)
+
+[node name="WeaponSpawn3" type="Marker3D" parent="Spawns" unique_id=892168949 groups=["weapon_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 1.8395319, 0.3, 43.565628)
+
+[node name="LevelSpawner" type="Node" parent="." unique_id=1773454078]
+script = ExtResource("34_spawner")
 
 [connection signal="pressed" from="UI/PauseMenu/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/ExitButton" to="UI/PauseMenu" method="_on_exit_button_pressed"]

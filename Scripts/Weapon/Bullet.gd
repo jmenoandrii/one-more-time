@@ -1,6 +1,5 @@
 extends CharacterBody3D
 
-
 var lifetime: float = 2.0
 @export var speed: float = 50.0
 @export var damage: float = 0.0
