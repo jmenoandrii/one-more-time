@@ -42,6 +42,7 @@ func _ready() -> void:
 	_visual.top_level = true
 	for child in get_children():
 		if not child is CollisionShape3D:
+			child.owner = null # it leaves its scene: the old owner would be wrong
 			child.reparent(_visual, false)
 	add_child(_visual)
 	_visual.visible = not _hide_visual

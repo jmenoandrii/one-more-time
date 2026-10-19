@@ -3,6 +3,8 @@ extends CanvasLayer
 # Shown when the level is finished: buy 1 of 3 upgrade cards with the run's points
 # (click or keys 1-3) or skip and keep the points (SKIP / key 4); then the next loop starts.
 # REROLL (key R) deals 3 new cards for points: REROLL_COST, then REROLL_STEP more every time.
+# From the loop more_upgrades_loop on, buying a card deals new ones: buy as many as the points allow,
+# then CONTINUE (SKIP turns into it once something is bought).
 # Cards the player can't afford yet are shown, but locked. The UI is built in code, in the HUD's pixel style:
 # laid out in art pixels under a PixelRoot, the cards are PixelButtons.
 
@@ -35,6 +37,9 @@ var _reroll_button: PixelButton
 @onready var _title := Label.new()
 @onready var _subtitle := Label.new()
 @onready var _cards_box := HBoxContainer.new()
+@export var _more_upgrades_loop: int = 5 # finishing this loop or a later one: several upgrades per screen
+
+var _bought := 0 # cards bought on this screen
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -97,6 +102,7 @@ func _open() -> void:
 
 	_title.text = "LOOP %d COMPLETE" % (RunState.loop + 1)
 	_reroll_cost = REROLL_COST
+	_bought = 0
 	visible = true
 	_deal()
 	var tween := create_tween().set_parallel()
@@ -115,7 +121,7 @@ func _deal() -> void:
 	if _choices.is_empty(): # every card is maxed
 		_subtitle.text = "EVERYTHING IS MAXED"
 	elif affordable:
-		_subtitle.text = "BUY AN UPGRADE: %d PTS" % RunState.xp
+		_subtitle.text = ("BUY ANOTHER: %d PTS" if _bought > 0 else "BUY AN UPGRADE: %d PTS") % RunState.xp
 	else:
 		_subtitle.text = "NOT ENOUGH POINTS: %d PTS" % RunState.xp
 	for i in _choices.size():
@@ -123,8 +129,8 @@ func _deal() -> void:
 	for card in _cards:
 		_cards_box.add_child(card.get_parent()) # the holder: the box would reset a tilt of the card itself
 
-	# skip = keep the points for later; just "continue" when there is nothing to buy
-	_skip_button.text = "[4] SKIP" if affordable else "CONTINUE"
+	# skip = keep the points for later; "continue" once something is bought or nothing can be
+	_skip_button.text = "[4] SKIP" if affordable and _bought == 0 else "[4] CONTINUE"
 	_reroll_button.text = "[R] REROLL %d" % _reroll_cost
 	_reroll_button.disabled = _choices.is_empty() or RunState.xp < _reroll_cost
 	_appear()
@@ -142,7 +148,7 @@ func _make_card(upgrade: UpgradeData, index: int) -> Button:
 	var holder := Control.new()
 	holder.custom_minimum_size = CARD_SIZE
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	
+
 	var card := _make_button()
 	card.background_color = CARD_COLOR
 	card.size = CARD_SIZE
@@ -152,12 +158,12 @@ func _make_card(upgrade: UpgradeData, index: int) -> Button:
 	var affordable := RunState.can_afford(upgrade)
 	card.disabled = not affordable
 	holder.add_child(card)
-	
+
 	if affordable:
 		var tilt := deg_to_rad(HOVER_TILT if index % 2 == 0 else -HOVER_TILT)
 		card.mouse_entered.connect(_hover.bind(card, tilt, HOVER_SCALE))
 		card.mouse_exited.connect(_hover.bind(card, 0.0, 1.0))
-	
+
 	# fixed margins: the labels wrap inside the card instead of stretching it
 	var inset := PixelButton.BORDER + CARD_PADDING
 	var box := VBoxContainer.new()
@@ -168,7 +174,7 @@ func _make_card(upgrade: UpgradeData, index: int) -> Button:
 	box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	card.add_child(box)
 	var width := box.size.x
-	
+
 	box.add_child(_make_label("[%d]" % (index + 1), DIM_COLOR, width))
 	if upgrade.icon:
 		var icon := TextureRect.new()
@@ -225,6 +231,9 @@ func _next_loop_words() -> PackedStringArray:
 		return spawner.get_announcement(RunState.loop + 1) # complete_level has already moved the loop on
 	return PackedStringArray()
 
+func _allows_more() -> bool:
+	return RunState.loop + 1 >= _more_upgrades_loop # the loop being finished, numbered from 1
+
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
@@ -249,9 +258,17 @@ func _input(event: InputEvent) -> void:
 func _choose(upgrade: UpgradeData) -> void:
 	if not _accepting or _chosen:
 		return
+	# several upgrades per screen on the late loops: a bought card deals new ones
+	if upgrade and _allows_more():
+		if RunState.buy_upgrade(upgrade):
+			_bought += 1
+		_deal()
+		return
+
 	_chosen = true
 	RunState.complete_level(upgrade) # saved now, so quitting during the message keeps the choice
 	visible = false
+
 	# in the root, not in the level: it must outlive the level reload
 	var message := LoopMessage.new()
 	get_tree().root.add_child(message)

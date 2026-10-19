@@ -41,6 +41,7 @@ var _hand := -1
 var _forearm := -1
 
 func _ready() -> void:
+	add_to_group("enemy") # e.g. the player's death camera looks at the nearest enemy
 	player = get_tree().get_first_node_in_group("player")
 	health_component.health_changed.connect(_on_health_changed)
 	health_component.died.connect(_die)
@@ -175,5 +176,6 @@ func _create_held_stone() -> void:
 	var stone := stone_scene.instantiate()
 	for child in stone.get_children():
 		if child is VisualInstance3D:
+			child.owner = null # it leaves its scene: the old owner would be wrong
 			child.reparent(_held_stone, false)
 	stone.free()

@@ -100,13 +100,20 @@ func roll_choices() -> Array[UpgradeData]:
 
 # upgrade = the bought card, paid with points; null = skipped (or nothing left to buy)
 func complete_level(upgrade: UpgradeData) -> void:
-	if upgrade and can_afford(upgrade):
-		var price := get_price(upgrade)
-		xp -= price
-		upgrades[upgrade.id] = get_stacks(upgrade) + 1
-		GameEvents.xp_changed.emit(xp, -price)
+	buy_upgrade(upgrade)
 	loop += 1
 	save_run()
+
+# pays for the next level of the card; false (nothing bought) if it can't be afforded.
+# Not saved by itself: complete_level saves, like the points
+func buy_upgrade(upgrade: UpgradeData) -> bool:
+	if upgrade == null or not can_afford(upgrade):
+		return false
+	var price := get_price(upgrade)
+	xp -= price
+	upgrades[upgrade.id] = get_stacks(upgrade) + 1
+	GameEvents.xp_changed.emit(xp, -price)
+	return true
 
 # after the loop message: the level starts again as the next loop
 func start_next_loop() -> void:

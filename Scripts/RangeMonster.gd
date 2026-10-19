@@ -270,6 +270,7 @@ func _create_held_stone() -> void:
 	_held_stone.visible = false
 	for child in stone.get_children():
 		if child is VisualInstance3D:
+			child.owner = null # it leaves its scene: the old owner would be wrong
 			child.reparent(_held_stone, false)
 	stone.free()
 	add_child(_held_stone)

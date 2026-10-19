@@ -46,6 +46,11 @@ signal stamina_changed(current: float, maximum: float)
 # state params
 var is_crouching := false
 var is_player_dead := false
+# death camera: it drops near the floor, rolls on its side and turns to the killer's head
+const DEATH_EYE_HEIGHT := 0.35 # above the feet: low, but the near plane stays clear of the floor
+const DEATH_ROLL := 70.0 # degrees, lying on the side
+const DEATH_SPEED := 4.0 # how fast it falls / turns
+var _death_target: Node3D # the nearest enemy when the player died
 var is_cursor_locked := true
 
 # referens
@@ -331,13 +336,47 @@ func die() -> void:
 	if is_player_dead: return
 
 	is_player_dead = true
+	headbob.stop()
+	weapons_manager.visible = false
+	_death_target = _nearest_enemy()
+	head.top_level = true # moved in world space from now on, free of the body's yaw
 	GameEvents.player_died.emit()
 
 func _process_death() -> void:
-	head.global_position = head.global_position.move_toward(global_position, 0.1)
+	var k := 1.0 - exp(-DEATH_SPEED * get_physics_process_delta_time())
+	var position_now := head.global_position.lerp(global_position + Vector3.UP * DEATH_EYE_HEIGHT, k)
+	
+	var direction := -head.global_basis.z
+	if is_instance_valid(_death_target):
+		direction = _head_point(_death_target) - position_now
+	if direction.length_squared() < 0.0001:
+		direction = -global_basis.z
+	var up := Vector3.UP if absf(direction.normalized().y) < 0.99 else Vector3.BACK
+	var target := Basis.looking_at(direction, up) * Basis(Vector3.FORWARD, deg_to_rad(DEATH_ROLL))
+	head.global_transform = Transform3D(head.global_basis.orthonormalized().slerp(target, k), position_now)
 	
 	velocity.x = move_toward(velocity.x, 0, 0.5)
 	velocity.z = move_toward(velocity.z, 0, 0.5)
+
+func _nearest_enemy() -> Node3D:
+	var nearest: Node3D = null
+	var best := INF
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		var distance := global_position.distance_squared_to(enemy.global_position)
+		if distance < best:
+			best = distance
+			nearest = enemy
+	return nearest
+
+# about where the enemy's head is: near the top of its collision box
+func _head_point(enemy: Node3D) -> Vector3:
+	var height := 1.6
+	for shape_node in enemy.find_children("*", "CollisionShape3D", false, false):
+		var box := (shape_node as CollisionShape3D).shape as BoxShape3D
+		if box:
+			height = (shape_node as CollisionShape3D).position.y + box.size.y * 0.5 - 0.3
+			break
+	return enemy.global_position + Vector3.UP * height * enemy.scale.y
 
 func play_step_sounds():
 	if floortype_ray.is_colliding():

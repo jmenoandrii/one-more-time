@@ -20,6 +20,9 @@
 [ext_resource type="AudioStream" uid="uid://ba327r73emopp" path="res://Sounds/Kombo/06. Unstoppable.wav" id="18_unstoppable"]
 [ext_resource type="AudioStream" uid="uid://cppgqri4g53ap" path="res://Sounds/Kombo/05. Dominating.wav" id="19_dominating"]
 [ext_resource type="AudioStream" uid="uid://w6udb3hicrfd" path="res://Sounds/Kombo/02. Rampage.wav" id="20_rampage"]
+[ext_resource type="AudioStream" uid="uid://u1th6foyifgp" path="res://Sounds/Kombo/29. Game Over.wav" id="21_game_over"]
+[ext_resource type="AudioStream" uid="uid://bfuyf84porqeg" path="res://Sounds/Kombo/23. Final Stand.wav" id="22_final_stand"]
+[ext_resource type="AudioStream" uid="uid://b2ew0wudbt7sq" path="res://Sounds/Kombo/24. Annihilation.wav" id="23_annihilation"]
 [ext_resource type="Texture2D" uid="uid://dadwx7d2bmdx1" path="res://UI/Revolver/cylinder_0.png" id="cyl0"]
 [ext_resource type="Texture2D" uid="uid://dc5rrornq6swx" path="res://UI/Revolver/cylinder_1.png" id="cyl1"]
 [ext_resource type="Texture2D" uid="uid://cm8s3a8j3joy" path="res://UI/Revolver/cylinder_2.png" id="cyl2"]
@@ -101,7 +104,7 @@ the run is lost"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CombatMessages" type="Control" parent="Root" unique_id=1572039486]
+[node name="CombatMessages" type="Control" parent="Root" unique_id=1572039486 node_paths=PackedStringArray("death_label")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,6 +114,12 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("15_combat")
 streak_sounds = Array[AudioStream]([ExtResource("16_double"), ExtResource("17_triple"), ExtResource("18_unstoppable"), ExtResource("19_dominating"), ExtResource("20_rampage")])
+death_label = NodePath("../DeathLabel")
+death_sounds = Array[AudioStream]([ExtResource("21_game_over"), ExtResource("23_annihilation")])
+death_texts = ["GAME OVER", "ANNIHILATION"]
+final_death_sound = ExtResource("22_final_stand")
+final_death_text = "FINAL STAND"
+all_killed_sound = ExtResource("22_final_stand")
 
 [node name="CritLabel" type="Label" parent="Root/CombatMessages" unique_id=1938475620]
 layout_mode = 1
@@ -151,7 +160,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StreakSound" type="AudioStreamPlayer" parent="Root/CombatMessages" unique_id=1840273615]
-volume_db = 5.0
+volume_db = 7.197
 pitch_scale = 0.76
 
 [node name="Clock" type="Control" parent="Root" unique_id=1883068576]
