@@ -9,6 +9,7 @@ signal closed
 
 @export var is_open: bool = false
 @export var interactable: bool = true
+@export var stays_open: bool = false # true = once open it stays open: no closing, no prompt
 
 @export_group("Lock")
 @export var required_key: String = "" # empty = no lock; otherwise the key_id of the key that opens it
@@ -22,8 +23,9 @@ signal closed
 @export var unlock_text: String = "[E] Unlock"
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
-@onready var open_sound: AudioStreamPlayer3D = $Open
-@onready var close_sound: AudioStreamPlayer3D = $Close
+# both optional: a door scene may have only one of them (door_garage has no Close)
+@onready var open_sound: AudioStreamPlayer3D = get_node_or_null("Open")
+@onready var close_sound: AudioStreamPlayer3D = get_node_or_null("Close")
 
 func _ready() -> void:
 	if interactable: # no prompt on a door only the game opens (the final gate)
@@ -39,6 +41,8 @@ func is_locked() -> bool:
 func interact(interactor: Node) -> void:
 	if not interactable or animation_player.is_playing():
 		return
+	if is_open and stays_open:
+		return
 	
 	if is_locked():
 		if not _has_key(interactor):
@@ -50,10 +54,10 @@ func interact(interactor: Node) -> void:
 	is_open = not is_open
 	if is_open:
 		animation_player.play("door_open")
-		open_sound.play()
+		_play(open_sound)
 		opened.emit()
 	else:
-		close_sound.play()
+		_play(close_sound)
 		animation_player.play_backwards("door_open")
 		closed.emit()
 
@@ -66,10 +70,16 @@ func open_by_script() -> void:
 		return
 	is_open = true
 	animation_player.play("door_open")
-	open_sound.play()
+	_play(open_sound)
 	opened.emit()
 
+func _play(sound: AudioStreamPlayer3D) -> void:
+	if sound:
+		sound.play()
+
 func get_interact_text(interactor: Node = null) -> String:
+	if is_open and stays_open:
+		return "" # nothing to do with it anymore: no prompt
 	var text := close_text if is_open else open_text
 	if is_locked():
 		text = unlock_text if _has_key(interactor) else locked_text

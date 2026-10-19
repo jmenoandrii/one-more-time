@@ -162,10 +162,10 @@ stream_3/stream = ExtResource("24_cha1d")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_e08e2"]
 shader = ExtResource("31_6lm2i")
-shader_parameter/enabled = true
-shader_parameter/dithering = true
-shader_parameter/colors = 12
-shader_parameter/dither_size = 1
+shader_parameter/wiggle = 0.03
+shader_parameter/wiggle_speed = 20.0
+shader_parameter/smear = 0.1
+shader_parameter/blur_samples = 5
 
 [node name="World" type="Node3D" unique_id=41126308 node_paths=PackedStringArray("start_triggers", "first_loop_only", "final_gate", "final_gate_sound")]
 script = ExtResource("1_fseo3")
@@ -925,6 +925,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Player/Head" unique_id=1443790826]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2670164)
+current = true
 
 [node name="Weapons" type="Node3D" parent="Player/Head/Camera3D" unique_id=2037804982]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.345, -0.33, -0.67)

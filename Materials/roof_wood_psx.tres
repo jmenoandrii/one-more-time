@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://dnwdeesnslrg7" path="res://Materials/Wood02_basecolor_psx.png" id="1_rcthk"]
 
 [resource]
+albedo_color = Color(0.34, 0.34, 0.34, 1)
 albedo_texture = ExtResource("1_rcthk")
-uv1_scale = Vector3(0.7, 1, 1)
+uv1_scale = Vector3(0.7, 0.11, 1)
 uv1_triplanar = true
 texture_filter = 0

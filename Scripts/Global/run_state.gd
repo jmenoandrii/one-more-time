@@ -97,6 +97,9 @@ func complete_level(upgrade: UpgradeData) -> void:
 		GameEvents.xp_changed.emit(xp, -price)
 	loop += 1
 	save_run()
+
+# after the loop message: the level starts again as the next loop
+func start_next_loop() -> void:
 	_restart_level()
 
 func reset_run() -> void:

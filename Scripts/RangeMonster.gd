@@ -29,7 +29,8 @@ var aggro_time_left: float = 0.0
 @onready var animator: EnemyAnimator = get_node_or_null("EnemyAnimator")
 @onready var goblin_sound: AudioStreamPlayer3D = $GoblinSound
 @onready var goblin_attack: AudioStreamPlayer3D = $GoblinAttack
-@onready var goblin_ambient: AudioStreamPlayer3D = $GoblinAmbient
+@onready var goblin_ambient: GoblinGrowl = $GoblinAmbient
+@onready var goblin_hurt: AudioStreamPlayer3D = get_node_or_null("GoblinHurt")
 @onready var stone_break: AudioStreamPlayer3D = $StoneBreak
 
 var player: Node3D = null
@@ -138,6 +139,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				can_see_player = false
 
+	goblin_ambient.active = can_see_player # growls only while after the player
 	_update_throw(delta)
 
 	# movement and attack
@@ -283,6 +285,8 @@ func _update_locomotion() -> void:
 
 func _on_damage_caused(amount: float) -> void:
 	aggro_time_left = aggro_time
+	if goblin_hurt and health_component.current_health > 0: # the killing hit has the death sound
+		goblin_hurt.play()
 
 	if player == null:
 		player = get_tree().current_scene.get_node_or_null("Player")
@@ -290,5 +294,6 @@ func _on_damage_caused(amount: float) -> void:
 func die():
 	RunState.add_xp(xp_reward)
 	GameEvents.enemy_killed.emit()
-	goblin_sound.play()
+	# the goblin is freed right away: its death sound plays on its own, where it died
+	OneShotSound.play_copy(goblin_sound)
 	queue_free()

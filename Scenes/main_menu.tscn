@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://cg8ci0q8eo2i6" path="res://Scripts/UI/pixel_button.gd" id="3_ce3w2"]
 [ext_resource type="Theme" uid="uid://cseo0je1ksceb" path="res://UI/HUD/hud_theme.tres" id="3_opfnp"]
 [ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="4_cp0ys"]
+[ext_resource type="Texture2D" uid="uid://blsxtrn811mwv" path="res://UI/revolver.png" id="5_trj04"]
 [ext_resource type="Texture2D" uid="uid://hofrwmu8y8wk" path="res://UI/HUD/bar_frame.png" id="5_yhxw7"]
 [ext_resource type="Texture2D" uid="uid://yga7ldyfyvqa" path="res://UI/HUD/bar_fill.png" id="6_trj04"]
 [ext_resource type="Texture2D" uid="uid://b75irnk5sjrpk" path="res://UI/HUD/bullet.png" id="7_16hvj"]
@@ -35,6 +36,65 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_28flt")
 
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=159777591]
+visible = false
+modulate = Color(0.6052743, 0.6052743, 0.6052743, 1)
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 595.00006
+offset_top = 211.00002
+offset_right = 823.0
+offset_bottom = 315.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.36824876
+scale = Vector2(0.10748757, 0.10748757)
+texture = ExtResource("5_trj04")
+
+[node name="Title" type="Label" parent="." unique_id=560741465]
+layout_mode = 0
+offset_left = -24.999985
+offset_top = 19.721542
+offset_right = 335.00006
+offset_bottom = 64.72154
+rotation = -0.046465438
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 10
+text = "Goblins,"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title3" type="Label" parent="." unique_id=392331582]
+layout_mode = 0
+offset_left = -230.0
+offset_top = 64.00001
+offset_right = 625.0
+offset_bottom = 109.00002
+rotation = -0.04720942
+theme_override_colors/font_color = Color(1, 0.70980394, 0.3137255, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 10
+text = "Two Smoking Barrels"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title2" type="Label" parent="." unique_id=2062018116]
+layout_mode = 0
+offset_left = -143.0
+offset_top = 29.0
+offset_right = 541.0
+offset_bottom = 74.0
+rotation = -0.00809885
+theme_override_constants/outline_size = 12
+theme_override_font_sizes/font_size = 10
+text = "Stock and "
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CursorLabel" type="Label" parent="." unique_id=1773620991]
 layout_mode = 0
 offset_right = 40.0
@@ -55,6 +115,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 27.0
+offset_bottom = 27.0
 grow_horizontal = 2
 grow_vertical = 2
 offset_transform_position = Vector2(100, 0)
@@ -117,15 +179,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -50.0
-offset_top = -70.5
-offset_right = 50.0
-offset_bottom = 70.5
+offset_left = -175.0
+offset_top = -25.0
+offset_right = 175.0
+offset_bottom = 116.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_constants/separation = 25
+theme_override_constants/separation = 0
 
 [node name="BackButton" type="Button" parent="ControlCredits/CreditsVBox" unique_id=1475994940]
 custom_minimum_size = Vector2(300, 0)
@@ -210,11 +272,23 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
+[node name="Desc5" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=1876327670]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Made in Ukraine
+By Zluka Games
+In 2026"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [node name="ControlSettings" type="Control" parent="." unique_id=26873248]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 30.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 

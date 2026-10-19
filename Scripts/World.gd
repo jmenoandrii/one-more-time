@@ -10,6 +10,9 @@ extends Node3D
 # only on the first loop (a tutorial sign, a starting door...): from the 2nd loop on they are removed
 @export var first_loop_only: Array[Node] = []
 
+# loop 1 only: when the player opens this door, the game stops for "KILL THEM ALL"
+@export var intro_gate: Node3D
+
 # every enemy of the level dead: the timer stops, a loud sound, and this gate opens the way to the final battle
 @export_group("Final")
 @export var final_gate: Node3D # a door (door_func.gd), keep it not interactable
@@ -28,6 +31,9 @@ var _final_unlocked := false
 
 func _ready() -> void:
 	GameEvents.level_running = false # enemies wait for the timer
+	ScreenFade.fade_in(self)
+	if RunState.loop == 0 and intro_gate and intro_gate.has_signal("opened"):
+		intro_gate.connect(&"opened", _show_intro_message, CONNECT_ONE_SHOT)
 	if RunState.loop > 0:
 		for node in first_loop_only:
 			if node:
@@ -51,6 +57,13 @@ func _ready() -> void:
 		_start_level()
 
 	GameEvents.enemy_killed.connect(_on_enemy_killed)
+
+# the world goes on under it: the gate keeps opening, so it's almost up when the words are over
+func _show_intro_message() -> void:
+	var message := LoopMessage.new()
+	add_child(message)
+	await message.play(PackedStringArray(["KILL", "THEM", "ALL"]))
+	message.close()
 
 func _start_level() -> void:
 	if GameEvents.level_running: # another trigger already started it

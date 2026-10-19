@@ -174,4 +174,11 @@ func _choose(upgrade: UpgradeData) -> void:
 	if not _accepting or _chosen:
 		return
 	_chosen = true
-	RunState.complete_level(upgrade)
+	RunState.complete_level(upgrade) # saved now, so quitting during the message keeps the choice
+	visible = false
+	# in the root, not in the level: it must outlive the level reload
+	var message := LoopMessage.new()
+	get_tree().root.add_child(message)
+	await message.play()
+	message.close_after_scene_change()
+	RunState.start_next_loop()

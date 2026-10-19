@@ -1,0 +1,9 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://bg0ru1b7166yy"]
+
+[ext_resource type="AudioStream" uid="uid://capxbwwud0lb8" path="res://Sounds/Goblin/flesh_hit.wav" id="1_hit"]
+
+[resource]
+random_pitch = 1.2
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("1_hit")

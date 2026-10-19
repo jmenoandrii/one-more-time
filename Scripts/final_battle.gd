@@ -6,3 +6,4 @@ extends Node3D
 
 func _ready() -> void:
 	GameEvents.level_running = true
+	ScreenFade.fade_in(self)

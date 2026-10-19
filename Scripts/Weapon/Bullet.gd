@@ -8,6 +8,7 @@ var lifetime: float = 2.0
 @export var speed: float = 50.0
 @export var damage: float = 0.0
 @export var target_obj_name := ""
+@export var impact_sound: AudioStreamPlayer3D # optional: played (as a copy) where it hits
 var is_crit := false # set by the weapon, damage already includes the multiplier
 var from_player := false # set by the weapon: hits on enemies are reported to the HUD
 
@@ -66,6 +67,9 @@ func _physics_process(delta: float) -> void:
 				if from_player:
 					GameEvents.enemy_hit.emit(damage, is_crit, health_component.current_health <= 0)
 
+		if impact_sound:
+			impact_sound.global_position = collision.get_position()
+			OneShotSound.play_copy(impact_sound)
 		ImpactEffects.spawn(self, collision.get_position(), collision.get_normal(), health_component != null)
 		queue_free()
 

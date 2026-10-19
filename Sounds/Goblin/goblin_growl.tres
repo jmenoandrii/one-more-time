@@ -1,0 +1,13 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://boeulquvojog8"]
+
+[ext_resource type="AudioStream" uid="uid://dgijtla2bcbpq" path="res://Sounds/Goblin/magiaz-angry_ogre-407702(1).mp3" id="1_ogre"]
+[ext_resource type="AudioStream" uid="uid://c5aya0oer2per" path="res://Sounds/Goblin/goblinsound.wav" id="2_goblin"]
+[ext_resource type="AudioStream" uid="uid://bvyqtqmm84q44" path="res://Sounds/Goblin/goblinsound1.wav" id="3_goblin1"]
+
+[resource]
+random_pitch = 1.1
+random_volume_offset_db = 2.0
+streams_count = 3
+stream_0/stream = ExtResource("1_ogre")
+stream_1/stream = ExtResource("2_goblin")
+stream_2/stream = ExtResource("3_goblin1")

@@ -51,6 +51,8 @@ var is_cursor_locked := true
 # referens
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera3D
+@export var hurt_sound: AudioStream = preload("res://Sounds/UI/player_hurt.wav") # played on every hit taken
+var _hurt_sound: AudioStreamPlayer
 @onready var collision_shape: CollisionShape3D = $CollisionShape3D
 @onready var mesh_instance: MeshInstance3D = $MeshInstance3D
 
@@ -82,8 +84,13 @@ var keys: Dictionary = {}
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	# imported models can bring their own cameras (e.g. from Blender), the first one in the tree wins
+	camera.make_current()
 	_apply_upgrades()
 
+	# own copy: crouching changes the shape's height, and the shape belongs to the cached scene —
+	# without the copy the next loop (a reload) would start with the height left from crouching
+	collision_shape.shape = collision_shape.shape.duplicate()
 	normal_height = collision_shape.shape.height
 	crouch_height = normal_height - (normal_height * CROUCH_PERSENT)
 	
@@ -109,6 +116,11 @@ func _ready() -> void:
 	GameEvents.sensitivity_changed.connect(_on_sensitivity_changed)
 	
 	health_component.died.connect(die)
+	health_component.damage_caused.connect(_on_damage_caused)
+	_hurt_sound = AudioStreamPlayer.new()
+	_hurt_sound.stream = hurt_sound
+	_hurt_sound.max_polyphony = 2
+	add_child(_hurt_sound)
 	health_component.health_changed.connect(GameEvents.health_changed.emit)
 	health_component.set_max_health(RunState.get_stat("max_health", health_component.max_health))
 
@@ -308,6 +320,11 @@ func _physics_process(delta: float) -> void:
 		headbob.stop()
 
 	move_and_slide()
+
+func _on_damage_caused(_amount: float) -> void:
+	if not is_player_dead and health_component.current_health > 0:
+		_hurt_sound.pitch_scale = randf_range(0.9, 1.1)
+		_hurt_sound.play()
 
 func die() -> void:
 	print("! Player DIE !")

@@ -7,7 +7,8 @@ extends CharacterBody3D
 @onready var animator: EnemyAnimator = get_node_or_null("EnemyAnimator")
 @onready var goblin_sound: AudioStreamPlayer3D = $GoblinSound
 @onready var goblin_attack: AudioStreamPlayer3D = $GoblinAttack
-@onready var goblin_ambient: AudioStreamPlayer3D = $GoblinAmbient
+@onready var goblin_ambient: GoblinGrowl = $GoblinAmbient
+@onready var goblin_hurt: AudioStreamPlayer3D = get_node_or_null("GoblinHurt")
 
 var player: Node3D = null
 var is_chasing := false
@@ -72,7 +73,6 @@ func _ready() -> void:
 		damage_area.monitoring = false
 	
 	xp_reward += randi_range(-min_xp_reward_offset, max_xp_reward_offset)
-	goblin_ambient.play()
 
 func _on_body_entered(body: Node3D) -> void:
 	if body.name == "Player": 
@@ -112,6 +112,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			is_chasing = false
 	
+	goblin_ambient.active = is_chasing # growls only while after the player
 	_update_attack(delta)
 	
 	# chasing
@@ -198,6 +199,8 @@ func _update_locomotion() -> void:
 
 func _on_damage_caused(amount: float) -> void:
 	aggro_time_left = aggro_time
+	if goblin_hurt and health_component.current_health > 0: # the killing hit has the death sound
+		goblin_hurt.play()
 	
 	if player == null:
 		player = get_tree().current_scene.get_node_or_null("Player")
@@ -205,5 +208,6 @@ func _on_damage_caused(amount: float) -> void:
 func die():
 	RunState.add_xp(xp_reward)
 	GameEvents.enemy_killed.emit()
-	goblin_sound.play()
+	# the goblin is freed right away: its death sound plays on its own, where it died
+	OneShotSound.play_copy(goblin_sound)
 	queue_free()
