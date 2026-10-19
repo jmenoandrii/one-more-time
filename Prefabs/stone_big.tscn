@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://cxull8aex4op0"]
+
+[ext_resource type="Script" uid="uid://bxs7cpj0ipvkt" path="res://Scripts/Weapon/Bullet.gd" id="1_8ihv0"]
+[ext_resource type="AudioStream" uid="uid://7socy3kjl33k" path="res://Sounds/Goblin/rockdestroy_psx.wav" id="2_uc30c"]
+
+[sub_resource type="TubeTrailMesh" id="TubeTrailMesh_g0qyx"]
+radius = 0.2
+sections = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_osii8"]
+size = Vector3(0.4, 0.4, 0.4)
+
+[node name="Stone" type="CharacterBody3D" unique_id=1713610658 node_paths=PackedStringArray("impact_sound")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+collision_layer = 4
+script = ExtResource("1_8ihv0")
+speed = 20.0
+damage = 10.0
+impact_sound = NodePath("ImpactSound")
+tracer_length = 0.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1813965873]
+mesh = SubResource("TubeTrailMesh_g0qyx")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1450946463]
+transform = Transform3D(1, 0, 0, 0, -0.09550612, -0.99542886, 0, 0.99542886, -0.09550612, 0, 0, 0)
+mesh = SubResource("TubeTrailMesh_g0qyx")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=597688033]
+transform = Transform3D(0.008088695, 0.9953963, -0.095502995, 0, -0.09550612, -0.99542886, -0.9999673, 0.00805172, -0.00077251985, 0, 0, 0)
+mesh = SubResource("TubeTrailMesh_g0qyx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1256819966]
+shape = SubResource("BoxShape3D_osii8")
+
+[node name="ImpactSound" type="AudioStreamPlayer3D" parent="." unique_id=1730582946]
+stream = ExtResource("2_uc30c")
+unit_size = 8.0
