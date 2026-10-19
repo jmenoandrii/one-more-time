@@ -67,6 +67,14 @@ func _ready() -> void:
 	scale = Vector3(random_scale, random_scale, random_scale)
 	
 	melee_damage += randf_range(-min_melee_damage_offset, max_melee_damage_offset)
+	# stronger with every upgrade the player has bought (Data/enemy_scaling.tres)
+	speed *= EnemyScaling.factor(&"move_speed")
+	melee_damage *= EnemyScaling.factor(&"damage")
+	var attack_speed := EnemyScaling.factor(&"attack_speed")
+	attack_cooldown /= attack_speed
+	if animator:
+		animator.attack_speed = attack_speed
+	
 	if "damage_amount" in damage_area:
 		damage_area.damage_amount = melee_damage
 	if _uses_attack_animations():

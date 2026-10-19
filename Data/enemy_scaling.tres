@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EnemyScaling" format=3]
+
+[ext_resource type="Script" path="res://Scripts/enemy_scaling.gd" id="1_scaling"]
+
+[sub_resource type="Curve" id="Curve_attack"]
+_limits = [1.0, 3.0, 0.0, 10.0]
+_data = [Vector2(0, 1), 0.0, 0.2, 0, 1, Vector2(5, 2), 0.2, 0.1, 1, 1, Vector2(10, 2.5), 0.1, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_move"]
+_limits = [1.0, 2.0, 0.0, 10.0]
+_data = [Vector2(0, 1), 0.0, 0.05, 0, 1, Vector2(5, 1.25), 0.05, 0.03, 1, 1, Vector2(10, 1.4), 0.03, 0.0, 1, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_damage"]
+_limits = [1.0, 2.0, 0.0, 10.0]
+_data = [Vector2(0, 1), 0.0, 0.05, 0, 1, Vector2(5, 1.25), 0.05, 0.05, 1, 1, Vector2(10, 1.5), 0.05, 0.0, 1, 0]
+point_count = 3
+
+[resource]
+script = ExtResource("1_scaling")
+attack_speed = SubResource("Curve_attack")
+move_speed = SubResource("Curve_move")
+damage = SubResource("Curve_damage")

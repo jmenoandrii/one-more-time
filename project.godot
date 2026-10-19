@@ -29,7 +29,6 @@ GameEvents="*uid://dfjgiuartfslr"
 Settings="*uid://dfyemd0ru0nqt"
 RunState="*uid://bsnlv5ilpkhjy"
 Music="*uid://0tlmxw53qoej"
-DebugCheats="*res://Scripts/Global/debug_cheats.gd"
 
 [display]
 

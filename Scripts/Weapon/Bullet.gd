@@ -59,7 +59,6 @@ func _physics_process(delta: float) -> void:
 
 	if collision:
 		var hit_object = collision.get_collider()
-		print("[BULLET]: hit '", hit_object.name, "'!")
 
 		var health_component = hit_object.get_node_or_null("HealthComponent")
 		if not target_obj_name or hit_object.name == target_obj_name:

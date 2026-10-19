@@ -16,7 +16,11 @@ extends Node
 @export var surprise_loops: Dictionary[int, String] = {3: "surprise", 5: "surprise2"}
 @export var no_weapon_loop: int = 0
 # loop -> the words shown before it; an "until taken" pickup's announce goes first
-@export var loop_messages: Dictionary[int, PackedStringArray] = {6: PackedStringArray(["FINISH", "ALL", "THEM"])}
+# (4: the second gun shows up — nobody can have taken it before, so it is said here too)
+@export var loop_messages: Dictionary[int, PackedStringArray] = {
+	4: PackedStringArray(["GRAB", "YOUR", "SECOND", "GUN"]),
+	6: PackedStringArray(["FINISH", "ALL", "THEM"]),
+}
 
 # the "until taken" pickups of the level, kept here: the ones not on this loop are freed
 var _announced: Array[Dictionary] = [] # {name, words, from_loop}

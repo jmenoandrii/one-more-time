@@ -90,11 +90,25 @@ func _ready() -> void:
 	stone_damage += randf_range(-min_range_damage_offset, max_range_damage_offset)
 
 	melee_damage += randf_range(-min_melee_damage_offset, max_melee_damage_offset)
+	# stronger with every upgrade the player has bought (Data/enemy_scaling.tres)
+	speed *= EnemyScaling.factor(&"move_speed")
+	var damage_factor := EnemyScaling.factor(&"damage")
+	melee_damage *= damage_factor
+	stone_damage *= damage_factor
+
 	if has_node("DamageArea") and "damage_amount" in damage_area:
 		damage_area.damage_amount = melee_damage
 
 	windup_time = max(0.01, windup_time + randf_range(-min_windup_offset, max_windup_offset))
 	cooldown_time = max(0.01, cooldown_time + randf_range(-min_cooldown_offset, max_cooldown_offset))
+
+	# the throw, its aiming and the pause after it all go faster together
+	var attack_speed := EnemyScaling.factor(&"attack_speed")
+	windup_time /= attack_speed
+	cooldown_time /= attack_speed
+	throw_release_time /= attack_speed
+	if animator:
+		animator.attack_speed = attack_speed
 	
 	xp_reward += randi_range(-min_xp_reward_offset, max_xp_reward_offset)
 

@@ -44,5 +44,3 @@ func _update_health(health: float) -> void:
 		current_health = health
 	health_changed.emit(current_health, max_health)
 	
-	print("[Healt(", get_parent().name, ")]: health ", current_health, "/", max_health)
-	

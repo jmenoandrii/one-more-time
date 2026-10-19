@@ -23,6 +23,7 @@ var _walk_name := &""
 var _attack_names: Array[StringName] = []
 var _special_names: Dictionary[StringName, StringName] = {} # special -> full animation name
 var _last_attack := -1
+var attack_speed := 1.0 # attacks play this many times faster (EnemyScaling)
 
 func _ready() -> void:
 	var skeletons: Array = model.find_children("*", "Skeleton3D", true, false) if model else []
@@ -84,9 +85,9 @@ func play_random_attack() -> float:
 		i = (i + 1) % _attack_names.size()
 	_last_attack = i
 
-	_player.speed_scale = 1.0
+	_player.speed_scale = attack_speed
 	_player.play(_attack_names[i], 0.1)
-	return _player.current_animation_length
+	return _player.current_animation_length / attack_speed
 
 # bone index by the end of its name ("RightHand" finds "mixamorig_RightHand"), -1 if none
 func find_bone(name_suffix: String) -> int:
