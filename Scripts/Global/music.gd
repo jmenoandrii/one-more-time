@@ -1,6 +1,8 @@
 extends AudioStreamPlayer
 
-# Background music (autoload). While the game is paused and while the level timer hasn't started
+# Background music (autoload). The tracks are the ones in the scene's AudioStreamPlaylist; one of
+# them plays (looping through random others when it ends), and every new run switches to another
+# one once the run's level has loaded. While the game is paused and while the level timer hasn't started
 # (the player hasn't gone through the gate yet), the music and the enemies' sounds go quieter
 # and muffled: the "Music" and "Enemy" buses switch on their LowPassFilter.
 
@@ -11,13 +13,38 @@ const MUFFLED_BUSES: PackedStringArray = ["Music", "Enemy"]
 @export var fade_speed: float = 30.0 # dB per second
 
 var _normal_db: float
+var _tracks: Array[AudioStream] = []
+var _switch_pending := false # a new run began: change the track when its level is loaded
 var _enemy_bus_db := 0.0 # the Enemy bus volume from the bus layout
 
 func _ready() -> void:
 	_normal_db = volume_db
+	# the playlist only lists the tracks; which one plays is chosen here
+	if stream is AudioStreamPlaylist:
+		var playlist := stream as AudioStreamPlaylist
+		for i in playlist.stream_count:
+			if playlist.get_list_stream(i):
+				_tracks.append(playlist.get_list_stream(i))
+	finished.connect(_play_another)
+	GameEvents.run_started.connect(func() -> void: _switch_pending = true)
+	get_tree().scene_changed.connect(_on_scene_changed)
+	_play_another()
 	var enemy_bus := AudioServer.get_bus_index("Enemy")
 	if enemy_bus != -1:
 		_enemy_bus_db = AudioServer.get_bus_volume_db(enemy_bus)
+
+func _on_scene_changed() -> void:
+	if _switch_pending:
+		_switch_pending = false
+		_play_another()
+
+# a random track, not the one playing now
+func _play_another() -> void:
+	if _tracks.is_empty():
+		return
+	var choices := _tracks.filter(func(track: AudioStream) -> bool: return track != stream)
+	stream = (choices if not choices.is_empty() else _tracks).pick_random()
+	play()
 
 func _process(delta: float) -> void:
 	var muffled := get_tree().paused or not GameEvents.level_running

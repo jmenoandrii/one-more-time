@@ -126,6 +126,7 @@ func reset_run() -> void:
 	xp = 0
 	GameEvents.xp_changed.emit(xp, 0)
 	save_run()
+	GameEvents.run_started.emit()
 
 func _on_player_died() -> void:
 	if in_final:

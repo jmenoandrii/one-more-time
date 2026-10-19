@@ -22,6 +22,7 @@ signal enemy_killed
 signal kill_streak(kills: int, bonus: int) # 2+ kills in a quick row, bonus = XP given for it
 
 # Run
+signal run_started # a new run from the first loop (menu Play, a death, a win)
 signal level_started # the level timer started: enemies wake up
 var level_running := false # set by World; false until the timer starts
 signal level_completed

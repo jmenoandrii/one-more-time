@@ -27,6 +27,5 @@ stream_7 = ExtResource("8_y83fp")
 process_mode = 3
 stream = SubResource("AudioStreamPlaylist_776o0")
 volume_db = -10.0
-autoplay = true
 bus = &"Music"
 script = ExtResource("9_rj563")
