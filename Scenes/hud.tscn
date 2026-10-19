@@ -14,7 +14,10 @@
 [ext_resource type="Script" uid="uid://d3pyg3ltacrj1" path="res://Scripts/UI/clock_hud.gd" id="12_clock"]
 [ext_resource type="Texture2D" uid="uid://dwan6xfoxquaj" path="res://UI/HUD/clock.png" id="13_clock_tex"]
 [ext_resource type="Shader" uid="uid://dbk1i6om4k2j7" path="res://Shaders/clock_hud.gdshader" id="14_clock_shader"]
+[ext_resource type="AudioStream" uid="uid://bpg05uhkx1gqg" path="res://Sounds/22. Mission Accomplished.wav" id="14_v5hjn"]
 [ext_resource type="Script" uid="uid://cotkl7do1eiua" path="res://Scripts/UI/combat_messages.gd" id="15_combat"]
+[ext_resource type="AudioStream" uid="uid://ca1d4umco0wxj" path="res://Sounds/8-bit-retro-boom-203264.mp3" id="15_l8r83"]
+[ext_resource type="AudioStream" uid="uid://ctkiqidoitjk8" path="res://Sounds/freesound_community-win-sfx-38507.mp3" id="15_v5hjn"]
 [ext_resource type="AudioStream" uid="uid://br33irad6j3r6" path="res://Sounds/Kombo/03. Double Kill.wav" id="16_double"]
 [ext_resource type="AudioStream" uid="uid://c7dq3qjfcw6r8" path="res://Sounds/Kombo/04. Triple Kill.wav" id="17_triple"]
 [ext_resource type="AudioStream" uid="uid://ba327r73emopp" path="res://Sounds/Kombo/06. Unstoppable.wav" id="18_unstoppable"]
@@ -116,10 +119,12 @@ script = ExtResource("15_combat")
 streak_sounds = Array[AudioStream]([ExtResource("16_double"), ExtResource("17_triple"), ExtResource("18_unstoppable"), ExtResource("19_dominating"), ExtResource("20_rampage")])
 death_label = NodePath("../DeathLabel")
 death_sounds = Array[AudioStream]([ExtResource("21_game_over"), ExtResource("23_annihilation")])
-death_texts = ["GAME OVER", "ANNIHILATION"]
+death_ambient = ExtResource("15_l8r83")
 final_death_sound = ExtResource("22_final_stand")
 final_death_text = "FINAL STAND"
 all_killed_sound = ExtResource("22_final_stand")
+win_sound = ExtResource("14_v5hjn")
+win_ambient = ExtResource("15_v5hjn")
 
 [node name="CritLabel" type="Label" parent="Root/CombatMessages" unique_id=1938475620]
 layout_mode = 1
@@ -160,6 +165,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="StreakSound" type="AudioStreamPlayer" parent="Root/CombatMessages" unique_id=1840273615]
+volume_db = 7.197
+pitch_scale = 0.76
+
+[node name="Ambient" type="AudioStreamPlayer" parent="Root/CombatMessages" unique_id=1728461797]
+stream = ExtResource("15_l8r83")
 volume_db = 7.197
 pitch_scale = 0.76
 

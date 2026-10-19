@@ -26,6 +26,15 @@ class_name Boss
 @onready var animator: EnemyAnimator = $EnemyAnimator
 @onready var throw_pos: Marker3D = $ThrowPos
 
+@onready var goblin_sound: AudioStream
+@onready var goblin_attack: AudioStreamPlayer3D = $AttackBoss
+#@onready var goblin_ambient: GoblinGrowl = $GoblinAmbient
+@onready var goblin_hurt: AudioStreamPlayer3D = get_node_or_null("GoblinHurt")
+@onready var stone_break: AudioStream
+@onready var boss_goblin_sounds: AudioStreamPlayer = $BossGoblinSounds
+@onready var boss_hurt: AudioStreamPlayer3D = $BossHurt
+@onready var boss_death: AudioStreamPlayer3D = $BossDeath
+
 enum Action { NONE, PUNCH, THROW }
 var player: Node3D
 var _action := Action.NONE
@@ -94,17 +103,23 @@ func _start(action: Action, length: float) -> void:
 
 func _update_action(delta: float) -> void:
 	_action_time += delta
+	
 	match _action:
+		
 		Action.PUNCH:
+			
 			if not _action_done and _action_time >= _action_length * attack_hit_time:
 				_action_done = true
 				if _flat_distance() <= attack_range * 1.3:
 					var health := player.get_node_or_null("HealthComponent") as HealthComponent
 					if health:
 						health.take_damage(melee_damage)
+						
 			if _action_time >= _action_length:
+				goblin_attack.play()
 				_action = Action.NONE
 				_attack_cooldown_left = attack_cooldown
+				
 		Action.THROW:
 			if not _action_done and _action_time >= throw_release_time:
 				_action_done = true
@@ -126,14 +141,19 @@ func _throw_stone() -> void:
 	get_tree().root.add_child(stone)
 
 func _on_health_changed(current: float, maximum: float) -> void:
+	boss_hurt.play()
 	if not _phase2 and current <= maximum * phase2_health:
 		_phase2 = true
 	GameEvents.boss_health_changed.emit(current, maximum)
+	
 
 func _die() -> void:
+	OneShotSound.play_copy(boss_death)
 	if _dead:
 		return
 	_dead = true
+	
+
 	GameEvents.boss_defeated.emit()
 	queue_free()
 

@@ -9,19 +9,19 @@
 [ext_resource type="AudioStream" uid="uid://bct7vloei40we" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 08 - Synth Kobra.ogg" id="7_als8d"]
 [ext_resource type="AudioStream" uid="uid://1xw33js0ek80" path="res://Sounds/Music/new/DavidKBD - InterstellarPack - 09 - Spiral of Plasma.ogg" id="8_y83fp"]
 [ext_resource type="Script" uid="uid://ch1ajhxoxcj3a" path="res://Scripts/Global/music.gd" id="9_rj563"]
+[ext_resource type="AudioStream" uid="uid://bh37jlso6uwp6" path="res://Sounds/u_b32baquv5u-8-bit-explosion-3-340456.mp3" id="10_5memm"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_776o0"]
 shuffle = true
 fade_time = 0.15
-stream_count = 8
+stream_count = 7
 stream_0 = ExtResource("1_bvoww")
 stream_1 = ExtResource("2_rj563")
 stream_2 = ExtResource("3_5memm")
 stream_3 = ExtResource("4_4ytvm")
 stream_4 = ExtResource("5_1fmio")
 stream_5 = ExtResource("6_bxlxl")
-stream_6 = ExtResource("7_als8d")
-stream_7 = ExtResource("8_y83fp")
+stream_6 = ExtResource("8_y83fp")
 
 [node name="Music" type="AudioStreamPlayer" unique_id=330048300]
 process_mode = 3
@@ -29,3 +29,11 @@ stream = SubResource("AudioStreamPlaylist_776o0")
 volume_db = -10.0
 bus = &"Music"
 script = ExtResource("9_rj563")
+
+[node name="Final Music" type="AudioStreamPlayer" parent="." unique_id=2069969298]
+stream = ExtResource("7_als8d")
+bus = &"Music"
+parameters/looping = true
+
+[node name="DeadSound" type="AudioStreamPlayer" parent="." unique_id=2108673900]
+stream = ExtResource("10_5memm")

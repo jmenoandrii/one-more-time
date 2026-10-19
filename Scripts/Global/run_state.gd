@@ -149,6 +149,7 @@ func enter_final(weapons: PackedStringArray) -> void:
 
 # the boss is dead: a new run from the first loop
 func win_run() -> void:
+	
 	reset_run()
 	_leave_final()
 

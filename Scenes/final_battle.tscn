@@ -364,6 +364,38 @@ script = ExtResource("93_victory")
 use_collision = true
 collision_layer = 3
 
+[node name="CSGCylinder3D7" type="CSGCylinder3D" parent="Arena" unique_id=1337469469]
+transform = Transform3D(0.25881913, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881913, -7.6473293, 4.534996, -8.224766)
+radius = 2.0
+height = 11.0
+material = ExtResource("7_58kwt")
+
+[node name="CSGCylinder3D9" type="CSGCylinder3D" parent="Arena" unique_id=520217363]
+transform = Transform3D(0.25881913, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881913, -7.6473293, 4.534996, 8.775234)
+radius = 2.0
+height = 11.0
+material = ExtResource("7_58kwt")
+
+[node name="CSGCylinder3D8" type="CSGCylinder3D" parent="Arena" unique_id=1616550192]
+transform = Transform3D(0.25881913, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881913, 8.352671, 4.534996, -8.224766)
+radius = 2.0
+height = 11.0
+material = ExtResource("7_58kwt")
+
+[node name="CSGCylinder3D10" type="CSGCylinder3D" parent="Arena" unique_id=224612990]
+transform = Transform3D(0.25881913, 0, -0.9659258, 0, 1, 0, 0.9659258, 0, 0.25881913, 8.352671, 4.534996, 7.775234)
+radius = 2.0
+height = 11.0
+material = ExtResource("7_58kwt")
+
+[node name="CSGCylinder3D33" type="CSGCylinder3D" parent="Arena" unique_id=942860531]
+transform = Transform3D(-0.37750727, 0.925498, -0.030691486, 0.041158997, 0.04988124, 0.99790716, 0.9250918, 0.3754536, -0.05692311, -7.420557, 3.8173702, -6.3139687)
+operation = 2
+radius = 1.9414063
+height = 5.9173584
+cone = true
+material = ExtResource("8_giwal")
+
 [node name="Floor" type="CSGBox3D" parent="Arena" unique_id=707702110]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 size = Vector3(40, 1, 40)
@@ -385,50 +417,50 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.5, 4, 0)
 size = Vector3(1, 9, 42)
 material = ExtResource("8_giwal")
 
+[node name="WallWest2" type="CSGBox3D" parent="Arena" unique_id=1785958358]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, -18.124023, 4.000001, 13.306152)
+size = Vector3(1, 9, 22.906372)
+material = ExtResource("8_giwal")
+
+[node name="WallWest5" type="CSGBox3D" parent="Arena" unique_id=1804123865]
+transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, -18.124, 4, -13.306)
+size = Vector3(1, 9, 22.906372)
+material = ExtResource("8_giwal")
+
+[node name="WallWest3" type="CSGBox3D" parent="Arena" unique_id=740854682]
+transform = Transform3D(0.7071067, 0, -0.7071067, 0, 1, 0, 0.7071067, 0, 0.7071067, 18.124, 4, 13.306)
+size = Vector3(1, 9, 22.906372)
+material = ExtResource("8_giwal")
+
+[node name="WallWest4" type="CSGBox3D" parent="Arena" unique_id=1306404017]
+transform = Transform3D(0.7071067, 0, 0.7071067, 0, 1, 0, -0.7071067, 0, 0.7071067, 18.124, 4, -13.306)
+size = Vector3(1, 9, 22.906372)
+material = ExtResource("8_giwal")
+
 [node name="WallEast" type="CSGBox3D" parent="Arena" unique_id=2058316114]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.5, 4, 0)
 size = Vector3(1, 9, 42)
 material = ExtResource("8_giwal")
 
-[node name="Pillar1" type="CSGBox3D" parent="Arena" unique_id=604507601]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, -8)
-size = Vector3(2, 8, 2)
-material = ExtResource("7_58kwt")
-
-[node name="Pillar2" type="CSGBox3D" parent="Arena" unique_id=1971006163]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, -8)
-size = Vector3(2, 8, 2)
-material = ExtResource("7_58kwt")
-
-[node name="Pillar3" type="CSGBox3D" parent="Arena" unique_id=2040258027]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, 8)
-size = Vector3(2, 8, 2)
-material = ExtResource("7_58kwt")
-
-[node name="Pillar4" type="CSGBox3D" parent="Arena" unique_id=137283480]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 8)
-size = Vector3(2, 8, 2)
-material = ExtResource("7_58kwt")
-
 [node name="Torch1" type="OmniLight3D" parent="." unique_id=911624117]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -6.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -4.9864793)
 light_color = Color(1, 0.55, 0.25, 1)
 light_energy = 2.0
 omni_range = 14.0
 script = ExtResource("72_torch_script")
 
 [node name="Torch2" type="OmniLight3D" parent="." unique_id=306071730]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -6.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -4.5)
 light_color = Color(1, 0.55, 0.25, 1)
 light_energy = 2.0
 omni_range = 14.0
 script = ExtResource("72_torch_script")
 
 [node name="Torch3" parent="." unique_id=340331664 instance=ExtResource("71_torch")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, 6.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, 5.5)
 
 [node name="Torch4" parent="." unique_id=898392294 instance=ExtResource("71_torch")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 6.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 4.5)
 
 [node name="Boss" parent="." unique_id=1649771320 instance=ExtResource("91_boss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
@@ -451,7 +483,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.87755, 0.5, -14.654096)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.421759, 0.5, -15.638886)
 
 [node name="stamina_bar4" parent="." unique_id=1056746187 instance=ExtResource("37_gbxrf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.142847, 0.5, 11.381265)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.502977, 0.5, 10.561117)
 
 [node name="heal" parent="." unique_id=2118069061 instance=ExtResource("36_dlo4y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.488377, 0.50000286, -10.326441)

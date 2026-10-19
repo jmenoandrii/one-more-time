@@ -1,4 +1,5 @@
 extends AudioStreamPlayer
+@onready var final_music: AudioStreamPlayer = $"Final Music"
 
 # Background music (autoload). The tracks are the ones in the scene's AudioStreamPlaylist; one of
 # them plays (looping through random others when it ends), and every new run switches to another
@@ -34,10 +35,17 @@ func _ready() -> void:
 		_enemy_bus_db = AudioServer.get_bus_volume_db(enemy_bus)
 
 func _on_scene_changed() -> void:
-	if _switch_pending:
+	if RunState.in_final:
+		final_music.play()
+		stop()
+	elif _switch_pending:
+		final_music.stop()
 		_switch_pending = false
 		_play_another()
+	else:
+		final_music.stop()
 
+	
 # a random track, not the one playing now
 func _play_another() -> void:
 	if _tracks.is_empty():

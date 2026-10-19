@@ -29,26 +29,32 @@ class_name CombatMessages
 @export_group("Announcer")
 @export var death_label: Label # the big text on a death; gets the line said
 @export var death_sounds: Array[AudioStream] = [] # one at random when the player dies
+@export var death_ambient: AudioStream
 @export var death_texts: PackedStringArray = ["ANNIHILATION", "GAME OVER"] # in the same order as death_sounds
 @export var death_subtitle: String = "the run is lost"
 @export var final_death_sound: AudioStream # a death in the boss fight: the run goes on
 @export var final_death_text: String = "ONE MORE TIME"
 @export var final_death_subtitle: String = "the loop goes on"
 @export var all_killed_sound: AudioStream # every enemy of the level is dead (the final gate opens)
+@export var win_sound: AudioStream
+@export var win_ambient: AudioStream
 
 @onready var _crit_template: Label = $CritLabel
 @onready var _streak_label: Label = $StreakLabel
 @onready var _streak_sound: AudioStreamPlayer = $StreakSound
+@onready var _ambient: AudioStreamPlayer = $Ambient
 
 var _streak_tween: Tween
 
 func _ready() -> void:
+	
 	_crit_template.visible = false
 	_streak_label.visible = false
 	GameEvents.enemy_hit.connect(_on_enemy_hit)
 	GameEvents.kill_streak.connect(_on_kill_streak)
 	GameEvents.player_died.connect(_on_player_died)
 	GameEvents.final_unlocked.connect(_announce.bind(all_killed_sound))
+	GameEvents.boss_defeated.connect(_on_player_win)
 
 func _on_enemy_hit(damage: float, is_crit: bool, _killed: bool) -> void:
 	if not is_crit:
@@ -68,9 +74,16 @@ func _on_enemy_hit(damage: float, is_crit: bool, _killed: bool) -> void:
 	tween.parallel().tween_property(label, "modulate:a", 0.0, crit_time * 0.4).set_delay(crit_time * 0.6)
 	tween.tween_callback(label.queue_free)
 
+func _on_player_win() -> void:
+	_ambient.stream = win_ambient
+	_ambient.play()
+	_announce(win_sound)
+		
 func _on_player_died() -> void:
 	var text: String
 	var subtitle: String
+	_ambient.stream = death_ambient
+	_ambient.play()
 	if RunState.in_final:
 		_announce(final_death_sound)
 		text = final_death_text
@@ -91,6 +104,7 @@ func _announce(sound: AudioStream) -> void:
 		return
 	_streak_sound.stream = sound
 	_streak_sound.play()
+	
 
 func _on_kill_streak(kills: int, bonus: int) -> void:
 	if streak_names.is_empty():
