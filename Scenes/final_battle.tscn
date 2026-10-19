@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="28_o03i4"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="29_wqm6a"]
 [ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="30_0k3nh"]
+[ext_resource type="PackedScene" uid="uid://cxull8aex4op0" path="res://Prefabs/stone_big.tscn" id="35_3qypu"]
 [ext_resource type="PackedScene" uid="uid://daj8pqg65x8wb" path="res://Prefabs/heal.tscn" id="36_dlo4y"]
 [ext_resource type="PackedScene" uid="uid://iyxujgcsks8j" path="res://Prefabs/stamina_bar.tscn" id="37_gbxrf"]
 [ext_resource type="PackedScene" uid="uid://dcjk8h31yv3jn" path="res://Scenes/post_fx.tscn" id="70_postfx"]
@@ -431,6 +432,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 6.5)
 
 [node name="Boss" parent="." unique_id=1649771320 instance=ExtResource("91_boss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+speed = 6.5
+attack_range = 3.5
+attack_cooldown = 0.5
+phase2_health = 0.6
+phase2_speed = 6.0
+stone_scene = ExtResource("35_3qypu")
+throw_min_distance = 8.0
+throw_cooldown = 1.5
 
 [node name="stamina_bar" parent="." unique_id=723814774 instance=ExtResource("37_gbxrf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.172247, 0.5, 3.478572)
