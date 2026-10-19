@@ -6,7 +6,7 @@ extends Node3D
 # past the last point the last value holds. Empty = LevelTimer's wait_time
 @export var time_by_upgrades: Curve
 # loops that ignore the curve: loop (1 = the first) -> seconds
-@export var time_overrides: Dictionary[int, float] = {6: 20.0}
+@export var time_overrides: Dictionary[int, float] = {4: 60.0}
 # only on the first loop (a tutorial sign, a starting door...): from the 2nd loop on they are removed
 @export var first_loop_only: Array[Node] = []
 

@@ -9,3 +9,6 @@ description = "+25 max stamina"
 stat = "max_stamina"
 flat = 25.0
 max_stacks = 5
+weight = 1.0
+cost = 35
+cost_growth = 1.4

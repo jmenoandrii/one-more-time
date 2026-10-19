@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://pfh5oncbnl5d"
 path.s3tc="res://.godot/imported/Box_bullet_box.png-5603724be9a31f37d117c173362788de.s3tc.ctex"
+path.etc2="res://.godot/imported/Box_bullet_box.png-5603724be9a31f37d117c173362788de.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Bullet_box/Box_bullet_box.png"
-dest_files=["res://.godot/imported/Box_bullet_box.png-5603724be9a31f37d117c173362788de.s3tc.ctex"]
+dest_files=["res://.godot/imported/Box_bullet_box.png-5603724be9a31f37d117c173362788de.s3tc.ctex", "res://.godot/imported/Box_bullet_box.png-5603724be9a31f37d117c173362788de.etc2.ctex"]
 
 [params]
 

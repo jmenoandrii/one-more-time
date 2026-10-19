@@ -5,7 +5,10 @@
 [resource]
 script = ExtResource("1_upgrade")
 title = "Swift Feet"
-description = "+12% movement speed"
+description = "+12% move speed"
 stat = "move_speed"
 mult = 1.12
-max_stacks = 5
+max_stacks = 3
+weight = 1.0
+cost = 55
+cost_growth = 1.5

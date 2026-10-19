@@ -5,7 +5,10 @@
 [resource]
 script = ExtResource("1_upgrade")
 title = "Second Wind"
-description = "+25% stamina regeneration"
+description = "+25% stamina regen"
 stat = "stamina_regen"
 mult = 1.25
 max_stacks = 5
+weight = 1.0
+cost = 40
+cost_growth = 1.4

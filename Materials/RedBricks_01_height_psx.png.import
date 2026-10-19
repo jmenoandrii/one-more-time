@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bp53uvvae48ve"
 path.s3tc="res://.godot/imported/RedBricks_01_height_psx.png-ead985706c4f9d48000e7fd8c5db4d76.s3tc.ctex"
+path.etc2="res://.godot/imported/RedBricks_01_height_psx.png-ead985706c4f9d48000e7fd8c5db4d76.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Materials/RedBricks_01_height_psx.png"
-dest_files=["res://.godot/imported/RedBricks_01_height_psx.png-ead985706c4f9d48000e7fd8c5db4d76.s3tc.ctex"]
+dest_files=["res://.godot/imported/RedBricks_01_height_psx.png-ead985706c4f9d48000e7fd8c5db4d76.s3tc.ctex", "res://.godot/imported/RedBricks_01_height_psx.png-ead985706c4f9d48000e7fd8c5db4d76.etc2.ctex"]
 
 [params]
 

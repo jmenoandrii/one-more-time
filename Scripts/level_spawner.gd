@@ -4,21 +4,37 @@ extends Node
 # - loop 1: where they are placed in the editor
 # - every next loop: random markers from the "player_spawn" group; every pickup from its own
 #   spawn_group (default "weapon_spawn")
-# - surprise_loop: their own markers, "surprise_player_spawn" / "surprise_weapon_spawn"
+# - surprise_loops: their own markers, "<prefix>_player_spawn" / "<prefix>_weapon_spawn"
 #   (without them it falls back to the random ones)
-# - no_weapon_loop: a random marker, and no weapons on the level at all
-# A pickup with appears_from_loop later than the current loop is removed.
+# - no_weapon_loop: a random marker, and no weapons on the level at all (0 = no such loop)
+# - loop_messages: the message between loops before that loop, instead of "KILL THEM ALL"
+# A pickup with appears_from_loop later than the current loop, or with the loop in its
+# absent_on_loops, is removed.
+# "Until taken" pickups (announce, taken_spawn_group): see weapon_pickup.gd and get_announcement().
 
-@export var surprise_loop: int = 3
-@export var no_weapon_loop: int = 6
+# loop -> prefix of its marker groups: 3 uses surprise_player_spawn / surprise_weapon_spawn...
+@export var surprise_loops: Dictionary[int, String] = {3: "surprise", 5: "surprise2"}
+@export var no_weapon_loop: int = 0
+# loop -> the words shown before it; an "until taken" pickup's announce goes first
+@export var loop_messages: Dictionary[int, PackedStringArray] = {6: PackedStringArray(["FINISH", "ALL", "THEM"])}
+
+# the "until taken" pickups of the level, kept here: the ones not on this loop are freed
+var _announced: Array[Dictionary] = [] # {name, words, from_loop}
 
 func _ready() -> void:
+	add_to_group("level_spawner")
 	var loop := RunState.loop + 1
+	for pickup in get_tree().get_nodes_in_group("weapon_pickup"):
+		var words: PackedStringArray = pickup.get(&"announce") if &"announce" in pickup else PackedStringArray()
+		if not words.is_empty():
+			_announced.append({"name": String(pickup.name), "words": words,
+				"from_loop": pickup.get(&"appears_from_loop")})
 
 	var weapons: Array[Node] = []
 	for pickup in get_tree().get_nodes_in_group("weapon_pickup"):
 		var from_loop: int = pickup.get(&"appears_from_loop") if &"appears_from_loop" in pickup else 1
-		if loop < from_loop:
+		var absent: Array = pickup.get(&"absent_on_loops") if &"absent_on_loops" in pickup else []
+		if loop < from_loop or loop in absent:
 			pickup.queue_free()
 		else:
 			weapons.append(pickup)
@@ -28,11 +44,12 @@ func _ready() -> void:
 
 	var players := get_tree().get_nodes_in_group("player")
 
-	if loop == surprise_loop:
-		if not _place(players, "surprise_player_spawn"):
-			push_warning("LevelSpawner: no \"surprise_player_spawn\" markers, the player spawns randomly")
+	if surprise_loops.has(loop):
+		var prefix: String = surprise_loops[loop]
+		if not _place(players, prefix + "_player_spawn"):
+			push_warning("LevelSpawner: no \"%s_player_spawn\" markers, the player spawns randomly" % prefix)
 			_place(players, "player_spawn")
-		if not _place(weapons, "surprise_weapon_spawn"):
+		if not _place(weapons, prefix + "_weapon_spawn"):
 			_place_weapons(weapons)
 	else:
 		_place(players, "player_spawn")
@@ -42,11 +59,23 @@ func _ready() -> void:
 		for weapon in weapons:
 			weapon.queue_free()
 
-# every pickup on a random marker of its own spawn_group
+# the words for the message before the given loop: a pickup the player still hasn't taken that
+# will be on that level, else that loop's own message; empty = the usual "KILL THEM ALL"
+func get_announcement(loop: int) -> PackedStringArray:
+	if loop != no_weapon_loop:
+		for item in _announced:
+			if loop >= item.from_loop and not RunState.was_taken(item.name):
+				return item.words
+	return loop_messages.get(loop, PackedStringArray())
+
+# every pickup on a random marker of its own spawn_group (its taken_spawn_group once it was taken)
 func _place_weapons(weapons: Array[Node]) -> void:
 	var by_group := {}
 	for weapon in weapons:
 		var group: StringName = weapon.get(&"spawn_group") if &"spawn_group" in weapon else &"weapon_spawn"
+		var taken_group: StringName = weapon.get(&"taken_spawn_group") if &"taken_spawn_group" in weapon else &""
+		if taken_group != &"" and RunState.was_taken(weapon.name):
+			group = taken_group
 		if not by_group.has(group):
 			var list: Array[Node] = []
 			by_group[group] = list

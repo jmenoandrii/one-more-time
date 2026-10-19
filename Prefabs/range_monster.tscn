@@ -13,20 +13,19 @@
 [ext_resource type="Material" uid="uid://i8ajubhtmkna" path="res://Materials/Enemy/goblin_blue.tres" id="9_blue"]
 [ext_resource type="Material" uid="uid://5qhjxkftdmno" path="res://Materials/Enemy/goblin_gray.tres" id="10_gray"]
 [ext_resource type="Material" uid="uid://6ihl2r7j2oot" path="res://Materials/Enemy/goblin_green.tres" id="11_green"]
-[ext_resource type="AudioStream" path="res://Sounds/Goblin/flesh_explosion.wav" id="14_q8v5l"]
+[ext_resource type="AudioStream" uid="uid://bhwkbmh5xjlc1" path="res://Sounds/Goblin/flesh_explosion.wav" id="14_q8v5l"]
 [ext_resource type="AudioStream" uid="uid://dm7t3tc3te7gg" path="res://Sounds/Goblin/attack_rock1_psx.wav" id="15_iq4sn"]
 [ext_resource type="AudioStream" uid="uid://bo1rhpd5gp6y0" path="res://Sounds/Goblin/attack_rock_psx.wav" id="16_k3hck"]
 [ext_resource type="AudioStream" uid="uid://dx2nwn1n4bkw8" path="res://Sounds/Goblin/attack_rock3_psx.wav" id="17_3wsk4"]
-[ext_resource type="AudioStream" uid="uid://dgijtla2bcbpq" path="res://Sounds/Goblin/magiaz-angry_ogre-407702(1).mp3" id="17_xc3ja"]
 [ext_resource type="AudioStream" uid="uid://7socy3kjl33k" path="res://Sounds/Goblin/rockdestroy_psx.wav" id="18_yjgsx"]
-[ext_resource type="Script" path="res://Scripts/goblin_growl.gd" id="60_growl_script"]
-[ext_resource type="AudioStream" path="res://Sounds/Goblin/goblin_growl.tres" id="61_growl"]
-[ext_resource type="AudioStream" path="res://Sounds/Goblin/goblin_hurt.tres" id="62_hurt"]
+[ext_resource type="Script" uid="uid://cebx4v761hggc" path="res://Scripts/goblin_growl.gd" id="60_growl_script"]
+[ext_resource type="AudioStream" uid="uid://boeulquvojog8" path="res://Sounds/Goblin/goblin_growl.tres" id="61_growl"]
+[ext_resource type="AudioStream" uid="uid://bg0ru1b7166yy" path="res://Sounds/Goblin/goblin_hurt.tres" id="62_hurt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_g0qyx"]
 size = Vector3(1, 2, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_iq4sn"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_3wsk4"]
 resource_local_to_scene = true
 size = Vector3(1.1, 2.1, 1.1)
 
@@ -52,6 +51,13 @@ transform = Transform3D(-0.191, 0, -1.669775e-08, 0, 0.191, 0, 1.669775e-08, 0, 
 
 [node name="goblin-main" parent="goblin_body" unique_id=1021355942 instance=ExtResource("3_ba2bf")]
 
+[node name="Glow" type="OmniLight3D" parent="." unique_id=2093622146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.6)
+visible = false
+light_color = Color(0.55, 0.75, 1, 1)
+light_energy = 0.5
+omni_range = 3.0
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1383093541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_g0qyx")
@@ -62,7 +68,7 @@ damage_amount = 5.0
 target_obj_name = "Player"
 
 [node name="CollisionShape3D" parent="DamageArea" index="0" unique_id=1928030323]
-shape = SubResource("BoxShape3D_iq4sn")
+shape = SubResource("BoxShape3D_3wsk4")
 
 [node name="DetectionArea" type="Area3D" parent="." unique_id=1520165818]
 
@@ -97,34 +103,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7008753, 0)
 stream = ExtResource("14_q8v5l")
 volume_db = 4.0
 unit_size = 15.0
-bus = &"Enemy"
 
 [node name="GoblinHurt" type="AudioStreamPlayer3D" parent="." unique_id=1463920571]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 stream = ExtResource("62_hurt")
 max_polyphony = 2
-bus = &"Enemy"
 
 [node name="GoblinAttack" type="AudioStreamPlayer3D" parent="." unique_id=1935362733]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4076118, 0)
 stream = SubResource("AudioStreamRandomizer_1vvqj")
-bus = &"Enemy"
 
 [node name="GoblinAmbient" type="AudioStreamPlayer3D" parent="." unique_id=22500099]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.821085, 0)
-script = ExtResource("60_growl_script")
 stream = ExtResource("61_growl")
 volume_db = -6.0
 max_distance = 18.0
-max_polyphony = 1
-bus = &"Enemy"
-
+script = ExtResource("60_growl_script")
 
 [node name="GrowlTimer" type="Timer" parent="GoblinAmbient" unique_id=1724601935]
 one_shot = true
+
 [node name="StoneBreak" type="AudioStreamPlayer3D" parent="." unique_id=387310531]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.821085, 0)
 stream = ExtResource("18_yjgsx")
-bus = &"Enemy"
 
 [editable path="DamageArea"]

@@ -13,7 +13,9 @@ const BORDER := 3 # frame thickness, art px
 @export var hover_color: Color = Color(0.45, 0.33, 0.02)
 @export var pressed_color: Color = Color(1.0, 0.76, 0.055)
 @export var pressed_font_color: Color = Color.BLACK
+@export var background_color: Color = Color(0, 0, 0, 0) # solid fill under the frame (the frame's inside is see-through); clear = none
 
+var _background: ColorRect
 var _frame: NinePatchRect
 var _fill: NinePatchRect
 
@@ -23,6 +25,14 @@ func _init() -> void:
 		var empty := StyleBoxEmpty.new()
 		empty.set_content_margin_all(BORDER + 2)
 		add_theme_stylebox_override(state, empty)
+
+	# the background first, under everything; it gets its color in _ready (exports aren't set yet)
+	_background = ColorRect.new()
+	_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT, Control.PRESET_MODE_MINSIZE, 1)
+	_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_background.show_behind_parent = true
+	_background.visible = false
+	add_child(_background, false, Node.INTERNAL_MODE_FRONT)
 
 	# frame first: its see-through dark inside would darken the fill otherwise
 	_frame = _make_patch(FRAME, BORDER, BORDER, 0)
@@ -34,6 +44,8 @@ func _init() -> void:
 		connect(s, func() -> void: _update_fill.call_deferred())
 
 func _ready() -> void:
+	_background.color = background_color
+	_background.visible = background_color.a > 0.0
 	add_theme_color_override("font_pressed_color", pressed_font_color)
 	add_theme_color_override("font_hover_pressed_color", pressed_font_color)
 

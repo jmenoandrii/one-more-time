@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://saji85cgy6ua"
 path.s3tc="res://.godot/imported/medkit_cross.png-2c29e35e79845813f2c06237e59c3581.s3tc.ctex"
+path.etc2="res://.godot/imported/medkit_cross.png-2c29e35e79845813f2c06237e59c3581.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/MedKit/medkit_cross.png"
-dest_files=["res://.godot/imported/medkit_cross.png-2c29e35e79845813f2c06237e59c3581.s3tc.ctex"]
+dest_files=["res://.godot/imported/medkit_cross.png-2c29e35e79845813f2c06237e59c3581.s3tc.ctex", "res://.godot/imported/medkit_cross.png-2c29e35e79845813f2c06237e59c3581.etc2.ctex"]
 
 [params]
 

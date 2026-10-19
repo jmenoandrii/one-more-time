@@ -14,6 +14,9 @@ radius = 0.64904195
 
 [node name="stamina_bar" type="Area3D" unique_id=723814774]
 script = ExtResource("1_0nr8h")
+glow_color = Color(0.4, 1, 0.35, 1)
+glow_energy = 0.25
+glow_range = 4.0
 
 [node name="Model" type="Node3D" parent="." unique_id=1876761171]
 

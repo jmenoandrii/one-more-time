@@ -7,6 +7,7 @@ extends Pickup
 @export var key_color: Color = Color(0.85, 0.1, 0.1)
 
 func _ready() -> void:
+	glow_color = key_color # glows in its own color
 	super()
 	var material := StandardMaterial3D.new()
 	material.albedo_color = key_color

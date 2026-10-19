@@ -27,7 +27,6 @@
 [ext_resource type="PackedScene" uid="uid://gryaoxe18jfk" path="res://Prefabs/ammo.tscn" id="27_r33sp"]
 [ext_resource type="Script" uid="uid://esp0o4jvam1s" path="res://Scripts/Weapon/DualWeapon.gd" id="30_dual"]
 [ext_resource type="PackedScene" uid="uid://c3qf00g76c8t4" path="res://Prefabs/door.tscn" id="31_door"]
-[ext_resource type="Shader" uid="uid://chytyk5wdcrm5" path="res://Shaders/main.gdshader" id="31_e08e2"]
 [ext_resource type="PackedScene" uid="uid://dsehjydlvg5cm" path="res://Prefabs/key_pickup.tscn" id="32_key"]
 [ext_resource type="PackedScene" uid="uid://bqnva1sb68c4f" path="res://Prefabs/door_garage.tscn" id="34_neg2b"]
 [ext_resource type="Script" uid="uid://gquepqbnnniv" path="res://Scripts/level_spawner.gd" id="34_spawner"]
@@ -37,37 +36,47 @@
 [ext_resource type="PackedScene" uid="uid://bq3kyfmculrt4" path="res://Prefabs/range_monster.tscn" id="38_536cc"]
 [ext_resource type="PackedScene" uid="uid://cbx0ydyx67811" path="res://Prefabs/melee_monster.tscn" id="38_k2e45"]
 [ext_resource type="Script" uid="uid://dghkfj6807ra5" path="res://Scripts/Global/soundmanager.gd" id="40_8cuat"]
-[ext_resource type="PackedScene" path="res://Prefabs/final_portal.tscn" id="40_xdkp6"]
+[ext_resource type="PackedScene" uid="uid://3jxk7wb1kjxv" path="res://Prefabs/final_portal.tscn" id="40_xdkp6"]
 [ext_resource type="AudioStream" uid="uid://b6hykjetidyur" path="res://Sounds/Door/Gate/xFMNQAyw.wav" id="41_54nrm"]
 [ext_resource type="AudioStream" uid="uid://diie6tvyb4hq5" path="res://Sounds/litupsubway-key-collect-sfx-psx.wav" id="42_kwxat"]
 [ext_resource type="AudioStream" uid="uid://cv1nmbsj7n4ig" path="res://Sounds/freesound_community-087300_pickupwav-psx.wav" id="42_o1aky"]
 [ext_resource type="AudioStream" uid="uid://sng62fs5oyrg" path="res://Sounds/Gun/WdplD63F.wav" id="44_aa8k8"]
 [ext_resource type="PackedScene" uid="uid://mm6jappny2i6" path="res://Prefabs/start_trigger.tscn" id="45_55jeb"]
 [ext_resource type="PackedScene" uid="uid://t7vo7427q821" path="res://Models/Assets/Stone.fbx" id="46_v2nl5"]
-[ext_resource type="PackedScene" uid="uid://c4t0wwom1yen8" path="res://Materials/box.fbx" id="47_dmskm"]
 [ext_resource type="PackedScene" uid="uid://wste2nkrg3nw" path="res://Prefabs/box_p.tscn" id="48_jut3y"]
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="50_hud"]
 [ext_resource type="FontFile" uid="uid://dsuga7xeyd46y" path="res://UI/HUD/PressStart2P-Regular.ttf" id="51_gsvbx"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="51_pause"]
 [ext_resource type="PackedScene" uid="uid://o2nfshvvjjro" path="res://Prefabs/dummy.tscn" id="51_xdkp6"]
 [ext_resource type="Script" uid="uid://cedi0y4p5m7ps" path="res://Scripts/World.gd" id="60_world"]
+[ext_resource type="PackedScene" uid="uid://dcjk8h31yv3jn" path="res://Scenes/post_fx.tscn" id="70_postfx"]
+[ext_resource type="PackedScene" uid="uid://s0eymovndr6n" path="res://Prefabs/torch.tscn" id="71_torch"]
 
 [sub_resource type="Curve" id="Curve_fseo3"]
 _limits = [0.0, 300.0, 1.0, 20.0]
 _data = [Vector2(1, 30), 0.0, 20.0, 0, 1, Vector2(2, 50), 20.0, 10.0, 1, 1, Vector2(3, 60), 10.0, 10.0, 1, 1, Vector2(20, 230), 10.0, 0.0, 1, 0]
 point_count = 4
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-
-[sub_resource type="Sky" id="Sky_0xm2m"]
-sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
-
 [sub_resource type="Environment" id="Environment_h2yge"]
-background_mode = 2
-sky = SubResource("Sky_0xm2m")
+background_mode = 1
+background_color = Color(0.015, 0.012, 0.01, 1)
+background_energy_multiplier = 2.18
+ambient_light_source = 2
+ambient_light_color = Color(0.32, 0.22, 0.16, 1)
+ambient_light_energy = 0.35
+tonemap_mode = 4
+tonemap_exposure = 1.1
+ssao_enabled = true
+ssao_radius = 1.5
+ssao_intensity = 2.5
 glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.05
+glow_hdr_threshold = 1.3
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.07, 0.045, 0.03, 1)
+fog_density = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vcvc"]
 albedo_texture = ExtResource("17_fevyy")
@@ -98,16 +107,6 @@ size = Vector3(48.72087, 0.7709961, 29.515076)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0qyx"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jut3y"]
-shader = ExtResource("31_e08e2")
-shader_parameter/wiggle = 0.03
-shader_parameter/wiggle_speed = 25.0
-shader_parameter/smear = 1.0
-shader_parameter/blur_samples = 15
-
-[sub_resource type="QuadMesh" id="QuadMesh_upu61"]
-size = Vector2(2, 2)
 
 [sub_resource type="Animation" id="Animation_b3802"]
 length = 0.001
@@ -180,16 +179,9 @@ stream_1/stream = ExtResource("9_ee4r6")
 stream_2/stream = ExtResource("10_gt3je")
 stream_3/stream = ExtResource("11_3pmx8")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e08e2"]
-shader = ExtResource("31_e08e2")
-shader_parameter/wiggle = 0.03
-shader_parameter/wiggle_speed = 25.0
-shader_parameter/smear = 1.0
-shader_parameter/blur_samples = 15
-
 [node name="World" type="Node3D" unique_id=41126308 node_paths=PackedStringArray("start_triggers", "first_loop_only", "intro_gate", "final_gate", "final_gate_sound")]
 script = ExtResource("60_world")
-start_triggers = [NodePath("Interactive/StartTrigger"), NodePath("Interactive/StartTrigger2")]
+start_triggers = [NodePath("Interactive/StartTrigger"), NodePath("Interactive/StartTrigger2"), NodePath("Interactive/StartTrigger3")]
 time_by_upgrades = SubResource("Curve_fseo3")
 first_loop_only = [NodePath("LOOP 1"), NodePath("Doors/DoorTutorial2"), NodePath("Level 1/TutorialHoal2")]
 intro_gate = NodePath("Doors/Gate")
@@ -202,6 +194,7 @@ environment = SubResource("Environment_h2yge")
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=1496692533]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+visible = false
 shadow_enabled = true
 
 [node name="Level1Items" type="Node3D" parent="." unique_id=520750692]
@@ -247,9 +240,6 @@ transform = Transform3D(-0.024592761, 0.0011227094, 0.09692232, 0.004560454, 0.0
 
 [node name="Stone" parent="Level1Items/Stone5/Stone2" unique_id=1222852401 instance=ExtResource("46_v2nl5")]
 transform = Transform3D(-4.371139e-09, 0, 0.1, 0.004560454, 0.09989596, 1.9934378e-10, -0.09989596, 0.004560454, -4.366591e-09, -7.9636927, -0.15652871, 47.86825)
-
-[node name="box" parent="Level1Items" unique_id=1500888263 instance=ExtResource("47_dmskm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9137948, 5951.325, 71.90842)
 
 [node name="BoxP" parent="Level1Items" unique_id=533280362 instance=ExtResource("48_jut3y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.860016, 0.5639651, 46.080494)
@@ -324,7 +314,7 @@ mesh = SubResource("PlaneMesh_1w6v2")
 surface_material_override/0 = ExtResource("2_hibaj")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Level 1/floor" unique_id=1949272009 groups=["stone"]]
-transform = Transform3D(4.836, 0, -3.033091e-14, 0, 0.997, 0, 1.41843434e-14, 0, 10.341, 105.29282, 0, -3.0238159)
+transform = Transform3D(4.836, 0, -2.842171e-14, 0, 0.997, 0, 1.4210855e-14, 0, 10.341, 105.29282, 0, -3.0238159)
 layers = 3
 material_override = ExtResource("3_pdsj5")
 mesh = SubResource("PlaneMesh_1w6v2")
@@ -1018,16 +1008,6 @@ operation = 2
 size = Vector3(6.45459, 4.749387, 5.5675974)
 material = ExtResource("2_hibaj")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="Level 1" unique_id=270579129]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4.105012, 0)
-light_specular = 16.0
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="Level 1" unique_id=458840233]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 20.000727, 4.105012, 0)
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="Level 1" unique_id=763245924]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 36.000725, 4.105012, 1)
-
 [node name="CSGBox3D69" type="CSGBox3D" parent="Level 1" unique_id=1207217905]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -16.598259, 1.2064152, -13.014028)
 operation = 2
@@ -1147,6 +1127,56 @@ radius = 1.4814453
 height = 12.38208
 material = ExtResource("2_hibaj")
 
+[node name="Torches" type="Node3D" parent="." unique_id=1216886309]
+
+[node name="TorchStart" parent="Torches" unique_id=1828088897 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2698913, 1.7693679)
+
+[node name="TorchCorridor1" parent="Torches" unique_id=991768209 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.6037016, 5.9809947, 11.359597)
+
+[node name="TorchCorridor3" parent="Torches" unique_id=207514739 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.360404, 5.9809947, 11.359597)
+
+[node name="TorchCorridor2" parent="Torches" unique_id=1098626206 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0618734, 3.8736742, 24.15449)
+
+[node name="TorchCorridor4" parent="Torches" unique_id=938086393 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4935484, 3.8736742, 24.15449)
+
+[node name="TorchSpawn1" parent="Torches" unique_id=1618085374 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.66, 2.71, 38.09)
+
+[node name="TorchSpawn3" parent="Torches" unique_id=2099761009 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.09927, 2.71, 34.60241)
+
+[node name="TorchSpawn4" parent="Torches" unique_id=1247067718 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.020634, 4.2168508, 25.0376)
+
+[node name="TorchSpawn5" parent="Torches" unique_id=1734028591 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.724884, 4.2168508, 31.86094)
+
+[node name="TorchSpawn2" parent="Torches" unique_id=2084529456 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 2.7, 40.76)
+
+[node name="TorchWest1" parent="Torches" unique_id=1662399304 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.41, 2.9, 50.39)
+
+[node name="TorchWest2" parent="Torches" unique_id=765476212 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48.5, 2.9, 32.12)
+
+[node name="TorchSurprise1" parent="Torches" unique_id=1867330543 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -116.4, 2.71, 57.42)
+
+[node name="TorchSurprise2" parent="Torches" unique_id=1242086238 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -116.51, 3.1, 71.1)
+
+[node name="TorchSurprise3" parent="Torches" unique_id=1514254027 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -101.94, 2.9, 58.56)
+
+[node name="TorchGate" parent="Torches" unique_id=1730462377 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.78, 2.6, 36.94)
+
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040 groups=["player"]]
 transform = Transform3D(-0.99931884, 0, 0.0369045, 0, 1, 0, -0.0369045, 0, -0.99931884, 0, 0.6002213, 0)
 script = ExtResource("1_jkdf5")
@@ -1228,12 +1258,11 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 target_position = Vector3(0, -2, 0)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="Player/Head/Camera3D" unique_id=1998980210]
-light_color = Color(0.6074377, 0.60743773, 3.85046e-07, 1)
-spot_range = 9.245
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Head/Camera3D" unique_id=902833284]
-material_override = SubResource("ShaderMaterial_jut3y")
-mesh = SubResource("QuadMesh_upu61")
+light_color = Color(0.99532765, 0.8832814, 0.81883794, 1)
+spot_range = 29.708
+spot_attenuation = 0.61
+spot_angle = 64.94
+spot_angle_attenuation = 1.9318731
 
 [node name="headbob" type="AnimationPlayer" parent="Player/Head" unique_id=279278114]
 root_node = NodePath("../..")
@@ -1287,22 +1316,7 @@ volume_db = -25.0
 process_mode = 3
 script = ExtResource("14_1w6v2")
 
-[node name="Shaders" type="CanvasLayer" parent="UI" unique_id=1183673316]
-physics_interpolation_mode = 2
-auto_translate_mode = 2
-layer = 2
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="UI/Shaders" unique_id=1208324704]
-material = SubResource("ShaderMaterial_e08e2")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 3.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0)
+[node name="PostFX" parent="UI" unique_id=647833628 instance=ExtResource("70_postfx")]
 
 [node name="HUD" parent="UI" unique_id=1677919738 instance=ExtResource("50_hud")]
 
@@ -1346,17 +1360,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.413944, 0.30338487, 50.39
 [node name="SecondWeaponSpawn2" type="Marker3D" parent="Spawns" unique_id=1590131099 groups=["second_weapon_spawn"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -48.49974, 0.3, 32.11835)
 
-[node name="SurprisePlayerSpawn" type="Marker3D" parent="Spawns" unique_id=1116938551 groups=["surprise_player_spawn"]]
+[node name="SecondWeaponTakenSpawn1" type="Marker3D" parent="Spawns" unique_id=1904275318 groups=["second_weapon_taken_spawn"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.630787, 0.303385, 31.508537)
+
+[node name="SecondWeaponTakenSpawn2" type="Marker3D" parent="Spawns" unique_id=1365820947 groups=["second_weapon_taken_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -15.254397, 0.30000025, 22.239754)
+
+[node name="surprise_player_spawn" type="Marker3D" parent="Spawns" unique_id=1116938551 groups=["surprise_player_spawn"]]
 transform = Transform3D(0.914927, 0, -0.40361944, 0, 1, 0, 0.40361944, 0, 0.914927, -116.40269, 0.11382979, 57.424347)
 
-[node name="SurpriseWeaponSpawn1" type="Marker3D" parent="Spawns" unique_id=2058499220 groups=["surprise_weapon_spawn"]]
+[node name="surprise_weapon_spawn1" type="Marker3D" parent="Spawns" unique_id=2058499220 groups=["surprise_weapon_spawn"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -116.50806, 0.49902564, 71.10407)
 
-[node name="SurpriseWeaponSpawn2" type="Marker3D" parent="Spawns" unique_id=1797846627 groups=["surprise_weapon_spawn"]]
+[node name="surprise_weapon_spawn2" type="Marker3D" parent="Spawns" unique_id=1797846627 groups=["surprise_weapon_spawn"]]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -101.94002, 0.30000025, 58.557827)
 
+[node name="surprise2_player_spawn" type="Marker3D" parent="Spawns" unique_id=161749511 groups=["surprise2_player_spawn"]]
+transform = Transform3D(0.914927, 0, -0.40361944, 0, 1, 0, 0.40361944, 0, 0.914927, -68.402534, 0.11382979, 79.79618)
+
+[node name="surprise2_weapon_spawn1" type="Marker3D" parent="Spawns" unique_id=1115210437 groups=["surprise2_weapon_spawn"]]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -72.02985, 0.49902564, 80.55292)
+
 [node name="FinalGate" parent="." unique_id=3639644 instance=ExtResource("34_neg2b")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.17872, 2.2995605, 101.50697)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.31384, 2.2995605, 101.50697)
 interactable = false
 stays_open = true
 
@@ -1375,11 +1401,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16075778, 1.2430772, 13.395
 [node name="DoorTutorial2" parent="Doors" unique_id=761392514 instance=ExtResource("31_door")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.16075778, 1.2430772, 29.913002)
 
-[node name="Door6" parent="Doors" unique_id=1171547164 instance=ExtResource("31_door")]
+[node name="BlueDoor" parent="Doors" unique_id=1171547164 instance=ExtResource("31_door")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, -43.787132, 1.2791556, 54.113945)
+required_key = "blue"
+consume_key = true
 
-[node name="Door7" parent="Doors" unique_id=121599678 instance=ExtResource("31_door")]
+[node name="YellowDoor" parent="Doors" unique_id=121599678 instance=ExtResource("31_door")]
 transform = Transform3D(1.7039557e-07, 0, 1, 0, 1, 0, -1.2993987, 0, 1.3113416e-07, -99.74218, 1.2791551, 66.65617)
+required_key = "yellow"
+consume_key = true
 
 [node name="Gate" parent="Doors" unique_id=1138386591 instance=ExtResource("34_neg2b")]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.360144, 2.2995605, 36.936977)
@@ -1541,7 +1571,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90.340485, 0.06396556, 79.74
 attack_range = 2.0
 
 [node name="MeleeMonster31" parent="Enemies" unique_id=1950807312 instance=ExtResource("38_k2e45")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -74.33269, 0.06396556, 87.916504)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -78.16623, 0.06396556, 98.147026)
 attack_range = 2.0
 
 [node name="MeleeMonster17" parent="Enemies" unique_id=388858257 instance=ExtResource("38_k2e45")]
@@ -1564,8 +1594,12 @@ transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -9.7
 [node name="StartTrigger2" parent="Interactive" unique_id=343593280 instance=ExtResource("45_55jeb")]
 transform = Transform3D(0.7071067, 0, 0.7071068, 0, 1, 0, -0.7071068, 0, 0.7071067, -115.95328, 0, 59.6694)
 
+[node name="StartTrigger3" parent="Interactive" unique_id=677670837 instance=ExtResource("45_55jeb")]
+transform = Transform3D(-0.85521233, 0, 0.5182778, 0, 1, 0, -0.5182778, 0, -0.85521233, -69.45888, 4.7683716e-07, 81.05924)
+
 [node name="ammo" parent="Interactive" unique_id=723814774 instance=ExtResource("27_r33sp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9355416, 0.56396437, 26.152252)
+visible = false
 
 [node name="heal" parent="Interactive" unique_id=1219449947 instance=ExtResource("37_heal")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2098885, 0.5639651, 27.146763)
@@ -1612,7 +1646,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.208954, 0.5639632, 65.999
 amount = 50.0
 
 [node name="stamina_bar" parent="Interactive" unique_id=119443784 instance=ExtResource("36_hdf80")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.963819, 0.56396484, 25.194359)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9269657, 0.5639646, 25.736174)
 amount = 150.0
 
 [node name="stamina_bar2" parent="Interactive" unique_id=151446821 instance=ExtResource("36_hdf80")]
@@ -1638,13 +1672,25 @@ amount = 70.0
 [node name="RedKey" parent="Interactive" unique_id=1008304884 instance=ExtResource("32_key")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7184367, 0.5999999, 34.269638)
 
+[node name="BlueKey" parent="Interactive" unique_id=1797289425 instance=ExtResource("32_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.076385, 0.5999999, 43.194317)
+key_id = "blue"
+key_color = Color(0, 0.44593525, 0.89007264, 1)
+
+[node name="YellowKey" parent="Interactive" unique_id=1646706795 instance=ExtResource("32_key")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -111.84956, 0.5999998, 45.22973)
+key_id = "yellow"
+key_color = Color(0.6111027, 0.4202671, 0.035380144, 1)
+
 [node name="weapon_pickup" parent="Interactive" unique_id=2110892615 instance=ExtResource("21_3pmx8")]
 transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.21337849, 0.30338427, 7.7279625)
+absent_on_loops = Array[int]([4])
 
 [node name="weapon_pickup2" parent="Interactive" unique_id=1486524662 instance=ExtResource("21_3pmx8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.844202, 0.30338487, 24.40176)
-appears_from_loop = 5
+appears_from_loop = 4
 spawn_group = &"second_weapon_spawn"
+taken_spawn_group = &"second_weapon_taken_spawn"
 
 [node name="LOOP 1" type="Node3D" parent="." unique_id=1567454922]
 transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 1.0219791, 2.3630967, 0.3640117)
@@ -1660,8 +1706,7 @@ font = ExtResource("51_gsvbx")
 transform = Transform3D(2.976293e-09, 0, 1, 0, 1, 0, -1, 0, 2.976293e-09, -29.016998, 0.3356285, 4.076398)
 pixel_size = 0.01
 text = "MEDKIT - HEALTH
-SNACK - ENERGY
-AMMO - WEAPONS"
+SNACK - ENERGY"
 font = ExtResource("51_gsvbx")
 
 [node name="Label3D3" type="Label3D" parent="LOOP 1" unique_id=107826429]

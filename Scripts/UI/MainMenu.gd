@@ -15,6 +15,9 @@ const WORLD_SCENE_PATH = "res://Scenes/main.tscn"
 @onready var sensitivity_slider: HSlider = %SensitivitySlider
 @onready var sensitivity_fill: Range = %SensitivityFill
 @onready var sens_value_label: Label = %SensitivityLabel
+@onready var click_sound: AudioStreamPlayer = $ClickSound # a quiet shot on every button
+
+var _leaving := false # play / quit pressed: waiting for the shot to be heard
 
 
 func _ready() -> void:
@@ -25,6 +28,7 @@ func _ready() -> void:
 			btn.flat = true 
 			
 			btn.focus_entered.connect(_on_button_focused.bind(btn))
+			btn.pressed.connect(click_sound.play)
 			
 			if btn.name == "PlayButton":
 				btn.pressed.connect(_on_play_pressed)
@@ -37,9 +41,11 @@ func _ready() -> void:
 	
 	credits_back_button.focus_entered.connect(_on_button_focused.bind(credits_back_button))
 	credits_back_button.pressed.connect(_on_credits_back_btn_pressed)
+	credits_back_button.pressed.connect(click_sound.play)
 	
 	settings_back_button.focus_entered.connect(_on_button_focused.bind(settings_back_button))
 	settings_back_button.pressed.connect(_on_settings_back_btn_pressed)
+	settings_back_button.pressed.connect(click_sound.play)
 	
 	
 	sensitivity_slider.value = Settings.mouse_sensitivity
@@ -63,7 +69,11 @@ func _process(_delta: float) -> void:
 	cursor.modulate.a = (sin(Time.get_ticks_msec() * 0.008) + 1.0) / 2.0
 
 func _on_play_pressed() -> void:
+	if _leaving:
+		return
+	_leaving = true
 	RunState.reset_run()
+	await get_tree().create_timer(0.15).timeout # the shot is heard before the level loads
 	get_tree().change_scene_to_file(WORLD_SCENE_PATH)
 
 func _on_credits_pressed() -> void:
@@ -95,6 +105,10 @@ func _on_settings_back_btn_pressed() -> void:
 		vbox.get_child(0).grab_focus()
 
 func _on_quit_pressed() -> void:
+	if _leaving:
+		return
+	_leaving = true
+	await get_tree().create_timer(0.15).timeout # the shot is heard before the window closes
 	get_tree().quit()
 
 func _show_control_menu(menu: Control):

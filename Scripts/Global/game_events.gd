@@ -3,6 +3,7 @@ extends Node
 signal pause_pressed
 signal unpause_pressed
 signal sensitivity_changed(value: float)
+signal vhs_changed(enabled: bool)
 
 # HUD
 signal ammo_changed(current: int, maximum: int)

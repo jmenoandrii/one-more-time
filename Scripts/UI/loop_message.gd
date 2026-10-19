@@ -12,8 +12,8 @@ const THEME := preload("res://UI/HUD/hud_theme.tres")
 const WORD_SOUND := preload("res://Sounds/UI/word_hit.wav")
 
 const COMMON := ["KILL", "THEM", "ALL"]
-const RARE := [["ONE", "MORE", "TIME"], ["DONT", "LOOK", "BACK"]]
-const RARE_CHANCE := 0.05 # each rare message
+const RARE := [["ONE", "MORE", "TIME"], ["DONT", "LOOK", "BACK"], ["I", "LOVE", "BORSCH"]]
+const RARE_CHANCE := 0.03 # each rare message
 
 const WORD_TIME := 0.5 # s on screen per word
 const REPEATS := 2 # the three words go round this many times

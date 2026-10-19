@@ -22,9 +22,13 @@
 [ext_resource type="PackedScene" uid="uid://wgqrgp0k6858" path="res://Scenes/hud.tscn" id="28_o03i4"]
 [ext_resource type="PackedScene" uid="uid://dmdc2yxhyisuu" path="res://Scenes/pause_menu.tscn" id="29_wqm6a"]
 [ext_resource type="Script" uid="uid://d1eokhkhuht6a" path="res://Scripts/UI/upgrade_screen.gd" id="30_0k3nh"]
-[ext_resource type="Shader" uid="uid://chytyk5wdcrm5" path="res://Shaders/main.gdshader" id="31_6lm2i"]
+[ext_resource type="PackedScene" uid="uid://daj8pqg65x8wb" path="res://Prefabs/heal.tscn" id="36_dlo4y"]
+[ext_resource type="PackedScene" uid="uid://iyxujgcsks8j" path="res://Prefabs/stamina_bar.tscn" id="37_gbxrf"]
+[ext_resource type="PackedScene" uid="uid://dcjk8h31yv3jn" path="res://Scenes/post_fx.tscn" id="70_postfx"]
+[ext_resource type="PackedScene" uid="uid://s0eymovndr6n" path="res://Prefabs/torch.tscn" id="71_torch"]
+[ext_resource type="Script" uid="uid://c0mhjh21baptw" path="res://Scripts/torch_light.gd" id="72_torch_script"]
 [ext_resource type="Script" uid="uid://bv0x0hyoi2dhu" path="res://Scripts/final_battle.gd" id="90_final"]
-[ext_resource type="PackedScene" path="res://Prefabs/boss.tscn" id="91_boss"]
+[ext_resource type="PackedScene" uid="uid://0qb5jl6urd45" path="res://Prefabs/boss.tscn" id="91_boss"]
 [ext_resource type="Script" uid="uid://bk7l63oatljib" path="res://Scripts/UI/boss_bar.gd" id="92_bossbar"]
 [ext_resource type="Script" uid="uid://dpncg1n0bi7js" path="res://Scripts/UI/victory_screen.gd" id="93_victory"]
 [ext_resource type="Script" uid="uid://dpn7t6yjurh4h" path="res://Scripts/UI/pixel_root.gd" id="94_root"]
@@ -40,9 +44,24 @@ ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
 
 [sub_resource type="Environment" id="Environment_h2yge"]
-background_mode = 2
+background_mode = 1
+background_color = Color(0.015, 0.012, 0.01, 1)
 sky = SubResource("Sky_0xm2m")
+ambient_light_source = 2
+ambient_light_color = Color(0.32, 0.22, 0.16, 1)
+ambient_light_energy = 0.35
+tonemap_mode = 4
+tonemap_exposure = 1.1
+ssao_enabled = true
+ssao_radius = 1.5
+ssao_intensity = 2.5
 glow_enabled = true
+glow_intensity = 0.6
+glow_bloom = 0.05
+glow_hdr_threshold = 1.3
+fog_enabled = true
+fog_light_color = Color(0.07, 0.045, 0.03, 1)
+fog_density = 0.045
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_0rpfx"]
 
@@ -119,13 +138,6 @@ stream_1/stream = ExtResource("22_uckbs")
 stream_2/stream = ExtResource("23_1mwjt")
 stream_3/stream = ExtResource("24_cha1d")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_e08e2"]
-shader = ExtResource("31_6lm2i")
-shader_parameter/enabled = true
-shader_parameter/dithering = true
-shader_parameter/colors = 12
-shader_parameter/dither_size = 1
-
 [node name="FinalBattle" type="Node3D" unique_id=1836928698]
 script = ExtResource("90_final")
 
@@ -134,6 +146,7 @@ environment = SubResource("Environment_h2yge")
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=1496692533]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+visible = false
 shadow_enabled = true
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1147837040 groups=["player"]]
@@ -208,6 +221,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3575, 0.12732923, -0.528243
 [node name="BulletPosLeft" type="Marker3D" parent="Player/Head/Camera3D/Weapons/DualRevolvers" unique_id=1630511878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3575, 0.12732923, -0.52824354)
 
+[node name="SpotLight3D" type="SpotLight3D" parent="Player/Head/Camera3D" unique_id=51809295]
+light_color = Color(0.99532765, 0.8832814, 0.81883794, 1)
+spot_range = 29.708
+spot_attenuation = 0.61
+spot_angle = 64.94
+spot_angle_attenuation = 1.9318731
+
 [node name="AimRay" type="RayCast3D" parent="Player/Head/Camera3D" unique_id=1349732674]
 target_position = Vector3(0, 0, -1000)
 
@@ -256,20 +276,7 @@ layer = 2
 visible = false
 script = ExtResource("30_0k3nh")
 
-[node name="Shaders" type="CanvasLayer" parent="UI" unique_id=1183673316]
-physics_interpolation_mode = 2
-auto_translate_mode = 2
-layer = 2
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="UI/Shaders" unique_id=1208324704]
-material = SubResource("ShaderMaterial_e08e2")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 3.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="PostFX" parent="UI" unique_id=425746905 instance=ExtResource("70_postfx")]
 
 [node name="BossBar" type="CanvasLayer" parent="UI" unique_id=1081974223]
 script = ExtResource("92_bossbar")
@@ -293,8 +300,9 @@ offset_right = 100.0
 offset_bottom = 15.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 0.76, 0.055, 1)
-text = "GOBLIN KING"
+text = "Goblin Giant"
 horizontal_alignment = 1
+uppercase = true
 
 [node name="BossHealthBar" type="NinePatchRect" parent="UI/BossBar/Root" unique_id=1758803423]
 layout_mode = 0
@@ -406,12 +414,38 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, -6.5)
 light_color = Color(1, 0.55, 0.25, 1)
 light_energy = 2.0
 omni_range = 14.0
+script = ExtResource("72_torch_script")
 
 [node name="Torch2" type="OmniLight3D" parent="." unique_id=306071730]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -6.5)
 light_color = Color(1, 0.55, 0.25, 1)
 light_energy = 2.0
 omni_range = 14.0
+script = ExtResource("72_torch_script")
+
+[node name="Torch3" parent="." unique_id=340331664 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, 6.5)
+
+[node name="Torch4" parent="." unique_id=898392294 instance=ExtResource("71_torch")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 6.5)
 
 [node name="Boss" parent="." unique_id=1649771320 instance=ExtResource("91_boss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -12)
+
+[node name="stamina_bar" parent="." unique_id=723814774 instance=ExtResource("37_gbxrf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.172247, 0.5, 3.478572)
+
+[node name="stamina_bar2" parent="." unique_id=224954635 instance=ExtResource("37_gbxrf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.87755, 0.5, -14.654096)
+
+[node name="stamina_bar3" parent="." unique_id=757396597 instance=ExtResource("37_gbxrf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.421759, 0.5, -15.638886)
+
+[node name="stamina_bar4" parent="." unique_id=1056746187 instance=ExtResource("37_gbxrf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.142847, 0.5, 11.381265)
+
+[node name="heal" parent="." unique_id=2118069061 instance=ExtResource("36_dlo4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.488377, 0.50000286, -10.326441)
+
+[node name="heal2" parent="." unique_id=1125990925 instance=ExtResource("36_dlo4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.70764, 0.50000286, -8.136677)

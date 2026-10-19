@@ -55,7 +55,7 @@ func _build(loops: int, points: int) -> void:
 	_panel = column
 
 	column.add_child(_label("YOU WIN", GOLD, 18))
-	column.add_child(_label("THE GOBLIN KING IS DEAD", DIM_COLOR))
+	column.add_child(_label("THE GOBLIN GIANT IS DEAD", DIM_COLOR))
 	column.add_child(_label("LOOPS: %d" % loops))
 	column.add_child(_label("POINTS: %d" % points))
 

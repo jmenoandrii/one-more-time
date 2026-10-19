@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://dcjk8h31yv3jn"]
+
+[ext_resource type="Script" uid="uid://w7fryc71cc4m" path="res://Scripts/UI/post_fx.gd" id="1_postfx"]
+[ext_resource type="Shader" uid="uid://f2o7eywycdi4" path="res://Shaders/psx_post.gdshader" id="2_psx"]
+[ext_resource type="Shader" uid="uid://chytyk5wdcrm5" path="res://Shaders/main.gdshader" id="3_vhs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_psx"]
+shader = ExtResource("2_psx")
+shader_parameter/target_height = 512.0
+shader_parameter/color_levels = 36.0
+shader_parameter/dither_strength = 1.0
+shader_parameter/vignette = 0.45
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhs"]
+shader = ExtResource("3_vhs")
+shader_parameter/wiggle = 0.06999999843536
+shader_parameter/wiggle_speed = 1.0
+shader_parameter/smear = 0.50000002375
+shader_parameter/blur_samples = 12
+
+[node name="PostFX" type="Node" unique_id=900235980]
+process_mode = 3
+script = ExtResource("1_postfx")
+
+[node name="PSX" type="CanvasLayer" parent="." unique_id=619711411]
+layer = -1
+
+[node name="Screen" type="ColorRect" parent="PSX" unique_id=37358722]
+material = SubResource("ShaderMaterial_psx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VHS" type="CanvasLayer" parent="." unique_id=1405814317]
+layer = 2
+visible = false
+
+[node name="Screen" type="ColorRect" parent="VHS" unique_id=147513472]
+material = SubResource("ShaderMaterial_vhs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

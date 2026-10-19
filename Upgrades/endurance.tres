@@ -5,8 +5,10 @@
 [resource]
 script = ExtResource("1_upgrade")
 title = "Endurance"
-description = "Sprinting drains 15% less stamina"
+description = "-15% stamina used"
 stat = "stamina_drain"
 mult = 0.85
 max_stacks = 4
 weight = 0.8
+cost = 40
+cost_growth = 1.4

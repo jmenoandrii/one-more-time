@@ -139,6 +139,13 @@ text = "RESUME"
 script = ExtResource("4_button")
 pressed_font_color = Color(1, 1, 1, 1)
 
+[node name="VhsButton" type="Button" parent="Root/Center/Columns/Left" unique_id=1820463517]
+unique_name_in_owner = true
+layout_mode = 2
+text = "VHS: OFF"
+script = ExtResource("4_button")
+pressed_font_color = Color(1, 1, 1, 1)
+
 [node name="ExitButton" type="Button" parent="Root/Center/Columns/Left" unique_id=1746088161]
 unique_name_in_owner = true
 layout_mode = 2

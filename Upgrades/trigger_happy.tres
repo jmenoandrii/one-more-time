@@ -10,3 +10,5 @@ stat = "fire_rate"
 mult = 1.15
 max_stacks = 5
 weight = 0.8
+cost = 70
+cost_growth = 1.5

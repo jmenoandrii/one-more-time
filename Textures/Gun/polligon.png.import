@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://clw1ajsghmnps"
 path.s3tc="res://.godot/imported/polligon.png-c73bbe4d2197117e10a37ba936312f36.s3tc.ctex"
+path.etc2="res://.godot/imported/polligon.png-c73bbe4d2197117e10a37ba936312f36.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/Gun/polligon.png"
-dest_files=["res://.godot/imported/polligon.png-c73bbe4d2197117e10a37ba936312f36.s3tc.ctex"]
+dest_files=["res://.godot/imported/polligon.png-c73bbe4d2197117e10a37ba936312f36.s3tc.ctex", "res://.godot/imported/polligon.png-c73bbe4d2197117e10a37ba936312f36.etc2.ctex"]
 
 [params]
 

@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="TestProject002"
+config/name="Goblins, Stock and Two Smoking Barrels"
+config/description="There’s no room for these fuckin’ goblins in this dungeon! Kill ’em all!"
+config/version="0.1"
 run/main_scene="uid://cnreglutbwuws"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://csxtsxdbif837"
+config/macos_native_icon="res://icon.icns"
+config/windows_native_icon="res://icon.ico"
 
 [audio]
 
@@ -146,3 +150,4 @@ interact={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/vram_compression/import_etc2_astc=true

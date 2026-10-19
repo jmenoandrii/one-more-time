@@ -13,6 +13,9 @@ material = SubResource("StandardMaterial3D_umxg5")
 
 [node name="heal" type="Area3D" unique_id=723814774]
 script = ExtResource("1_te0o0")
+glow_color = Color(1, 0.3, 0.25, 1)
+glow_energy = 0.25
+glow_range = 4.0
 
 [node name="Model" type="Node3D" parent="." unique_id=1876761171]
 

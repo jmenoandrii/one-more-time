@@ -5,8 +5,10 @@
 [resource]
 script = ExtResource("1_upgrade")
 title = "Spring Legs"
-description = "+10% jump power"
+description = "+10% jump height"
 stat = "jump"
 mult = 1.1
 max_stacks = 3
-weight = 0.7
+weight = 0.6
+cost = 30
+cost_growth = 1.4

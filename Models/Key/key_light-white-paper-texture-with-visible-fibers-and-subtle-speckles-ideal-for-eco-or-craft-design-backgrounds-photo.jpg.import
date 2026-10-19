@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dc82xmwm7fhbq"
 path.s3tc="res://.godot/imported/key_light-white-paper-texture-with-visible-fibers-and-subtle-speckles-ideal-for-eco-or-craft-design-backgrounds-photo.jpg-dc487a1ccb5d57a8b060c4a91a954d26.s3tc.ctex"
+path.etc2="res://.godot/imported/key_light-white-paper-texture-with-visible-fibers-and-subtle-speckles-ideal-for-eco-or-craft-design-backgrounds-photo.jpg-dc487a1ccb5d57a8b060c4a91a954d26.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Key/key_light-white-paper-texture-with-visible-fibers-and-subtle-speckles-ideal-for-eco-or-craft-design-backgrounds-photo.jpg"
-dest_files=["res://.godot/imported/key_light-white-paper-texture-with-visible-fibers-and-subtle-speckles-ideal-for-eco-or-craft-design-backgrounds-photo.jpg-dc487a1ccb5d57a8b060c4a91a954d26.s3tc.ctex"]
+dest_files=["res://.godot/imported/key_light-white-paper-texture-with-visible-fibers-and-subtle-speckles-ideal-for-eco-or-craft-design-backgrounds-photo.jpg-dc487a1ccb5d57a8b060c4a91a954d26.s3tc.ctex", "res://.godot/imported/key_light-white-paper-texture-with-visible-fibers-and-subtle-speckles-ideal-for-eco-or-craft-design-backgrounds-photo.jpg-dc487a1ccb5d57a8b060c4a91a954d26.etc2.ctex"]
 
 [params]
 

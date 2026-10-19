@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://hofrwmu8y8wk" path="res://UI/HUD/bar_frame.png" id="5_yhxw7"]
 [ext_resource type="Texture2D" uid="uid://yga7ldyfyvqa" path="res://UI/HUD/bar_fill.png" id="6_trj04"]
 [ext_resource type="Texture2D" uid="uid://b75irnk5sjrpk" path="res://UI/HUD/bullet.png" id="7_16hvj"]
+[ext_resource type="AudioStream" uid="uid://bj7w73uc28ylt" path="res://Sounds/Gun/shoot_random.tres" id="8_click"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yhxw7"]
 
@@ -26,6 +27,12 @@ script = ExtResource("4_cp0ys")
 anchors_preset = 0
 script = ExtResource("1_1ehe0")
 
+[node name="ClickSound" type="AudioStreamPlayer" parent="Manager" unique_id=1972046301]
+stream = ExtResource("8_click")
+volume_db = -14.0
+pitch_scale = 1.25
+max_polyphony = 3
+
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1378684818]
 modulate = Color(0.6052743, 0.6052743, 0.6052743, 1)
 layout_mode = 1
@@ -35,6 +42,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_28flt")
+stretch_mode = 1
 
 [node name="TextureRect2" type="TextureRect" parent="." unique_id=159777591]
 visible = false
@@ -102,7 +110,6 @@ offset_bottom = 30.0
 text = ">"
 
 [node name="ControlMenu" type="Control" parent="." unique_id=26553128]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -210,9 +217,14 @@ custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-theme_override_constants/separation = 20
+theme_override_constants/separation = 12
 
 [node name="Title" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=998224334]
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title5" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=805836663]
 layout_mode = 2
 text = "— Game Design & Programming —"
 horizontal_alignment = 1
@@ -221,7 +233,9 @@ vertical_alignment = 1
 [node name="Desc" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=1301890898]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Andrii Dryhaniuk, Maksym Dryhaniuk, Roman Sarchuk"
+text = "Andrii Dryhaniuk
+Maksym Dryhaniuk
+Roman Sarchuk"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -235,7 +249,9 @@ vertical_alignment = 1
 [node name="Desc2" type="Label" parent="ControlCredits/CreditsVBox/CreditsScroll/ScrollContent" unique_id=1960192158]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Andrii Dryhaniuk, Mariana Cherniavska, Serhii"
+text = "Andrii Dryhaniuk
+Mariana Cherniavska
+Serhii Zaverbnyi"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -283,6 +299,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="ControlSettings" type="Control" parent="." unique_id=26873248]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

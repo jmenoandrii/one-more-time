@@ -10,3 +10,5 @@ stat = "damage"
 mult = 1.2
 max_stacks = 5
 weight = 0.8
+cost = 80
+cost_growth = 1.6

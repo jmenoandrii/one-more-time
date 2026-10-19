@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 # Pause menu, in the HUD's pixel style: the loop number, the upgrades taken this run,
-# mouse sensitivity, resume / exit.
+# mouse sensitivity, the VHS effect, resume / exit.
 
 const GOLD := Color(1.0, 0.76, 0.055)
 const DIM_COLOR := Color(1, 1, 1, 0.5)
@@ -10,6 +10,7 @@ const DIM_COLOR := Color(1, 1, 1, 0.5)
 @onready var upgrades_list: VBoxContainer = %UpgradesList
 @onready var resume_button: Button = %ResumeButton
 @onready var exit_button: Button = %ExitButton
+@onready var vhs_button: Button = %VhsButton
 @onready var sensitivity_slider: HSlider = %SensitivitySlider
 @onready var sensitivity_fill: Range = %SensitivityFill
 @onready var sensitivity_label: Label = %SensitivityLabel
@@ -27,6 +28,8 @@ func _ready() -> void:
 
 	resume_button.pressed.connect(_on_resume_button_pressed)
 	exit_button.pressed.connect(_on_exit_button_pressed)
+	vhs_button.pressed.connect(_on_vhs_button_pressed)
+	_show_vhs()
 	sensitivity_slider.value_changed.connect(_on_sensitivity_slider_value_changed)
 
 	GameEvents.pause_pressed.connect(_on_pause_pressed)
@@ -79,6 +82,15 @@ func _show_sensitivity(value: float) -> void:
 
 func _on_resume_button_pressed() -> void:
 	GameEvents.unpause_pressed.emit()
+
+func _on_vhs_button_pressed() -> void:
+	Settings.vhs_enabled = not Settings.vhs_enabled
+	Settings.save_settings()
+	_show_vhs()
+	GameEvents.vhs_changed.emit(Settings.vhs_enabled)
+
+func _show_vhs() -> void:
+	vhs_button.text = "VHS: ON" if Settings.vhs_enabled else "VHS: OFF"
 
 func _on_exit_button_pressed() -> void:
 	Settings.save_settings()

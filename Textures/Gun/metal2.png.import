@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1t2ka528qp6"
 path.s3tc="res://.godot/imported/metal2.png-f383d463c3c334c15c7d9ddee0e9a406.s3tc.ctex"
+path.etc2="res://.godot/imported/metal2.png-f383d463c3c334c15c7d9ddee0e9a406.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Textures/Gun/metal2.png"
-dest_files=["res://.godot/imported/metal2.png-f383d463c3c334c15c7d9ddee0e9a406.s3tc.ctex"]
+dest_files=["res://.godot/imported/metal2.png-f383d463c3c334c15c7d9ddee0e9a406.s3tc.ctex", "res://.godot/imported/metal2.png-f383d463c3c334c15c7d9ddee0e9a406.etc2.ctex"]
 
 [params]
 

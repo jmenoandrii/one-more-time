@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="UpgradeData" format=3]
+
+[ext_resource type="Script" uid="uid://b4a66nlidm253" path="res://Scripts/Upgrades/upgrade_data.gd" id="1_upgrade"]
+
+[resource]
+script = ExtResource("1_upgrade")
+title = "Deadly Aim"
+description = "+50% crit damage"
+stat = "crit_damage"
+flat = 0.5
+max_stacks = 4
+weight = 0.7
+cost = 90
+cost_growth = 1.6

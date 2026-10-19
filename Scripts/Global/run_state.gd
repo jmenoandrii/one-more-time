@@ -17,6 +17,7 @@ var upgrades: Dictionary = {} # upgrade id -> stacks
 var pool: Array[UpgradeData] = []
 var _by_id: Dictionary = {} # upgrade id -> UpgradeData
 var xp: int = 0
+var taken: Dictionary = {} # pickup name -> true: "until taken" pickups the player has already got this run
 var in_final := false # not saved: quitting during the final replays the loop
 var carried_weapons: PackedStringArray = [] # weapon names the player brings into the final
 var _level_scene := "" # the normal level, to come back to from the final
@@ -69,6 +70,15 @@ func get_upgrade_count() -> int:
 func get_price(upgrade: UpgradeData) -> int:
 	return roundi(upgrade.cost * pow(upgrade.cost_growth, get_stacks(upgrade)))
 
+# points spent on something other than an upgrade (a reroll); false if there aren't enough.
+# Not saved by itself: the save happens when the loop is completed, like the points earned
+func spend_xp(amount: int) -> bool:
+	if xp < amount:
+		return false
+	xp -= amount
+	GameEvents.xp_changed.emit(xp, -amount)
+	return true
+
 func can_afford(upgrade: UpgradeData) -> bool:
 	return xp >= get_price(upgrade)
 
@@ -105,6 +115,7 @@ func start_next_loop() -> void:
 func reset_run() -> void:
 	loop = 0
 	upgrades.clear()
+	taken.clear()
 	xp = 0
 	GameEvents.xp_changed.emit(xp, 0)
 	save_run()
@@ -153,13 +164,22 @@ func load_run() -> void:
 	loop = cfg.get_value("run", "loop", 0)
 	upgrades = cfg.get_value("run", "upgrades", {})
 	xp = cfg.get_value("run", "xp", 0)
+	taken = cfg.get_value("run", "taken", {})
 
 func save_run() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value("run", "loop", loop)
 	cfg.set_value("run", "upgrades", upgrades)
 	cfg.set_value("run", "xp", xp)
+	cfg.set_value("run", "taken", taken)
 	cfg.save(PATH)
+
+# saved with the loop, like the points
+func mark_taken(pickup_name: String) -> void:
+	taken[pickup_name] = true
+
+func was_taken(pickup_name: String) -> bool:
+	return taken.has(pickup_name)
 
 func add_xp(amount: int) -> void:
 	if amount <= 0:

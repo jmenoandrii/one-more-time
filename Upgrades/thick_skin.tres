@@ -9,3 +9,6 @@ description = "+25 max health"
 stat = "max_health"
 flat = 25.0
 max_stacks = 6
+weight = 1.0
+cost = 60
+cost_growth = 1.5
